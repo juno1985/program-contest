@@ -17,10 +17,14 @@ HELP.md
 *.iml
 *.ipr
 
+
 ### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-/build/
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+/logs/
+/data/
+/bin/
