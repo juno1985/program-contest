@@ -30,17 +30,34 @@ $(function() {
 				 * =$('#problem_output').summernote('code');
 				 */
 
+				var str_title = $('#title').val();
 				var str_problem_input = $('#problem_input').val();
 				var str_problem_output = $('#problem_output').val();
 
-				var problemModel = new ProblemModel(str_problem_input,
+				var problemModel = new ProblemModel(str_title,str_problem_input,
 						str_problem_output, str_problem_description);
 				// console.log(problemModel);
 				console.log(JSON.stringify(problemModel));
+				
+				var data = JSON.stringify(problemModel)
+				
+				$.ajax({
+					
+					url: "http://localhost:8080/contest/mgt/addproblem",
+					type: "POST",
+					contentType: "application/json",
+					data: data,
+					dataType: "json",
+					success:function(msg){
+						
+					}
+					
+				});	
 
 			})
 });
-function ProblemModel(input, output, description) {
+function ProblemModel(title, input, output, description) {
+	this.title = title;
 	this.input = input;
 	this.output = output;
 	this.description = description;
