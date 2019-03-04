@@ -10,16 +10,39 @@
 <!-- include summernote css/js -->
 <link th:href="@{/summernote-dist/summernote.css}" rel="stylesheet">
 <script th:src="@{/summernote-dist/summernote.js}"></script>
-</head>
-<body>
-	<div id="problem_description">再此添加问题描述...</div>
+<script>
+		function ProblemModel(input, output, description) {
+			this.input = input;
+			this.output = output;
+			this.description = description;
+		}
 
-	
-	<button id="save" class="btn btn-primary" onclick="save()"
-		type="button">Save 2</button>
-
-	<script>
 		$(document).ready(function() {
+			
+			$('#save').bind("click",function(){
+				/* 得到问题描述html */
+				var str_problem_description = $('#problem_description').summernote(
+						'code');
+				/* 得到问题输入和输出 */
+				//	var array_problem_input_output = $('.problem_input_output');
+				/* 	$.each(array_problem_input_output,function(index, value){
+						console.log(index + "--->" + $(value).summernote('code'));
+					});  */
+
+				//console.log(str_problem_description);
+				//$('#problem_description').summernote('destroy');
+				/* 	var str_problem_input = $('#problem_input').summernote('code');
+					var str_problem_outputput =$('#problem_output').summernote('code'); */
+
+				var str_problem_input = $('#problem_input').val();
+				var str_problem_output = $('#problem_output').val();
+
+				var problemModel = new ProblemModel(str_problem_input,
+						str_problem_output, str_problem_description);
+				//			console.log(problemModel); 
+				console.log(JSON.stringify(problemModel));
+			});
+			
 			$('#problem_description').summernote({
 				height : 300, // set editor height
 				minHeight : null, // set minimum height of editor
@@ -27,13 +50,35 @@
 				focus : true
 			// set focus to editable area after initializing summernote
 			});
+			/* $('.problem_input_output').summernote({
+				toolbar:[]
+			}); */
 		});
 
-		var save = function() {
-			var markup = $('#problem_description').summernote('code');
-			console.log(markup);
-			$('#problem_description').summernote('destroy');
-		};
+	
 	</script>
+</head>
+<body style="margin-left: 300px; margin-right: 300px; margin-top: 10px;">
+
+	<form role="form">
+		<div class="form-group">
+			<div id="problem_description">在此添加问题描述...</div>
+		</div>
+		<!-- <div id="problem_input" class="problem_input_output">问题输入</div>
+	<div id="problem_output" class="problem_input_output">问题输出</div> -->
+		<div class="form-group">
+			<label for="problem_input">输入</label>
+			<textarea name="" id="problem_input" class="form-control"></textarea>
+		</div>
+		<div class="form-group">
+			<label for="problem_output">输出</label>
+			<textarea name="" id="problem_output" class="form-control"></textarea>
+		</div>
+		<div class="form-group">
+			<button id="save" class="btn btn-primary"
+				type="button">提交問題</button>
+		</div>
+	</form>
+	
 </body>
 </html>
