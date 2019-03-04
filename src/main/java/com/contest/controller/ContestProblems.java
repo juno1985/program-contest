@@ -28,4 +28,9 @@ public class ContestProblems {
 		model.addAttribute("msg", "123456");
 		return "problem";
 	}
+	
+	@RequestMapping("/mgt/addproblem")
+	public String gotoAddProblemPage() {
+		return "add_problem";
+	}
 }
