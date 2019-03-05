@@ -12,7 +12,5 @@ public class ContestProblemService {
 	@Autowired
 	private ProblemModelMapper problemModelMapper;
 	
-	public int addProblem(ProblemModelWithBLOBs problemModelWithBLOBs) {
-		return problemModelMapper.insertSelective(problemModelWithBLOBs);
-	}
+	
 }

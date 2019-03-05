@@ -34,3 +34,7 @@ CREATE TABLE `t_problem_difficulty`(
 	FOREIGN KEY (`fid`) REFERENCES `t_problems` (`id`)
 	
 )ENGINE=INNODB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+ALTER TABLE `t_problems` AUTO_INCREMENT = 1;
+ALTER TABLE `t_problem_type` AUTO_INCREMENT = 1;
+ALTER TABLE `t_problem_difficulty` AUTO_INCREMENT = 1;

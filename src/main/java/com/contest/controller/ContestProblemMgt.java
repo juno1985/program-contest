@@ -8,26 +8,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.contest.model.ProblemModelWithBLOBs;
 import com.contest.pojo.AjaxPojo;
 import com.contest.pojo.ProblemPojo;
-import com.contest.service.ContestProblemService;
+import com.contest.service.ContestProblemMgtService;
 
 @Controller
-public class ContestProblems {
+public class ContestProblemMgt {
 	
 	@Autowired
-	private ContestProblemService contestProblemService;
+	private ContestProblemMgtService contestProblemMgtService;
 
+	//管理主页面跳转
 	@RequestMapping("/")
 	public String gotoProblemPage(Model model) {
 		
-		ProblemModelWithBLOBs problemModelWithBLOBs = new ProblemModelWithBLOBs();
+	/*	ProblemModelWithBLOBs problemModelWithBLOBs = new ProblemModelWithBLOBs();
 		problemModelWithBLOBs.setDescription("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 		problemModelWithBLOBs.setInput("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
 		problemModelWithBLOBs.setStatus(1);
 		
-		contestProblemService.addProblem(problemModelWithBLOBs);
+		contestProblemService.addProblem(problemModelWithBLOBs);*/
 		
 		model.addAttribute("msg", "123456");
 		return "problem";
@@ -41,9 +41,14 @@ public class ContestProblems {
 	@RequestMapping(value="/mgt/addproblem", method= {RequestMethod.POST})
 	@ResponseBody
 	public AjaxPojo addProblem(@RequestBody ProblemPojo problemPojo) {
-		System.out.println(problemPojo);
-		System.out.println("---------");
+		
+		//System.out.println(problemPojo);
+		//增加问题后需要测试 才能设为0
+		problemPojo.setStatus(1);
+		contestProblemMgtService.addProblem(problemPojo);
 		AjaxPojo ajaxPojo = new AjaxPojo();
+		ajaxPojo.setCode(0);
+		ajaxPojo.setMesg("创建成功");
 		return ajaxPojo;
 		
 	}

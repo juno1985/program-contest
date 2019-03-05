@@ -48,8 +48,8 @@ $(function() {
 					contentType: "application/json",
 					data: data,
 					dataType: "json",
-					success:function(msg){
-						
+					success:function(obj){
+						alert(obj.mesg);
 					}
 					
 				});	
