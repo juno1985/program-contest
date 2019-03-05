@@ -2,10 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title th:text="${problemAttr.title}"></title>
+<link th:href="@{/css/bootstrap-3.3.5.css}" rel="stylesheet">
+<script th:src="@{/js/jquery-3.2.1.js}"></script>
+<script th:src="@{/js/bootstrap-3.3.5.js}"></script>
+
+<!-- include summernote css/js -->
+<link th:href="@{/summernote-dist/summernote.css}" rel="stylesheet">
+<script th:src="@{/summernote-dist/summernote.js}"></script>
+
+<script th:src="@{/js/add_problem.js}"></script>
+
 </head>
 <body>
-<span th:text="${msg}">
-</span>
-</body>
+	<p th:utext="${problemAttr.id}"></p>
+	---------------------------------------------------------
+	<p th:utext="${problemAttr.title}"></p>
+	---------------------------------------------------------
+	<p th:utext="${problemAttr.status}"></p>
+	---------------------------------------------------------
+	<p th:utext="${problemAttr.description}"></p>
+	---------------------------------------------------------
+	<p class="bg-info" th:utext="${problemAttr.input}"></p>
+	---------------------------------------------------------
+	<p class="bg-info" th:utext="${problemAttr.output}"></p>
+	</body>
 </html>

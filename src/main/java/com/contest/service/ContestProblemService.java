@@ -12,5 +12,7 @@ public class ContestProblemService {
 	@Autowired
 	private ProblemModelMapper problemModelMapper;
 	
-	
+	public ProblemModelWithBLOBs getSingleProblem(int id) {
+		return problemModelMapper.selectByPrimaryKey(id);
+	}
 }
