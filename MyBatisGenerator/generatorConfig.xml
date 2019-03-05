@@ -32,23 +32,30 @@
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>
 
-		<table schema="" tableName="t_problems" domainObjectName="FinItemModel">
+		<table schema="" tableName="t_problems" domainObjectName="ProblemModel">
 			<property name="useActualColumnNames" value="false"></property>
 			<generatedKey column="id" sqlStatement="JDBC"
 				identity="true"></generatedKey>
 		</table>
 
-		<table schema="" tableName="t_problem_type" domainObjectName="FinChgHistModel">
+		<table schema="" tableName="t_problem_type" domainObjectName="ProblemTypeModel">
 			<property name="useActualColumnNames" value="false" />
 			<generatedKey column="id" sqlStatement="JDBC"
 				identity="true" />
 		</table>
 		
-		<table schema="" tableName="t_problem_difficulty" domainObjectName="FinMonthlySnapModel">
+		<table schema="" tableName="t_problem_difficulty" domainObjectName="ProblemDifficultyModel">
 			<property name="useActualColumnNames" value="false" />
 			<generatedKey column="id" sqlStatement="JDBC"
 				identity="true" />
 		</table>
+
+		<table schema="" tableName="t_problem_cases" domainObjectName="ProblemCasesModel">
+			<property name="useActualColumnNames" value="false" />
+			<generatedKey column="id" sqlStatement="JDBC"
+				identity="true" />
+		</table>
+
 
 	
 	</context>
