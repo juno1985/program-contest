@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.contest.common.StringHTMLConvertion;
 import com.contest.model.ProblemModelWithBLOBs;
@@ -16,7 +17,12 @@ public class ContestProblem {
 	@Autowired
 	private ContestProblemService contestProblemService;
 	
-	@RequestMapping(value="/challenge/{id}/problem")
+	@RequestMapping(value="/main", method= {RequestMethod.GET})
+	public String mainPage() {
+		return "main";
+	}
+	
+	@RequestMapping(value="/challenge/{id}/problem", method= {RequestMethod.GET})
 	public String problemPage(@PathVariable String id, Model model) {
 		
 		ProblemModelWithBLOBs problemModelWithBLOBs = contestProblemService.getSingleProblem(Integer.parseInt(id));
