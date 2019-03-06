@@ -1,10 +1,13 @@
 package com.contest.service;
 
+import java.util.List;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.contest.mapper.ProblemModelMapper;
+import com.contest.model.ProblemModel;
 import com.contest.model.ProblemModelWithBLOBs;
 import com.contest.pojo.ProblemPojo;
 
@@ -21,5 +24,10 @@ public class ContestProblemMgtService {
 		BeanUtils.copyProperties(problemPojo, problemModelWithBLOBs);
 		
 		return problemModelMapper.insertSelective(problemModelWithBLOBs);
+	}
+
+	public List<ProblemModel> listProblem() {
+		List<ProblemModel> listProblem = problemModelMapper.selectByExample(null);
+		return listProblem;
 	}
 }

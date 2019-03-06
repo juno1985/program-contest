@@ -1,5 +1,7 @@
 package com.contest.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.contest.model.ProblemModel;
 import com.contest.pojo.AjaxPojo;
+import com.contest.pojo.AjaxPojoWithObj;
 import com.contest.pojo.ProblemPojo;
 import com.contest.service.ContestProblemMgtService;
 
@@ -19,8 +23,8 @@ public class ContestProblemMgt {
 	private ContestProblemMgtService contestProblemMgtService;
 
 	//管理主页面跳转
-	@RequestMapping("/")
-	public String gotoProblemPage(Model model) {
+	@RequestMapping(path="/mgt", method= {RequestMethod.GET})
+	public String gotoProblemPage() {
 		
 	/*	ProblemModelWithBLOBs problemModelWithBLOBs = new ProblemModelWithBLOBs();
 		problemModelWithBLOBs.setDescription("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
@@ -29,8 +33,8 @@ public class ContestProblemMgt {
 		
 		contestProblemService.addProblem(problemModelWithBLOBs);*/
 		
-		model.addAttribute("msg", "123456");
-		return "problem";
+		//model.addAttribute("msg", "123456");
+		return "mgt_problem";
 	}
 	
 	@RequestMapping(value="/mgt/addproblem", method= {RequestMethod.GET})
@@ -42,14 +46,26 @@ public class ContestProblemMgt {
 	@ResponseBody
 	public AjaxPojo addProblem(@RequestBody ProblemPojo problemPojo) {
 		
-		//System.out.println(problemPojo);
 		//增加问题后需要测试 才能设为0
 		problemPojo.setStatus(1);
 		contestProblemMgtService.addProblem(problemPojo);
+		
 		AjaxPojo ajaxPojo = new AjaxPojo();
 		ajaxPojo.setCode(0);
 		ajaxPojo.setMesg("创建成功");
 		return ajaxPojo;
+		
+	}
+	
+	@RequestMapping(value="/mgt/listproblem", method= {RequestMethod.GET})
+	@ResponseBody
+	public AjaxPojoWithObj listProblem() {
+		List<ProblemModel> problemList = contestProblemMgtService.listProblem();
+		AjaxPojoWithObj ajaxPojoWithObj = new AjaxPojoWithObj();
+		ajaxPojoWithObj.setCode(0);
+		ajaxPojoWithObj.setMesg("获取列表成功");
+		ajaxPojoWithObj.setObject(problemList);
+		return ajaxPojoWithObj;
 		
 	}
 }

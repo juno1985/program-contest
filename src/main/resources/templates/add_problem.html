@@ -19,9 +19,9 @@
 		<label for="title">问题标题</label> <input type="text"
 			class="form-control" id="title" placeholder="请输入标题">
 	</div>
-	<form role="form">
+	<form id="prob_form" role="form">
 		<div class="form-group">
-			<div id="problem_description">在此添加问题描述...</div>
+			<div id="problem_description"></div>
 		</div>
 		<!-- <div id="problem_input" class="problem_input_output">问题输入</div>
 	<div id="problem_output" class="problem_input_output">问题输出</div> -->
@@ -32,6 +32,10 @@
 		<div class="form-group">
 			<label for="problem_output">输出</label>
 			<textarea name="" id="problem_output" class="form-control"></textarea>
+		</div>
+		<div class="form-group">
+			<label for="problem_explanation">输入输出解释</label>
+			<textarea name="" id="problem_explanation" class="form-control"></textarea>
 		</div>
 		<div class="form-group">
 			<button id="save" class="btn btn-primary" type="button">提交問題</button>

@@ -11,6 +11,7 @@ public class ProblemPojo {
 	private String description;
 	private String input;
 	private String output;
+	private String explanation;
 
 	public Integer getId() {
 		return id;
@@ -58,6 +59,15 @@ public class ProblemPojo {
 
 	public void setOutput(String output) {
 		this.output = output;
+	}
+
+	
+	public String getExplanation() {
+		return explanation;
+	}
+
+	public void setExplanation(String explanation) {
+		this.explanation = explanation;
 	}
 
 	@Override
