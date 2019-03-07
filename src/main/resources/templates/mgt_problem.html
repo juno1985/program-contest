@@ -12,7 +12,41 @@
 <script th:src="@{/summernote-dist/summernote.js}"></script>
 <script th:src="@{/js/add_problem.js}"></script>
 <script th:src="@{/js/mgt_problem.js}"></script>
+<script>
+	function CaseModel(fid, input, output){
+		this.fid = fid;
+		this.input = input;
+		this.output = output;
+	}
+	function case_add_submit(){
+		// console.log(">>"+$("#problem_id").val());
+		var fid = $('#case_add_modal').find("input#problem_id").val();
+		var input = $('#case_add_modal').find("textarea#case_input").val();
+		var output = $('#case_add_modal').find("textarea#case_output").val();
+		var caseModel = new CaseModel(fid, input, output);
+		//console.log(caseModel);
+		var data = JSON.stringify(caseModel);
+		$.ajax({
+			url : "/contest/mgt/addcase",
+			type : "POST",
+			contentType : "application/json",
+			data: data,
+			dataType : "json",
+			success : function(obj) {
+				
+				if(obj.code == 0)
+				{
+					//关闭模态框
+					$('#case_add_modal').modal('hide');
+					//清空输入框
+					$('#case_add_modal').find("textarea#case_input").val("");
+					$('#case_add_modal').find("textarea#case_output").val("");
+				}
+			}
 
+		});
+	}
+</script>
 </head>
 <body>
 	<div class="container">
@@ -36,6 +70,8 @@
 					<div style="padding: 10px 10px 10px;">
 						<form class="bs-example bs-example-form" role="form"
 							id="case_form">
+							<!-- 用于存储problem id -->
+							<input type="hidden" id="problem_id" name="fid" value="">
 							<div class="input-group">
 								<span class="input-group-addon">输入</span>
 								<textarea class="form-control" id="case_input" name="input"></textarea>
@@ -51,7 +87,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary">提交更改</button>
+					<button type="button" class="btn btn-primary" onClick="case_add_submit()">提交更改</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->

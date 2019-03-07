@@ -72,8 +72,8 @@ $(function() {
 			//获取主键
 			var element_id = element[array_attr[0]];
 			//生成删除problem单元格
-			td += "<td>" + "<a   value=\"" + element_id
-					+ "\" class=\"case_add_btn\" >" + "增加case" + "</a></td>"
+			td += "<td>" + "<button   value=\"" + element_id
+					+ "\" class=\"btn btn-default case_add_btn\" >" + "增加case" + "</button></td>"
 
 			td = "<tr>" + td + "</tr>";
 		}
@@ -85,14 +85,16 @@ $(function() {
 			console.log($(obj).find("a.case_add_btn").eq(2).attr("value"));*/
 
 		//绑定弹出增加case的相应
-		var array_add_btn = $(obj).find("a.case_add_btn");
+		var array_add_btn = $(obj).find("button.case_add_btn");
 		$.each(array_add_btn, function(index, value) {
 
 			$(value).on("click", function() {
 
-				console.log($(this).attr("value"));
+				//问题id
+				var id = $(this).attr("value");
 				
 				$('#case_add_modal').modal('show');
+				$('#case_add_modal').find("input#problem_id").val(id);
 
 			});
 		});

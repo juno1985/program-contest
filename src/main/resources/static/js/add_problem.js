@@ -48,7 +48,7 @@ $(function() {
 				// console.log(problemModel);
 				//console.log(JSON.stringify(problemModel));
 				
-				var data = JSON.stringify(problemModel)
+				var data = JSON.stringify(problemModel);
 				
 				$.ajax({
 					
