@@ -9,12 +9,13 @@ $(function() {
 
 			var array_elment = obj.object;
 			var array_attr = [ "id", "title" ];
-			var array_thead = [ "序号", "名称" ];
+			var array_thead = [ "序号", "名称", "操作" ];
 
 			//删除body内所有元素
 			$('#content').children().remove();
 
-			var table = create_table("问题列表", array_thead, array_elment, array_attr);
+			var table = create_table("问题列表", array_thead, array_elment,
+					array_attr);
 
 			$('#content').html(table);
 		}
@@ -39,7 +40,7 @@ $(function() {
 		return table;
 	}
 	function create_table_1() {
-		return $("<table class=\"table table-striped\"></table>");
+		return $("<table class=\"table table-striped prob_list_table\"></table>");
 	}
 	function create_caption_2(obj, str_caption) {
 		$(obj).html("<caption>" + str_caption + "</caption>");
@@ -68,13 +69,34 @@ $(function() {
 				td += "<td>" + element[attr] + "</td>";
 
 			}
+			//获取主键
+			var element_id = element[array_attr[0]];
+			//生成删除problem单元格
+			td += "<td>" + "<a   value=\"" + element_id
+					+ "\" class=\"case_add_btn\" >" + "增加case" + "</a></td>"
+
 			td = "<tr>" + td + "</tr>";
 		}
 		td = "<tbody>" + td + "</tbody>";
-		//console.log(td);
-		//	console.log($(obj));
 		$(obj).find("thead").after(td);
+
+		/*	console.log($(obj).find("a.case_add_btn").eq(0).attr("value"));
+			console.log($(obj).find("a.case_add_btn").eq(1).attr("value"));
+			console.log($(obj).find("a.case_add_btn").eq(2).attr("value"));*/
+
+		//绑定弹出增加case的相应
+		var array_add_btn = $(obj).find("a.case_add_btn");
+		$.each(array_add_btn, function(index, value) {
+
+			$(value).on("click", function() {
+
+				console.log($(this).attr("value"));
+				
+				$('#case_add_modal').modal('show');
+
+			});
+		});
+
 		return obj;
 	}
-}
-);
+});
