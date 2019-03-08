@@ -36,5 +36,6 @@ public class ContestProblem {
 		
 		return "problem";
 	}
+	
 
 }

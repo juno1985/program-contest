@@ -12,19 +12,85 @@
 <script th:src="@{/summernote-dist/summernote.js}"></script>
 
 <script th:src="@{/js/add_problem.js}"></script>
-
+<script th:src="@{/js/add_footer.js}"></script>
 </head>
 <body>
-	<p th:utext="${problemAttr.id}"></p>
-	---------------------------------------------------------
-	<p th:utext="${problemAttr.title}"></p>
-	---------------------------------------------------------
-	<p th:utext="${problemAttr.status}"></p>
-	---------------------------------------------------------
-	<p th:utext="${problemAttr.description}"></p>
-	---------------------------------------------------------
-	<p class="bg-info" th:utext="${problemAttr.input}"></p>
-	---------------------------------------------------------
-	<p class="bg-info" th:utext="${problemAttr.output}"></p>
-	</body>
+
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">SOFTCITS</a>
+			</div>
+			<div>
+				<ul class="nav navbar-nav navbar-left">
+					<li class="active"><a href="#">编程练习</a></li>
+					<li><a href="#">练习情况</a></li>
+					<li><a href="#">进入论坛</a></li>
+
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"><span class="glyphicon glyphicon-user">
+								wangzhen_tju@126.com <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">xxxx</a></li>
+							<li><a href="#">xxxx</a></li>
+							<li class="divider"></li>
+							<li><a href="#">分离的链接</a></li>
+						</ul></li>
+				</ul>
+
+
+			</div>
+		</div>
+	</nav>
+	<div class="container">
+
+		<p class="strong text-left text-primary">Pratice > Java</p>
+
+	</div>
+
+
+	<div class="container">
+
+		<div class="row">
+			<div class="col-md-9 col-sm-9 col-lg-9">
+				<ul id="problemTab" class="nav nav-tabs">
+					<li class="active"><a href="#home" data-toggle="tab"> 问题描述</a></li>
+					<li><a href="#ios" data-toggle="tab">提交榜</a></li>
+
+				</ul>
+				<div id="problemTabContent" class="tab-content">
+					<div class="tab-pane fade in active" id="home">
+						<p th:utext="${problemAttr.id}"></p>
+						---------------------------------------------------------
+						<p th:utext="${problemAttr.title}"></p>
+						---------------------------------------------------------
+						<p th:utext="${problemAttr.status}"></p>
+						---------------------------------------------------------
+						<p th:utext="${problemAttr.description}"></p>
+						---------------------------------------------------------
+						<p class="bg-info" th:utext="${problemAttr.input}"></p>
+						---------------------------------------------------------
+						<p class="bg-info" th:utext="${problemAttr.output}"></p>
+					</div>
+					<div class="tab-pane fade" id="ios">
+						<p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch
+							和 Apple TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS
+							是苹果的移动版本。</p>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="col-md-3 col-sm-3 col-lg-3">xxxxxxxxxxxxxxxxxxxxx
+				sssssssssssssssssssss</div>
+		</div>
+	</div>
+
+
+	<div id="footer"></div>
+
+
+</body>
 </html>
