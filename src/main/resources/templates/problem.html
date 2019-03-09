@@ -11,8 +11,9 @@
 <link th:href="@{/summernote-dist/summernote.css}" rel="stylesheet">
 <script th:src="@{/summernote-dist/summernote.js}"></script>
 
-<script th:src="@{/js/add_problem.js}"></script>
+<script th:src="@{/js/problem.js}"></script>
 <script th:src="@{/js/add_footer.js}"></script>
+
 </head>
 <body>
 
@@ -62,17 +63,31 @@
 				</ul>
 				<div id="problemTabContent" class="tab-content">
 					<div class="tab-pane fade in active" id="home">
-						<p th:utext="${problemAttr.id}"></p>
-						---------------------------------------------------------
-						<p th:utext="${problemAttr.title}"></p>
-						---------------------------------------------------------
-						<p th:utext="${problemAttr.status}"></p>
-						---------------------------------------------------------
+
+<input id="problem_id" hidden="true" th:value="${problemAttr.id}"></input>
+							
+						<h2>
+							<p th:utext="${problemAttr.title}"></p>
+						</h2>
+
 						<p th:utext="${problemAttr.description}"></p>
-						---------------------------------------------------------
+
+						<p
+							style="border: 0px; font-weight: bolder; font-size: 15px; line-height: 2; margin-top: 5px; vertical-align: baseline;">Input</p>
+
 						<p class="bg-info" th:utext="${problemAttr.input}"></p>
-						---------------------------------------------------------
+
+						<p
+							style="border: 0px; font-weight: bolder; font-size: 15px; line-height: 2; margin-top: 5px; vertical-align: baseline;">Output</p>
+
 						<p class="bg-info" th:utext="${problemAttr.output}"></p>
+
+						<span style="border: 0px; font-weight: bolder; font-size: 15px; line-height: 2; margin-top: 5px; vertical-align: baseline;">Code:
+						
+						<button id="code_submit_btn" type="button" class="btn btn-primary pull-right">提交</button></span>
+
+						<textarea id="code_textarea" style="width: 100%; resize: none; margin-top:5px; "></textarea>
+
 					</div>
 					<div class="tab-pane fade" id="ios">
 						<p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch

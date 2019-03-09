@@ -30,12 +30,11 @@ public class ContestProblem {
 		problemModelWithBLOBs.setInput(StringHTMLConvertion.StringToHTML(problemModelWithBLOBs.getInput()));
 		problemModelWithBLOBs.setOutput(StringHTMLConvertion.StringToHTML(problemModelWithBLOBs.getOutput()));
 		
-		System.out.println(problemModelWithBLOBs.getInput());
-		
 		model.addAttribute("problemAttr", problemModelWithBLOBs);
 		
 		return "problem";
 	}
 	
+	/contest/challeng/" + id + "submit
 
 }
