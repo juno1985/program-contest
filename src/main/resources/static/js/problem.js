@@ -18,10 +18,11 @@ $(function() {
 		
 		$.ajax({
 			
-				url: "/contest/challeng/" + id + "submit",
+				url: "/contest/challeng/" + pro_id + "/submit",
 				type: "POST",
-				contentType: "application/json",
-				data: data,
+				contentType: "application/x-www-form-urlencoded",
+				//向后台传对象
+				data: {"codeInput" : code_input},
 				dataType: "json",
 				success:function(obj){
 					alert(obj.mesg);
