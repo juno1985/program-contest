@@ -1,5 +1,10 @@
 package com.contest.controller;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,6 +54,20 @@ public class ContestProblem {
 		contestProblemService.codeSubmit(codeInput);
 		
 		return "problem";
+	}
+	
+	@RequestMapping(value="/test/response/buffer")
+	public void testResponseBuffer(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		
+		String sessionId = request.getSession().getId();
+		
+		System.out.println("------>" + sessionId);
+		
+		String result = String.format("{\"Session ID\" : \"%s\"}",sessionId);
+		
+		response.setContentType("application/json");
+		response.getWriter().write(result);
 	}
 
 }
