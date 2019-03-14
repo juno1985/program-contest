@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.contest.mapper.UserAndRolesMapper">
+	<resultMap id="userMap"
+		type="com.contest.pojo.UserAndMultiRoles">
+		<id property="id" column="ID" />
+		<result property="username" column="username" />
+		<result property="password" column="PASSWORD" />
+		<collection property="roles"
+			ofType="com.contest.model.RoleModel">
+			<result column="rid" property="id" />
+			<result column="rolename" property="rolename" />
+		</collection>
+
+	</resultMap>
+
+	<select id="findByUserName" parameterType="String"
+		resultMap="userMap">
+		select u.*
+		,r.id as rid,r.rolename
+		from `t_user` u
+		LEFT JOIN `t_user_role` tur on u.id= tur.uid
+		LEFT JOIN `t_role` r on tur.rid=r.id
+		where username= #{username}
+	</select>
+
+</mapper>

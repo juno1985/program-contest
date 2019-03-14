@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,16 +12,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.contest.common.StringHTMLConvertion;
 import com.contest.model.ProblemModelWithBLOBs;
+import com.contest.pojo.UserAndMultiRoles;
 import com.contest.service.ContestProblemService;
+import com.contest.service.UserService;
 
 @Controller
 public class ContestProblem {
 	
 	@Autowired
 	private ContestProblemService contestProblemService;
+	
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping(value="/main", method= {RequestMethod.GET})
 	public String mainPage() {
@@ -56,6 +59,7 @@ public class ContestProblem {
 		return "problem";
 	}
 	
+	//测试缓存request/response
 	@RequestMapping(value="/test/response/buffer")
 	public void testResponseBuffer(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
@@ -68,6 +72,13 @@ public class ContestProblem {
 		
 		response.setContentType("application/json");
 		response.getWriter().write(result);
+	}
+	
+	//测试mybatis mapper
+	@RequestMapping(value="/test/mybatis")
+	@ResponseBody
+	public UserAndMultiRoles testMybatis() {
+		return userService.findByUserName("guest");
 	}
 
 }
