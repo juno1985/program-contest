@@ -78,7 +78,7 @@ public class ContestProblem {
 	@RequestMapping(value = "/test/mybatis")
 	@ResponseBody
 	public UserAndMultiRoles testMybatis() {
-		return userService.findByUserName("guest");
+		return userService.findByUserName("admin");
 	}
 
 	// 测试springsecurity集成

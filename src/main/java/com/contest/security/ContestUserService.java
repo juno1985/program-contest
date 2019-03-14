@@ -28,7 +28,7 @@ public class ContestUserService implements UserDetailsService {
 		if (userAndMultiRoles == null) {
 			throw new UserNotFoundException("用户名不存在");
 		}
-
+		
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 
 		// 用于添加用户的权限 只要把用户权限添加到authorities就万事大吉了

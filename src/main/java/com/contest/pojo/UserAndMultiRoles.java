@@ -21,6 +21,11 @@ public class UserAndMultiRoles extends UserModel{
 	public void setRoles(List<RoleModel> roles) {
 		this.roles = roles;
 	}
+
+	@Override
+	public String toString() {
+		return this.getUsername() + " UserAndMultiRoles [roles=" + roles + "]";
+	}
 	
 
 }

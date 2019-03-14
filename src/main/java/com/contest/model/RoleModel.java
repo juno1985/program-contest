@@ -132,4 +132,11 @@ public class RoleModel {
     public void setComment(String comment) {
         this.comment = comment == null ? null : comment.trim();
     }
+
+	@Override
+	public String toString() {
+		return "RoleModel [id=" + id + ", rolename=" + rolename + ", status=" + status + ", comment=" + comment + "]";
+	}
+    
+    
 }
