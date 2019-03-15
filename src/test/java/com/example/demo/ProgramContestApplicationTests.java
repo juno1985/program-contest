@@ -1,5 +1,9 @@
 package com.example.demo;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,19 +71,17 @@ public class ProgramContestApplicationTests {
 
 		System.out.println(resultString);
 	}
-	
+
 	@Test
 	public void testMultiRequestThread() {
-		for(int i=0;i<10;i++) {
-			Thread thread = new MultiRequestThread("thread-"+i);
+		for (int i = 0; i < 10; i++) {
+			Thread thread = new MultiRequestThread("thread-" + i);
 			thread.start();
-			
+
 		}
 	}
 
 	class MultiRequestThread extends Thread {
-		
-		
 
 		public MultiRequestThread(String name) {
 			setName(name);
@@ -89,7 +91,6 @@ public class ProgramContestApplicationTests {
 		public void run() {
 
 			String url = "/test/response/buffer";
-			
 
 			try {
 				MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(url).accept(MediaType.APPLICATION_JSON))
@@ -110,6 +111,35 @@ public class ProgramContestApplicationTests {
 
 		}
 
+	}
+
+	@Test
+	public void registUser() throws Exception {
+
+		String url = "/user/regist";
+
+		String requestJSON = "{\"username\":\"wan\",\"password\":\"\",\"phone\":\"13888888888\",\"email\":\"wang@126.com\"}";
+
+		MvcResult mvcResult = mvc
+				.perform(MockMvcRequestBuilders
+						.post(url)
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(requestJSON)
+						.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+				.andExpect(jsonPath("$.code").value(1))
+				.andReturn();
+
+		MockHttpServletResponse response = mvcResult.getResponse();
+
+		int statusCode = response.getStatus();
+
+		String resultString = response.getContentAsString();
+
+		System.out.println("Status Code: " + statusCode);
+
+		System.out.println("Result: " + resultString);
 	}
 
 }

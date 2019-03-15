@@ -1,10 +1,24 @@
 package com.contest.pojo;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class UserPojo {
+	
 	private Integer id;
+	
+	@NotEmpty(message="用户名不为空")
+	@Size(min=4,message="最小长度2")
 	private String username;
+	
+	@NotEmpty(message="密码不为空")
+	@Size(min=6,message="最小长度2")
 	private String password;
+	
 	private String phone;
+	
+	@Email
 	private String email;
 
 	public UserPojo() {
