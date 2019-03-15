@@ -15,4 +15,9 @@ public class UserService {
 	public UserAndMultiRoles findByUserName(String username) {
 		return userAndRolesMapper.findByUserName(username);
 	}
+
+	
+/*	public addUser(UserPojo userPojo) {
+		
+	}*/
 }

@@ -4,11 +4,12 @@
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-	<classPathEntry location="mysql-connector-java-8.0.15.jar" />
-	
+	<classPathEntry
+		location="mysql-connector-java-8.0.15.jar" />
+
 	<context id="ForCommonTables" targetRuntime="MyBatis3">
 		<jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-			connectionURL="jdbc:mysql://192.168.0.105:3306/contest_online?useSSL=false&amp;serverTimezone=GMT%2B8&amp;nullCatalogMeansCurrent=true"
+			connectionURL="jdbc:mysql://localhost:3306/contest_online?useSSL=false&amp;serverTimezone=GMT%2B8&amp;nullCatalogMeansCurrent=true"
 			userId="root" password="123456">
 		</jdbcConnection>
 
@@ -16,13 +17,14 @@
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
 
-		<javaModelGenerator targetPackage="com.contest.model"
-			targetProject="./common/src">
+		<javaModelGenerator
+			targetPackage="com.contest.model" targetProject="./common/src">
 			<property name="enableSubPackages" value="false" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 
-		<sqlMapGenerator targetPackage="com.contest.mapper.resources"
+		<sqlMapGenerator
+			targetPackage="com.contest.mapper.resources"
 			targetProject="./common/src">
 			<property name="enableSubPackages" value="false" />
 		</sqlMapGenerator>
@@ -32,49 +34,60 @@
 			<property name="enableSubPackages" value="false" />
 		</javaClientGenerator>
 
-		<table schema="" tableName="t_problems" domainObjectName="ProblemModel">
+		<table schema="" tableName="t_problems"
+			domainObjectName="ProblemModel">
 			<property name="useActualColumnNames" value="false"></property>
 			<generatedKey column="id" sqlStatement="JDBC"
 				identity="true"></generatedKey>
 		</table>
 
-		<table schema="" tableName="t_problem_type" domainObjectName="ProblemTypeModel">
-			<property name="useActualColumnNames" value="false" />
-			<generatedKey column="id" sqlStatement="JDBC"
-				identity="true" />
-		</table>
-		
-		<table schema="" tableName="t_problem_difficulty" domainObjectName="ProblemDifficultyModel">
+		<table schema="" tableName="t_problem_type"
+			domainObjectName="ProblemTypeModel">
 			<property name="useActualColumnNames" value="false" />
 			<generatedKey column="id" sqlStatement="JDBC"
 				identity="true" />
 		</table>
 
-		<table schema="" tableName="t_problem_cases" domainObjectName="ProblemCasesModel">
+		<table schema="" tableName="t_problem_difficulty"
+			domainObjectName="ProblemDifficultyModel">
 			<property name="useActualColumnNames" value="false" />
 			<generatedKey column="id" sqlStatement="JDBC"
 				identity="true" />
 		</table>
-		
+
+		<table schema="" tableName="t_problem_cases"
+			domainObjectName="ProblemCasesModel">
+			<property name="useActualColumnNames" value="false" />
+			<generatedKey column="id" sqlStatement="JDBC"
+				identity="true" />
+		</table>
+
 		<table schema="" tableName="t_user" domainObjectName="UserModel">
 			<property name="useActualColumnNames" value="false" />
 			<generatedKey column="id" sqlStatement="JDBC"
 				identity="true" />
 		</table>
-		
+
 		<table schema="" tableName="t_role" domainObjectName="RoleModel">
 			<property name="useActualColumnNames" value="false" />
 			<generatedKey column="id" sqlStatement="JDBC"
 				identity="true" />
 		</table>
-		
-		<table schema="" tableName="t_user_role" domainObjectName="UserRoleModel">
+
+		<table schema="" tableName="t_user_role"
+			domainObjectName="UserRoleModel">
+			<property name="useActualColumnNames" value="false" />
+			<generatedKey column="id" sqlStatement="JDBC"
+				identity="true" />
+		</table>
+
+		<table schema="" tableName="t_user_attr"
+			domainObjectName="UserAttrModel">
 			<property name="useActualColumnNames" value="false" />
 			<generatedKey column="id" sqlStatement="JDBC"
 				identity="true" />
 		</table>
 
 
-	
 	</context>
 </generatorConfiguration>

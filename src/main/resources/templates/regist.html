@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>softcits</title>
+<link th:href="@{/css/bootstrap-3.3.5.css}" rel="stylesheet">
+<script th:src="@{/js/jquery-3.2.1.js}"></script>
+<script th:src="@{/js/bootstrap-3.3.5.js}"></script>
+<script th:src="@{/js/regist.js}"></script>
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">SOFTCITS</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a th:href="@{/}"> 首页 </a></li>
+
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</nav>
+	<div class="container">
+		<div class="col-md-2 col-sm-2 col-lg-2"></div>
+		<div class="col-md-5 col-sm-5 col-lg-5">
+			<div class="starter-template">
+				<p id="err_span" class="bg-danger"></p>
+				<form name="form" id="regist_form">
+					<!-- 3 -->
+					<div class="form-group">
+						<label for="username">账号</label> <input type="text" id="username"
+							class="form-control" name="username" value="" placeholder="账号"  autocomplete='on'/>
+							<span class="err" style="color:red"></span>
+					</div>
+					<div class="form-group">
+						<label for="password">密码</label> <input type="password" id="password"
+							class="form-control" name="password" placeholder="密码" autocomplete='on'/>
+							<span class="err" style="color:red"></span>
+					</div>
+					<div class="form-group">
+						<label for="password_rep">重复密码</label> <input type="password" id="password_rep"
+							class="form-control" name="password_rep" placeholder="重复密码" autocomplete='on'/>
+							<span class="err" style="color:red"></span>
+					</div>
+					<div class="form-group">
+						<label for="email">邮箱</label> <input type="text" id="email"
+							class="form-control" name="email" placeholder="邮箱" autocomplete='email'/>
+							<span class="err" style="color:red"></span>
+							
+					</div>
+					<div class="form-group">
+						<label for="phone">手机</label> <input type="text" id="phone"
+							class="form-control" name="phone" placeholder="手机" autocomplete='tel'/>
+							<span class="err" style="color:red"></span>
+					</div>
+
+				</form>
+				<button id="login_btn" class="btn btn-primary">提交注册</button>
+				<a th:href="@{/login}" class="pull-right">返回登录</a>
+			</div>
+		</div>
+		<div class="col-md-2 col-sm-2 col-lg-2"></div>
+
+	</div>
+
+</body>
+</html>
