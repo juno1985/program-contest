@@ -4,7 +4,9 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.contest.common.SecurityUserUtils;
 import com.contest.common.StringHTMLConvertion;
 import com.contest.model.ProblemModelWithBLOBs;
 import com.contest.pojo.MsgPojo;
@@ -86,6 +90,11 @@ public class ContestProblem {
 	public String index(Model model) {
 		MsgPojo msg = new MsgPojo("测试标题", "测试内容", "额外信息，只对管理员显示");
 		model.addAttribute("msg", msg);
+		
+		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
+		
+		System.out.println("-->"+userDetails.getUsername());
+		
 		return "home";
 	}
 
