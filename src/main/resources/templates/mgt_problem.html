@@ -14,12 +14,12 @@
 <script th:src="@{/js/mgt_problem.js}"></script>
 <script th:src="@{/js/add_footer.js}"></script>
 <script>
-	function CaseModel(fid, input, output){
+	function CaseModel(fid, input, output) {
 		this.fid = fid;
 		this.input = input;
 		this.output = output;
 	}
-	function case_add_submit(){
+	function case_add_submit() {
 		// console.log(">>"+$("#problem_id").val());
 		var fid = $('#case_add_modal').find("input#problem_id").val();
 		var input = $('#case_add_modal').find("textarea#case_input").val();
@@ -31,12 +31,11 @@
 			url : "/contest/mgt/addcase",
 			type : "POST",
 			contentType : "application/json",
-			data: data,
+			data : data,
 			dataType : "json",
 			success : function(obj) {
-				
-				if(obj.code == 0)
-				{
+
+				if (obj.code == 0) {
 					//关闭模态框
 					$('#case_add_modal').modal('hide');
 					//清空输入框
@@ -50,6 +49,40 @@
 </script>
 </head>
 <body>
+
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">SOFTCITS</a>
+			</div>
+			<div>
+				<ul class="nav navbar-nav navbar-left">
+					<li class="active"><a href="#">编程练习</a></li>
+					<li><a href="#">练习情况</a></li>
+					<li><a href="#">进入论坛</a></li>
+
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown"><span class="glyphicon glyphicon-user">
+								wangzhen_tju@126.com <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="#">xxxx</a></li>
+							<li><a href="#">xxxx</a></li>
+							<li class="divider"></li>
+							<li>
+								<form th:action="@{/logout}" method="post">
+									<input type="submit" style="border:none;cursor:pointer;" class="btn btn-default" value="注销" />
+								</form>
+							</li>
+						</ul></li>
+				</ul>
+
+
+			</div>
+		</div>
+	</nav>
+
 	<div class="container">
 		<div class="row">
 			<div id="content" class="col-md-12 col-sm-12 col-lg-12"></div>
@@ -88,13 +121,14 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" onClick="case_add_submit()">提交更改</button>
+					<button type="button" class="btn btn-primary"
+						onClick="case_add_submit()">提交更改</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->
 		</div>
 		<!-- /.modal -->
 	</div>
-<div id="footer"></div>
+	<div id="footer"></div>
 </body>
 </html>

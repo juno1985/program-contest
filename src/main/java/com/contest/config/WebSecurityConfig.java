@@ -1,5 +1,6 @@
 package com.contest.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,12 +10,16 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 import com.contest.security.ContestUserService;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	private AccessDeniedHandler accessDeniedHandler;
 
 	@Bean
 	UserDetailsService contestUserService() { // 注册UserDetailsService 的bean
@@ -34,6 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		  http.authorizeRequests()
+		  //访问controller权限控制
+		  //这里有陷阱,数据库角色表中存"ROLE_AMIND",而这里使用"ADMIN",因为springsecurity会自动在前面增加"ROLE_"
+		  .antMatchers("/mgt/**").hasAnyRole("ADMIN")
           .anyRequest().authenticated() //任何请求,登录后可以访问
           .and()
           .formLogin()
@@ -41,7 +49,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
           .failureUrl("/login?error")
           .permitAll() //登录页面用户任意访问
           .and()
-          .logout().permitAll(); //注销行为任意访问
+          .logout().permitAll() //注销行为任意访问
+		  .and()
+		  .exceptionHandling()
+		  .accessDeniedHandler(accessDeniedHandler);
 
 	}
 
