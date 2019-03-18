@@ -18,10 +18,6 @@ public class ContestPasswordEncoder implements PasswordEncoder {
 		
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		
-		System.out.println("raw: " + rawPassword);
-		System.out.println("db: " + encodedPassword);
-		System.out.println("encoded: " + encoder.encode(rawPassword));
-		
 		if(encodedPassword != null && encodedPassword.length() !=0) {
 			
 			return	encoder.matches(rawPassword, encodedPassword);

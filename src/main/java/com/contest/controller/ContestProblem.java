@@ -88,14 +88,14 @@ public class ContestProblem {
 	// 测试springsecurity集成
 	@RequestMapping("/")
 	public String index(Model model) {
-		MsgPojo msg = new MsgPojo("测试标题", "测试内容", "额外信息，只对管理员显示");
-		model.addAttribute("msg", msg);
+	/*	MsgPojo msg = new MsgPojo("测试标题", "测试内容", "额外信息，只对管理员显示");
+		model.addAttribute("msg", msg);*/
 		
 		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
 		
-		System.out.println("-->"+userDetails.getUsername());
+		model.addAttribute("username", userDetails.getUsername());
 		
-		return "home";
+		return "main";
 	}
 
 }

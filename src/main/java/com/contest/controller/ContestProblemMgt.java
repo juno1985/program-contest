@@ -22,20 +22,12 @@ public class ContestProblemMgt {
 	@Autowired
 	private ContestProblemMgtService contestProblemMgtService;
 
-	//管理主页面跳转
+/*	//管理主页面跳转
 	@RequestMapping(path="/mgt", method= {RequestMethod.GET})
 	public String gotoProblemPage() {
 		
-	/*	ProblemModelWithBLOBs problemModelWithBLOBs = new ProblemModelWithBLOBs();
-		problemModelWithBLOBs.setDescription("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-		problemModelWithBLOBs.setInput("yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
-		problemModelWithBLOBs.setStatus(1);
-		
-		contestProblemService.addProblem(problemModelWithBLOBs);*/
-		
-		//model.addAttribute("msg", "123456");
 		return "mgt_problem";
-	}
+	}*/
 	
 	@RequestMapping(value="/mgt/addproblem", method= {RequestMethod.GET})
 	public String gotoAddProblemPage() {
