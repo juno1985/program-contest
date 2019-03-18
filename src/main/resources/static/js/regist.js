@@ -32,10 +32,42 @@ $(function() {
 			required : false
 		}
 	}
+	
+	function jumpPage(link){
+		window.location.href=link;
+	}
 
+	//提交表单
 	function regist_form_submit() {
 
-		var username = $('#regist_form').find('.username').val();
+		var username = $('#regist_form').find('#username').val();
+		var password = $('#regist_form').find('#password').val();
+		var email = $('#regist_form').find('#email').val();
+		var phone = $('#regist_form').find('#phone').val();
+		var user = {
+				'username': username,
+				'password': password,
+				'email': email,
+				'phone': phone
+		}
+		var user_str = JSON.stringify(user);
+		
+		$.ajax({
+			
+			url: "/contest/user/regist",
+			type: "POST",
+			contentType: "application/json",
+			//向后台传对象
+			data: user_str,
+			dataType: "json",
+			success:function(obj){
+				
+				alert(obj.mesg);
+				
+				setTimeout(jumpPage("/contest/login"),3000);
+			}
+		
+		});	
 
 	}
 
@@ -49,7 +81,7 @@ $(function() {
 
 				if (isValid) {
 					// 提交表单
-					// regist_form_submit();
+					regist_form_submit();
 				
 				}
 

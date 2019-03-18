@@ -30,8 +30,6 @@ public class UserController {
 		
 		userService.addUser(userPojo);
 		
-		System.out.println(userPojo);
-		
 		AjaxPojoWithObj ajaxPojo = new AjaxPojoWithObj();
 		
 		if(bindingResult.hasErrors()) {
@@ -42,12 +40,12 @@ public class UserController {
 			}
 			ajaxPojo.setObject(mesList);
 			ajaxPojo.setCode(1);
-			ajaxPojo.setMesg("failed");
+			ajaxPojo.setMesg("注册失败");
 			return ajaxPojo;
 		}
 		
 		ajaxPojo.setCode(0);
-		ajaxPojo.setMesg("success");
+		ajaxPojo.setMesg("注册成功");
 	
 		return ajaxPojo;
 	}

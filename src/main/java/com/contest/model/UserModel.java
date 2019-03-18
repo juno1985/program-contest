@@ -99,4 +99,11 @@ public class UserModel {
     public void setPassword(String password) {
         this.password = password == null ? null : password.trim();
     }
+
+	@Override
+	public String toString() {
+		return "UserModel [id=" + id + ", username=" + username + ", password=" + password + "]";
+	}
+    
+    
 }

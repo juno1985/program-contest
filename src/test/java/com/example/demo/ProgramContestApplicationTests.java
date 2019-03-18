@@ -118,7 +118,7 @@ public class ProgramContestApplicationTests {
 
 		String url = "/user/regist";
 
-		String requestJSON = "{\"username\":\"wan\",\"password\":\"\",\"phone\":\"13888888888\",\"email\":\"wang@126.com\"}";
+		String requestJSON = "{\"username\":\"admin\",\"password\":\"password123\",\"phone\":\"13888888888\",\"email\":\"wang@126.com\"}";
 
 		MvcResult mvcResult = mvc
 				.perform(MockMvcRequestBuilders

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.contest.exception.ContestCommonException;
 import com.contest.exception.UserAlreadyExistsException;
 import com.contest.pojo.AjaxPojo;
 
@@ -28,6 +29,19 @@ public class ContestExceptionHandler {
 	}
 	
 	@ResponseBody
+	@ExceptionHandler(value = ContestCommonException.class)
+	public AjaxPojo ContestOnlineCommonExceptionHandler(Exception ex) {
+
+		logger.error("捕获到Exception异常", ex);
+
+		AjaxPojo ajaxPojo = new AjaxPojo();
+		ajaxPojo.setCode(1);
+		ajaxPojo.setMesg(ex.getMessage());
+
+		return ajaxPojo;
+	}
+	
+	@ResponseBody
 	@ExceptionHandler(value = Exception.class)
 	public AjaxPojo GlobalExceptionHandler(Exception ex) {
 
@@ -39,5 +53,5 @@ public class ContestExceptionHandler {
 
 		return ajaxPojo;
 	}
-
+	
 }
