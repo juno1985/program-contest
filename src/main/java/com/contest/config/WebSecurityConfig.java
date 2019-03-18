@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 import com.contest.security.ContestUserService;
@@ -26,10 +26,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return new ContestUserService();
 	}
 	
-    @Bean
+   /* @Bean
     public static NoOpPasswordEncoder passwordEncoder() {
         return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
-    }
+    }*/
+	
+	//自定义加密方式
+	@Bean
+	public static PasswordEncoder passwordEncoder(){
+		return new ContestPasswordEncoder();
+	}
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {

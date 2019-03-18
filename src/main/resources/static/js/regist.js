@@ -64,7 +64,11 @@ $(function() {
 				
 				alert(obj.mesg);
 				
-				setTimeout(jumpPage("/contest/login"),3000);
+				//注册成功才跳转到登录页面
+				if(obj.code==0){
+					
+					setTimeout(jumpPage("/contest/login"),3000);
+				}
 			}
 		
 		});	

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.contest.config.ContestPasswordEncoder;
 import com.contest.exception.ContestCommonException;
 import com.contest.exception.UserAlreadyExistsException;
 import com.contest.mapper.RoleModelMapper;
@@ -60,7 +61,8 @@ public class UserService {
 		{
 			//增加用户
 			UserModel userModel = new UserModel();
-			BeanUtils.copyProperties(userPojo, userModel);
+			userModel.setUsername(userPojo.getUsername());
+			userModel.setPassword(new ContestPasswordEncoder().encode(userPojo.getPassword()));
 			userModelMapper.insert(userModel);
 			
 			//这里不能catch,否则事务不起作用
