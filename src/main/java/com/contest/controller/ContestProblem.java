@@ -1,11 +1,15 @@
 package com.contest.controller;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.contest.common.SecurityUserUtils;
 import com.contest.common.StringHTMLConvertion;
+import com.contest.model.ProblemModel;
 import com.contest.model.ProblemModelWithBLOBs;
-import com.contest.pojo.MsgPojo;
+import com.contest.pojo.AjaxPojoWithObj;
 import com.contest.pojo.UserAndMultiRoles;
 import com.contest.service.ContestProblemService;
 import com.contest.service.UserService;
@@ -31,6 +36,9 @@ public class ContestProblem {
 
 	@Autowired
 	private UserService userService;
+	
+	@Value("${contest.admin.role}")
+	private String ROLE_ADMIN;
 
 	@RequestMapping(value = "/main", method = { RequestMethod.GET })
 	public String mainPage() {
@@ -93,9 +101,34 @@ public class ContestProblem {
 		
 		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
 		
+		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+		
+		model.addAttribute("admin", "1");
+		
+		for(GrantedAuthority ga : authorities) {
+		
+			if(ROLE_ADMIN.equals(ga.getAuthority())) {
+				model.addAttribute("admin", "0");
+				break;
+			}
+		}
+		
 		model.addAttribute("username", userDetails.getUsername());
 		
+		
 		return "main";
+	}
+	
+	@RequestMapping(value="/listproblem", method= {RequestMethod.GET})
+	@ResponseBody
+	public AjaxPojoWithObj listProblem() {
+		List<ProblemModel> problemList = contestProblemService.listProblem();
+		AjaxPojoWithObj ajaxPojoWithObj = new AjaxPojoWithObj();
+		ajaxPojoWithObj.setCode(0);
+		ajaxPojoWithObj.setMesg("获取列表成功");
+		ajaxPojoWithObj.setObject(problemList);
+		return ajaxPojoWithObj;
+		
 	}
 
 }

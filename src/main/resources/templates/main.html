@@ -3,6 +3,10 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
+<!-- 解决ajax POST被springsecurity误伤 -->
+<meta name="_csrf" th:content="${_csrf.token}">
+<meta name="_csrf_header" th:content="${_csrf.headerName}">
+
 <title>softcits</title>
 <link th:href="@{/css/bootstrap-3.3.5.css}" rel="stylesheet">
 <script th:src="@{/js/jquery-3.2.1.js}"></script>
@@ -14,6 +18,9 @@
 <script th:src="@{/js/add_footer.js}"></script>
 </head>
 <body>
+
+	<input id="isAdmin" type="hidden" th:value="${admin}">
+
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -28,9 +35,8 @@
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"> <span
-							class="glyphicon glyphicon-user"></span>&nbsp; <span
-							th:text="${username}"></span>&nbsp; <b class="caret"></b>
+						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>&nbsp;
+							<span th:text="${username}"></span>&nbsp; <b class="caret"></b>
 					</a>
 						<ul class="dropdown-menu">
 							<li><a href="#">xxxx</a></li>
@@ -38,7 +44,9 @@
 							<li class="divider"></li>
 							<li>
 								<form th:action="@{/logout}" method="post">
-									<input type="submit" style="border:none;cursor:pointer;width:100%;height:100%;" class="btn btn-default" value="注销" />
+									<input type="submit"
+										style="border: none; cursor: pointer; width: 100%; height: 100%;"
+										class="btn btn-default" value="注销" />
 								</form>
 							</li>
 						</ul></li>
@@ -48,6 +56,7 @@
 			</div>
 		</div>
 	</nav>
+
 	<div class="container">
 
 		<p class="strong text-left text-primary">Pratice > Java</p>
@@ -112,6 +121,45 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="case_add_modal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">增加case</h4>
+				</div>
+				<div class="modal-body">
+					<div style="padding: 10px 10px 10px;">
+						<form class="bs-example bs-example-form" role="form"
+							id="case_form">
+							<!-- 用于存储problem id -->
+							<input type="hidden" id="problem_id" name="fid" value="">
+							<div class="input-group">
+								<span class="input-group-addon">输入</span>
+								<textarea class="form-control" id="case_input" name="input"></textarea>
+							</div>
+							<br>
+							<div class="input-group">
+								<span class="input-group-addon">输出</span>
+								<textarea class="form-control" id="case_output" name="output"></textarea>
+							</div>
+							<br>
+						</form>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary"
+						onClick="case_add_submit()">提交更改</button>
+				</div>
+			</div>
+			<!-- /.modal-content -->
+		</div>
+		<!-- /.modal -->
 	</div>
 	<div id="footer"></div>
 </body>

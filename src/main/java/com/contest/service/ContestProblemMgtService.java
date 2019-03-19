@@ -30,10 +30,7 @@ public class ContestProblemMgtService {
 		return problemModelMapper.insertSelective(problemModelWithBLOBs);
 	}
 
-	public List<ProblemModel> listProblem() {
-		List<ProblemModel> listProblem = problemModelMapper.selectByExample(null);
-		return listProblem;
-	}
+
 
 	public int addCase(CasePojo casePojo) {
 		ProblemCasesModelWithBLOBs caseModel = new ProblemCasesModelWithBLOBs();

@@ -1,6 +1,7 @@
 package com.contest.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.contest.common.FileUtils;
 import com.contest.mapper.ProblemModelMapper;
+import com.contest.model.ProblemModel;
 import com.contest.model.ProblemModelWithBLOBs;
 import com.contest.service.compile.CompileAndRun;
 import com.contest.service.compile.CompileAndRunImpl;
@@ -31,6 +33,11 @@ public class ContestProblemService {
 
 	public ProblemModelWithBLOBs getSingleProblem(int id) {
 		return problemModelMapper.selectByPrimaryKey(id);
+	}
+	
+	public List<ProblemModel> listProblem() {
+		List<ProblemModel> listProblem = problemModelMapper.selectByExample(null);
+		return listProblem;
 	}
 	
 	public void codeSubmit(String codeInput) {
