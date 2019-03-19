@@ -61,13 +61,12 @@ public class ContestProblem {
 	@RequestMapping(value = "/challeng/{id}/submit", method = { RequestMethod.POST })
 	@ResponseBody
 	public String codeSubmit(@PathVariable String id, @RequestParam(required = true) String codeInput) {
+		
+		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
+		
+		String username = userDetails.getUsername();
 
-		/*
-		 * System.out.println("id: " + id); System.out.println("codeInput: " +
-		 * codeInput);
-		 */
-
-		contestProblemService.codeSubmit(codeInput);
+		contestProblemService.codeSubmit(username, Integer.parseInt(id) ,codeInput);
 
 		return "problem";
 	}
@@ -86,14 +85,8 @@ public class ContestProblem {
 		response.getWriter().write(result);
 	}
 
-	// 测试mybatis mapper
-	@RequestMapping(value = "/test/mybatis")
-	@ResponseBody
-	public UserAndMultiRoles testMybatis() {
-		return userService.findByUserName("admin");
-	}
 
-	// 测试springsecurity集成
+	//登录成功后执行
 	@RequestMapping("/")
 	public String index(Model model) {
 	/*	MsgPojo msg = new MsgPojo("测试标题", "测试内容", "额外信息，只对管理员显示");

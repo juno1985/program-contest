@@ -12,6 +12,12 @@ public class FileUtils {
 	public static void saveStrToFile(String filename, String content) throws IOException {
 		
 		File file = new File(filename);
+		
+		File fileParent = file.getParentFile();
+		if(!fileParent.exists()) {
+			fileParent.mkdirs();
+		}
+		
 		if(!file.exists()) {
 			file.createNewFile();
 		}

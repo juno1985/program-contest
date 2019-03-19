@@ -22,11 +22,13 @@ public class ComplieImplSubThread extends Thread {
 
 	@Override
 	public void run() {
-		BufferedReader br = new BufferedReader(new InputStreamReader(this.inputStream));
+		
 		String line;
 		try {
+			//使用GBK创建输入流,否则编译错误时汉语提示为乱码
+			BufferedReader br = new BufferedReader(new InputStreamReader(this.inputStream, "GBK"));
 			while ((line = br.readLine()) != null) {
-				this.resultString.add(line);
+				this.resultString.add(line+"\r\n");
 			}
 			this.inputStream.close();
 			br.close();

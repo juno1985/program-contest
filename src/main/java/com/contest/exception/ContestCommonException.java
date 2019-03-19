@@ -2,6 +2,11 @@ package com.contest.exception;
 
 public class ContestCommonException extends RuntimeException {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public ContestCommonException() {
 		super();
 		// TODO Auto-generated constructor stub
