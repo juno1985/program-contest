@@ -31,8 +31,12 @@
 					<li class="active"><a href="#">编程练习</a></li>
 					<li><a href="#">练习情况</a></li>
 					<li><a href="#">进入论坛</a></li>
-
+					<li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/mgt/addproblem}" style="color:#FF0033">新增问题</a>
+					</li>
 				</ul>
+
+
+
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>&nbsp;
@@ -65,10 +69,11 @@
 	<div class="container">
 
 		<div class="row">
-			<div class="col-md-9 col-sm-9 col-lg-9">
+
+			<div class="col-md-10 col-sm-10 col-lg-10">
 				<div id="content"></div>
 			</div>
-			<div class="col-md-3 col-sm-3 col-lg-3">
+			<div class="col-md-2 col-sm-2 col-lg-2">
 				<label for="name">状态</label>
 				<div class="checkbox">
 					<label><input type="checkbox" value="">已解决</label>
@@ -140,12 +145,14 @@
 							<input type="hidden" id="problem_id" name="fid" value="">
 							<div class="input-group">
 								<span class="input-group-addon">输入</span>
-								<textarea class="form-control" id="case_input" name="input"></textarea>
+								<textarea class="form-control" id="case_input" name="input"
+									style="resize: none"></textarea>
 							</div>
 							<br>
 							<div class="input-group">
 								<span class="input-group-addon">输出</span>
-								<textarea class="form-control" id="case_output" name="output"></textarea>
+								<textarea class="form-control" id="case_output" name="output"
+									style="resize: none"></textarea>
 							</div>
 							<br>
 						</form>
@@ -154,7 +161,7 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 					<button type="button" class="btn btn-primary"
-						onClick="case_add_submit()">提交更改</button>
+						onClick="case_add_submit()">提交CASE</button>
 				</div>
 			</div>
 			<!-- /.modal-content -->

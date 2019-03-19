@@ -71,7 +71,7 @@ $(function() {
 
 			// 生成管理员操作button
 			if ($('#isAdmin').val() == 0) {
-				td += "<td>" + "<button   value=\"" + element["id"]
+				td += "<td>" + "<button  style=\"color:#FF0033\" value=\"" + element["id"]
 						+ "\" class=\"btn btn-default case_add_btn\" >"
 						+ "增加case" + "</button></td>"
 			}
