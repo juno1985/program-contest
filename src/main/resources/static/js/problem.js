@@ -33,6 +33,8 @@ $(function() {
 					xhr.setRequestHeader(header, token);
 				},
 				success:function(obj){
+					console.log(obj);
+					//compile error
 					if(obj.code == 1)
 						{
 							$('#code_compile_result')
@@ -41,6 +43,37 @@ $(function() {
 								.html("<h3 style='color:red'>编译错误</h3>")
 								.append(obj.mesg);
 						}
+					//problem failed
+					else if(obj.code == 2){
+						var case_result = "";
+						$.each(obj.object, function(index, value){
+							//0 - success
+							//1 - failed
+							//2 - timeout
+							if(value.resultCode == 1){
+								case_result += "CASE" + (index+1) + ":失败" + "<br>";
+							}
+							else if(value.resultCode == 2){
+								case_result += "CASE" + (index+1) + ":超时" + "<br>";
+							}
+							else{
+								case_result += "CASE" + (index+1) + ":成功" + "<br>";
+							}
+						});
+						
+						$('#code_compile_result')
+						.css("background-color","#F0FFF0")
+						.css("margin-top","50px")
+						.html("<h3 style='color:red'>失败</h3>")
+						.append(case_result);
+					}
+					//sucess
+					else{
+						$('#code_compile_result')
+						.css("background-color","#F0FFF0")
+						.css("margin-top","50px")
+						.html("<h3 style='color:green'>成功</h3>");
+					}
 					
 				}
 			

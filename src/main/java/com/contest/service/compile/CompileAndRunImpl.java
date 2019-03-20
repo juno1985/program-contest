@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.contest.service.compile.pojo.CaseModel;
 import com.contest.service.compile.pojo.CompileResult;
-import com.contest.service.compile.pojo.RunResult;
+import com.contest.service.compile.pojo.RunResultPojo;
 
 @Component
 public class CompileAndRunImpl implements CompileAndRun {
@@ -39,21 +39,22 @@ public class CompileAndRunImpl implements CompileAndRun {
 	}
 
 	@Override
-	public List<RunResult> RunCode(String codeClazz, List<CaseModel> caseModelList, long timeout,  String workSpace)
+	public List<RunResultPojo> RunCode(String codeClazz, List<CaseModel> caseModelList, long timeout,  String workSpace)
 			throws IOException, InterruptedException {
 		ProcessBuilder processBuilder = new ProcessBuilder("java", codeClazz);
 		processBuilder.redirectErrorStream(true);
 		processBuilder.directory(new File(workSpace));
 
-		List<RunResult> runResultList = new ArrayList<RunResult>();
+		List<RunResultPojo> runResultList = new ArrayList<RunResultPojo>();
 
 		for (CaseModel caseModel : caseModelList) {
-			RunResult runResult = new RunResult();
+			RunResultPojo runResult = new RunResultPojo();
 
 			Process p = processBuilder.start();
 			
 			RunImplSubThread runThread = new RunImplSubThread(p);
 
+			//向子线程输入
 			runThread.setInput(caseModel.getInput());
 			runThread.start();
 			//等待负责输入的子线程die后,主进程才能继续执行
@@ -62,20 +63,25 @@ public class CompileAndRunImpl implements CompileAndRun {
 			
 			//判断是否code运行超时
 			if(isRunCodeTimeOut(runThread, timeout)) {
+				//timeout
 				runResult.setResultCode(2);
-				runResult.setResultState(false);
+				runResult.setCaseId(caseModel.getId());
+			
 			}
 			//判断code运行结果是否pass
 			else {
 				String strAnswer = caseModel.getOutput().trim();
 				String codeOutput = runThread.getResultString().trim();
+			
 				if(isCodeOutputAcceptable(codeOutput, strAnswer)) {
+					//pass
 					runResult.setResultCode(0);
-					runResult.setResultState(true);
+					runResult.setCaseId(caseModel.getId());
 				}
 				else {
+					//non-pass
 					runResult.setResultCode(1);
-					runResult.setResultState(false);
+					runResult.setCaseId(caseModel.getId());
 				}
 			}
 		
@@ -100,11 +106,7 @@ public class CompileAndRunImpl implements CompileAndRun {
 		if(thread.isAlive()) {
 			
 			thread.interrupt();
-			/*try {
-				throw new TimeoutException("Thread did not finish within time limit");
-			} catch (TimeoutException e) {
-				e.printStackTrace();
-			}*/
+			
 			//timeout
 			return true;
 		}

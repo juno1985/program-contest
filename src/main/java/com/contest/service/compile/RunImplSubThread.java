@@ -10,7 +10,7 @@ public class RunImplSubThread extends Thread {
 	private String resultString = "";
 	// 从子线程得到输出
 	private InputStream inputStream;
-	// 向子线程得到输入
+	// 向子线程输入
 	private OutputStream outputStream;
 	//casemodel中的input
 	private String input;
@@ -49,11 +49,10 @@ public class RunImplSubThread extends Thread {
 //			bufferedOutputStream.write(input.getBytes());
 			while ((line = br.readLine()) != null) {
 				
-				this.resultString += line + "\r\n";
+				this.resultString += line + "\n";
 			}
 			this.inputStream.close();
 			br.close();
-			this.outputStream.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

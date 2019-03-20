@@ -21,21 +21,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.contest.common.SecurityUserUtils;
 import com.contest.common.StringHTMLConvertion;
+import com.contest.exception.ContestCommonException;
 import com.contest.model.ProblemModel;
 import com.contest.model.ProblemModelWithBLOBs;
 import com.contest.pojo.AjaxPojoWithObj;
-import com.contest.pojo.UserAndMultiRoles;
 import com.contest.service.ContestProblemService;
-import com.contest.service.UserService;
+import com.contest.service.compile.pojo.RunResultPojo;
 
 @Controller
 public class ContestProblem {
 
 	@Autowired
 	private ContestProblemService contestProblemService;
-
-	@Autowired
-	private UserService userService;
 	
 	@Value("${contest.admin.role}")
 	private String ROLE_ADMIN;
@@ -60,15 +57,35 @@ public class ContestProblem {
 
 	@RequestMapping(value = "/challeng/{id}/submit", method = { RequestMethod.POST })
 	@ResponseBody
-	public String codeSubmit(@PathVariable String id, @RequestParam(required = true) String codeInput) {
+	public AjaxPojoWithObj codeSubmit(@PathVariable String id, @RequestParam(required = true) String codeInput) {
 		
 		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
 		
 		String username = userDetails.getUsername();
 
-		contestProblemService.codeSubmit(username, Integer.parseInt(id) ,codeInput);
+		List<RunResultPojo> runResultList = null;
+		
+		try {
+			runResultList = contestProblemService.codeSubmit(username, Integer.parseInt(id) ,codeInput);
+		} catch (Exception e) {
+			throw new ContestCommonException(e.getMessage());
+		} 
+		
+		AjaxPojoWithObj ajaxPojo = new AjaxPojoWithObj();
+		ajaxPojo.setObject(runResultList);
+		//全是0则problem解决
+		ajaxPojo.setCode(0);
+		for(RunResultPojo runResult : runResultList) {
+			if(runResult.getResultCode() != 0) {
+				//2 - 失败
+				//1 - 编译未通过
+				//0 - 成功
+				ajaxPojo.setCode(2);
+				break;
+			}
+		}
 
-		return "problem";
+		return ajaxPojo;
 	}
 
 	// 测试缓存request/response

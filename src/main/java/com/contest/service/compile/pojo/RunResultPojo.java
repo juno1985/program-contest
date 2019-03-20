@@ -1,15 +1,14 @@
 package com.contest.service.compile.pojo;
 
-public class RunResult {
+public class RunResultPojo {
 
 	//0 - success
 	//1 - failed
 	//2 - timeout
+	private int caseId;
 	private int resultCode;
-	//true - case success
-	//false - case failed
-	private Boolean resultState;
-	public RunResult() {
+	
+	public RunResultPojo() {
 		
 	}
 	public int getResultCode() {
@@ -18,11 +17,11 @@ public class RunResult {
 	public void setResultCode(int resultCode) {
 		this.resultCode = resultCode;
 	}
-	public Boolean getResultState() {
-		return resultState;
+	public int getCaseId() {
+		return caseId;
 	}
-	public void setResultState(Boolean resultState) {
-		this.resultState = resultState;
+	public void setCaseId(int caseId) {
+		this.caseId = caseId;
 	}
 	
 	
