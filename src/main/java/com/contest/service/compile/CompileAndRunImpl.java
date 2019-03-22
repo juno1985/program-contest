@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Component;
 
+import com.contest.common.StringCompareUtils;
 import com.contest.service.compile.pojo.CaseModel;
 import com.contest.service.compile.pojo.CompileResult;
 import com.contest.service.compile.pojo.RunResultPojo;
@@ -70,8 +71,8 @@ public class CompileAndRunImpl implements CompileAndRun {
 			}
 			//判断code运行结果是否pass
 			else {
-				String strAnswer = caseModel.getOutput().trim();
-				String codeOutput = runThread.getResultString().trim();
+				String strAnswer = StringCompareUtils.ReplaceEnterChars(caseModel.getOutput()).trim();
+				String codeOutput = StringCompareUtils.ReplaceEnterChars(runThread.getResultString()).trim();
 			
 				if(isCodeOutputAcceptable(codeOutput, strAnswer)) {
 					//pass

@@ -43,18 +43,17 @@ public class RunImplSubThread extends Thread {
 		String line;
 		try {
 			
-//			BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(this.outputStream);
 			this.outputStream.write(input.getBytes());
 			this.outputStream.close();
-//			bufferedOutputStream.write(input.getBytes());
 			while ((line = br.readLine()) != null) {
 				
 				this.resultString += line + "\n";
+				
+			//	System.out.println("->" + line);
 			}
 			this.inputStream.close();
 			br.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
