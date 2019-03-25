@@ -87,6 +87,20 @@
 			<generatedKey column="id" sqlStatement="JDBC"
 				identity="true" />
 		</table>
+		
+		<table schema="" tableName="t_code_hist"
+			domainObjectName="CodeHistModel">
+			<property name="useActualColumnNames" value="false" />
+			<generatedKey column="id" sqlStatement="JDBC"
+				identity="true" />
+		</table>
+		
+		<table schema="" tableName="t_run_code_case_hist"
+			domainObjectName="RunCodeCaseModel">
+			<property name="useActualColumnNames" value="false" />
+			<generatedKey column="id" sqlStatement="JDBC"
+				identity="true" />
+		</table>
 
 
 	</context>

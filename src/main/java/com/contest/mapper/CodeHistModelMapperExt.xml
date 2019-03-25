@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.contest.mapper.CodeHistModelMapperExt">
+	<insert id="insertCodeHistAndGetKey"
+		parameterType="com.contest.model.CodeHistModel">
+
+		insert into t_code_hist(code, submit_time, user_id, result,
+		problem_id)
+		values(#{code}, #{submitTime}, #{userId}, #{result}, #{problemId})
+		<selectKey resultType="java.lang.Integer" order="AFTER"
+			keyProperty="id">
+			select last_insert_id() as id;
+		</selectKey>
+	</insert>
+</mapper>
