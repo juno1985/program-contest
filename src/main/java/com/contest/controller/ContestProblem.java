@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.contest.common.SecurityUserUtils;
 import com.contest.common.StringHTMLConvertion;
 import com.contest.exception.ContestCommonException;
+import com.contest.model.CodeHistModel;
 import com.contest.model.ProblemModel;
 import com.contest.model.ProblemModelWithBLOBs;
 import com.contest.pojo.AjaxPojoWithObj;
@@ -33,7 +34,7 @@ public class ContestProblem {
 
 	@Autowired
 	private ContestProblemService contestProblemService;
-	
+
 	@Value("${contest.admin.role}")
 	private String ROLE_ADMIN;
 
@@ -58,28 +59,28 @@ public class ContestProblem {
 	@RequestMapping(value = "/challeng/{id}/submit", method = { RequestMethod.POST })
 	@ResponseBody
 	public AjaxPojoWithObj codeSubmit(@PathVariable String id, @RequestParam(required = true) String codeInput) {
-		
+
 		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
-		
+
 		String username = userDetails.getUsername();
 
 		List<RunResultPojo> runResultList = null;
-		
+
 		try {
-			runResultList = contestProblemService.codeSubmit(username, Integer.parseInt(id) ,codeInput);
+			runResultList = contestProblemService.codeSubmit(username, Integer.parseInt(id), codeInput);
 		} catch (Exception e) {
 			throw new ContestCommonException(e.getMessage());
-		} 
-		
+		}
+
 		AjaxPojoWithObj ajaxPojo = new AjaxPojoWithObj();
 		ajaxPojo.setObject(runResultList);
-		//全是0则problem解决
+		// 全是0则problem解决
 		ajaxPojo.setCode(0);
-		for(RunResultPojo runResult : runResultList) {
-			if(runResult.getResultCode() != 0) {
-				//2 - 失败
-				//1 - 编译未通过
-				//0 - 成功
+		for (RunResultPojo runResult : runResultList) {
+			if (runResult.getResultCode() != 0) {
+				// 2 - 失败
+				// 1 - 编译未通过
+				// 0 - 成功
 				ajaxPojo.setCode(2);
 				break;
 			}
@@ -102,34 +103,34 @@ public class ContestProblem {
 		response.getWriter().write(result);
 	}
 
-
-	//登录成功后执行
+	// 登录成功后执行
 	@RequestMapping("/")
 	public String index(Model model) {
-	/*	MsgPojo msg = new MsgPojo("测试标题", "测试内容", "额外信息，只对管理员显示");
-		model.addAttribute("msg", msg);*/
-		
+		/*
+		 * MsgPojo msg = new MsgPojo("测试标题", "测试内容", "额外信息，只对管理员显示");
+		 * model.addAttribute("msg", msg);
+		 */
+
 		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
-		
+
 		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-		
+
 		model.addAttribute("admin", "1");
-		
-		for(GrantedAuthority ga : authorities) {
-		
-			if(ROLE_ADMIN.equals(ga.getAuthority())) {
+
+		for (GrantedAuthority ga : authorities) {
+
+			if (ROLE_ADMIN.equals(ga.getAuthority())) {
 				model.addAttribute("admin", "0");
 				break;
 			}
 		}
-		
+
 		model.addAttribute("username", userDetails.getUsername());
-		
-		
+
 		return "main";
 	}
-	
-	@RequestMapping(value="/listproblem", method= {RequestMethod.GET})
+
+	@RequestMapping(value = "/listproblem", method = { RequestMethod.GET })
 	@ResponseBody
 	public AjaxPojoWithObj listProblem() {
 		List<ProblemModel> problemList = contestProblemService.listProblem();
@@ -138,7 +139,32 @@ public class ContestProblem {
 		ajaxPojoWithObj.setMesg("获取列表成功");
 		ajaxPojoWithObj.setObject(problemList);
 		return ajaxPojoWithObj;
+
+	}
+
+	// 查询个人某个问题提交历史
+	@RequestMapping(value = "/challenge/{id}/hist", method = { RequestMethod.GET })
+	@ResponseBody
+	public AjaxPojoWithObj problemPersonalHist(@PathVariable(name="id") String problemId, Model model) {
 		
+		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
+		String username = userDetails.getUsername();
+
+		List<CodeHistModel> codeHistModelList = contestProblemService.getProblemPersonalHist(Integer.parseInt(problemId), username);
+		
+		model.addAttribute("username", username);
+		
+		AjaxPojoWithObj ajaxPojoWithObj = new AjaxPojoWithObj();
+		if(codeHistModelList.size() > 0) {
+			ajaxPojoWithObj.setCode(0);
+			ajaxPojoWithObj.setMesg("获取历史成功");
+			ajaxPojoWithObj.setObject(codeHistModelList);
+		}else {
+			ajaxPojoWithObj.setCode(1);
+			ajaxPojoWithObj.setMesg("没有提交历史");
+		}
+
+		return ajaxPojoWithObj;
 	}
 
 }

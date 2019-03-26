@@ -85,4 +85,20 @@ $(function() {
 			
 			});	
 	});
+	
+	$('#href_hist').on('click',function(){
+		$('#hist').text("bala");
+		var pro_id = $('#problem_id').val();
+		$.ajax({
+			
+			url: "/contest/challenge/" + pro_id + "/hist",
+			type: "GET",
+			contentType : "application/json",
+			dataType: "json",
+			success:function(obj){
+				console.log(obj);
+			}
+		
+		});	
+	});
 });

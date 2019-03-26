@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.contest.config.ContestPasswordEncoder;
 import com.contest.exception.ContestCommonException;
 import com.contest.exception.UserAlreadyExistsException;
+import com.contest.exception.UserNotFoundException;
 import com.contest.mapper.RoleModelMapper;
 import com.contest.mapper.UserAndRolesMapper;
 import com.contest.mapper.UserAttrModelMapper;
@@ -92,6 +93,7 @@ public class UserService {
 		userCriteria.andUsernameEqualTo(username);
 		List<UserModel> userModelList = userModelMapper.selectByExample(userModelExample);
 		if(userModelList.size() > 1) throw new UserAlreadyExistsException("有相同用户名");
+		if(userModelList.size() < 1) throw new UserNotFoundException("没有该用户");
 		Integer id = userModelList.get(0).getId();
 		return id;
 	}

@@ -65,17 +65,18 @@
 			<div class="col-md-9 col-sm-9 col-lg-9">
 				<ul id="problemTab" class="nav nav-tabs">
 					<li class="active"><a href="#home" data-toggle="tab"> 问题描述</a></li>
-					<li><a href="#ios" data-toggle="tab">提交榜</a></li>
+					<li><a id="href_hist" href="#hist" data-toggle="tab">历史</a></li>
+					<li><a href="#range" data-toggle="tab">提交榜</a></li>
 
 				</ul>
 				<div id="problemTabContent" class="tab-content">
 					<div class="tab-pane fade in active" id="home">
 
-<input id="problem_id" hidden="true" th:value="${problemAttr.id}"></input>
-							
-						<h2>
-							<p th:utext="${problemAttr.title}"></p>
-						</h2>
+						<input id="problem_id" hidden="true" th:value="${problemAttr.id}"></input>
+
+					
+						<p th:utext="${problemAttr.title}"></p>
+						
 
 						<p th:utext="${problemAttr.description}"></p>
 
@@ -89,20 +90,25 @@
 
 						<p class="bg-info" th:utext="${problemAttr.output}"></p>
 
-						<span style="border: 0px; font-weight: bolder; font-size: 15px; line-height: 2; margin-top: 5px; vertical-align: baseline;">Code:</span>
+						<span
+							style="border: 0px; font-weight: bolder; font-size: 15px; line-height: 2; margin-top: 5px; vertical-align: baseline;">Code:</span>
 
-						<textarea id="code_textarea" style="width: 100%; resize: none; margin-top:5px; "></textarea>
-					
-						   	<div id="code_submit_hint" class="code_submit_hint" style="display:none">
-						   		<img th:src="@{/pic/waiting.gif}" />&nbsp;&nbsp;代码已提交到待运行队列,请稍等...
-						   	</div>
-							<button id="code_submit_btn" type="button" class="btn btn-primary pull-right" style="margin-top:5px">提交</button>
-						<div id="code_compile_result">
-							
+						<textarea id="code_textarea"
+							style="width: 100%; resize: none; margin-top: 5px;"></textarea>
+
+						<div id="code_submit_hint" class="code_submit_hint"
+							style="display: none">
+							<img th:src="@{/pic/waiting.gif}" />&nbsp;&nbsp;代码已提交到待运行队列,请稍等...
 						</div>
+						<button id="code_submit_btn" type="button"
+							class="btn btn-primary pull-right" style="margin-top: 5px">提交</button>
+						<div id="code_compile_result"></div>
 
 					</div>
-					<div class="tab-pane fade" id="ios">
+					<div class="tab-pane fade" id="hist">
+						
+					</div>
+					<div class="tab-pane fade" id="range">
 						<p>iOS 是一个由苹果公司开发和发布的手机操作系统。最初是于 2007 年首次发布 iPhone、iPod Touch
 							和 Apple TV。iOS 派生自 OS X，它们共享 Darwin 基础。OS X 操作系统是用在苹果电脑上，iOS
 							是苹果的移动版本。</p>

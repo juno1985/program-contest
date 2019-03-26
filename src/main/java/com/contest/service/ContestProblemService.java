@@ -20,6 +20,7 @@ import com.contest.mapper.ProblemCasesModelMapper;
 import com.contest.mapper.ProblemModelMapper;
 import com.contest.mapper.RunCodeCaseModelMapper;
 import com.contest.model.CodeHistModel;
+import com.contest.model.CodeHistModelExample;
 import com.contest.model.ProblemCasesModelExample;
 import com.contest.model.ProblemCasesModelWithBLOBs;
 import com.contest.model.ProblemModel;
@@ -188,6 +189,22 @@ public class ContestProblemService {
 			}
 		}
 		return true;
+	}
+	
+	public List<CodeHistModel> getProblemPersonalHist(Integer problemId, String userName){
+		
+		Integer userId = userService.getUserPrimaryKey(userName);
+		
+		CodeHistModelExample codeHistModelExa = new CodeHistModelExample();
+		CodeHistModelExample.Criteria codeHistModelCri = codeHistModelExa.createCriteria();
+		
+		if(userName != null) codeHistModelCri.andUserIdEqualTo(userId);
+		
+		codeHistModelCri.andProblemIdEqualTo(problemId);
+		List<CodeHistModel> codeHistModelList = codeHistModelMapper.selectByExample(codeHistModelExa);
+		
+		return codeHistModelList;
+		
 	}
 
 }
