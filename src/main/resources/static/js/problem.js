@@ -11,6 +11,9 @@ $(function() {
 	};
 
 	$('#code_submit_btn').on('click', function() {
+		
+		$('#code_submit_hint').css('display','block');
+		
 		//得到页面的代码内容
 		var code_input = $(code_area_obj).val();
 
@@ -33,7 +36,10 @@ $(function() {
 					xhr.setRequestHeader(header, token);
 				},
 				success:function(obj){
-					console.log(obj);
+					
+					$('#code_submit_hint').css('display','none');
+					
+					//console.log(obj);
 					//compile error
 					if(obj.code == 1)
 						{

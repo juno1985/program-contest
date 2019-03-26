@@ -16,6 +16,8 @@
 <link th:href="@{/summernote-dist/summernote.css}" rel="stylesheet">
 <script th:src="@{/summernote-dist/summernote.js}"></script>
 
+<link th:href="@{/css/problem.css}" rel="stylesheet">
+
 <script th:src="@{/js/problem.js}"></script>
 <script th:src="@{/js/add_footer.js}"></script>
 
@@ -90,7 +92,11 @@
 						<span style="border: 0px; font-weight: bolder; font-size: 15px; line-height: 2; margin-top: 5px; vertical-align: baseline;">Code:</span>
 
 						<textarea id="code_textarea" style="width: 100%; resize: none; margin-top:5px; "></textarea>
-						<button id="code_submit_btn" type="button" class="btn btn-primary pull-right" style="margin-top:5px">提交</button>
+					
+						   	<div id="code_submit_hint" class="code_submit_hint" style="display:none">
+						   		<img th:src="@{/pic/waiting.gif}" />&nbsp;&nbsp;代码已提交到待运行队列,请稍等...
+						   	</div>
+							<button id="code_submit_btn" type="button" class="btn btn-primary pull-right" style="margin-top:5px">提交</button>
 						<div id="code_compile_result">
 							
 						</div>
