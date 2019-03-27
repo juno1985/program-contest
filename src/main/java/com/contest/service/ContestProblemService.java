@@ -8,10 +8,12 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.util.StringUtils;
 
 import com.contest.common.FileUtils;
+import com.contest.common.SecurityUserUtils;
 import com.contest.common.StringHTMLConvertion;
 import com.contest.exception.ContestCommonException;
 import com.contest.mapper.CodeHistModelMapper;
@@ -209,6 +211,12 @@ public class ContestProblemService {
 
 	public String getProblemPersonCode(Integer codeId) {
 		CodeHistModel codeHistModel = codeHistModelMapper.selectByPrimaryKey(codeId);
+		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
+		String username = userDetails.getUsername();
+		Integer userId = userService.getUserPrimaryKey(username);
+		if(!codeHistModel.getUserId().equals(userId)) {
+			throw new ContestCommonException("你聪明我也不傻");
+		}
 		return codeHistModel.getCode();
 	}
 
