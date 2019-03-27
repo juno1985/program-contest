@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.contest.common.SecurityUserUtils;
 import com.contest.common.StringHTMLConvertion;
 import com.contest.exception.ContestCommonException;
+import com.contest.model.AllUsersCodeHistoryPojo;
 import com.contest.model.CodeHistModel;
 import com.contest.model.ProblemModel;
 import com.contest.model.ProblemModelWithBLOBs;
@@ -167,7 +168,7 @@ public class ContestProblem {
 		return ajaxPojoWithObj;
 	}
 	
-	//查询历史代码
+	//查询用户自己的历史代码
 	@RequestMapping(value = "/challenge/{id}/code", method = { RequestMethod.GET })
 	@ResponseBody
 	public AjaxPojoWithObj problemPersonalCode(@PathVariable(name="id") String codeId) {
@@ -177,6 +178,18 @@ public class ContestProblem {
 		ajaxPojoWithObj.setCode(0);
 		ajaxPojoWithObj.setMesg("获取历史代码成功");
 		ajaxPojoWithObj.setObject(code);
+		return ajaxPojoWithObj;
+	}
+	
+	//查询所有用户的历史提交
+	@RequestMapping(value ="/challenge/{id}/allhist", method = { RequestMethod.GET })
+	@ResponseBody
+	public AjaxPojoWithObj problemAllUsersHist(@PathVariable(name="id") String problemId){
+		List<AllUsersCodeHistoryPojo> allUsersCodeHistoryList = contestProblemService.getProblemAllUsersCode(Integer.parseInt(problemId));
+		AjaxPojoWithObj ajaxPojoWithObj = new AjaxPojoWithObj();
+		ajaxPojoWithObj.setCode(0);
+		ajaxPojoWithObj.setMesg("获取历史成功");
+		ajaxPojoWithObj.setObject(allUsersCodeHistoryList);
 		return ajaxPojoWithObj;
 	}
 

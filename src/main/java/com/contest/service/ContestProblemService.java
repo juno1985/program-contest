@@ -21,6 +21,7 @@ import com.contest.mapper.CodeHistModelMapperExt;
 import com.contest.mapper.ProblemCasesModelMapper;
 import com.contest.mapper.ProblemModelMapper;
 import com.contest.mapper.RunCodeCaseModelMapper;
+import com.contest.model.AllUsersCodeHistoryPojo;
 import com.contest.model.CodeHistModel;
 import com.contest.model.CodeHistModelExample;
 import com.contest.model.ProblemCasesModelExample;
@@ -218,6 +219,12 @@ public class ContestProblemService {
 			throw new ContestCommonException("你聪明我也不傻");
 		}
 		return codeHistModel.getCode();
+	}
+
+	//获取所有用户历史
+	public List<AllUsersCodeHistoryPojo> getProblemAllUsersCode(int problemId) {
+		return codeHistModelMapperExt.getAllUsersHistByProblemId(problemId);
+		
 	}
 
 }

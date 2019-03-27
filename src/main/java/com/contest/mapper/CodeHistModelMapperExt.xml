@@ -1,15 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.contest.mapper.CodeHistModelMapperExt">
+	<resultMap id="ResultMapForAllUsersCodeHist"
+		type="com.contest.model.AllUsersCodeHistoryPojo">
+
+		<result column="user_id" jdbcType="INTEGER" property="userId" />
+	 	<result column="username" jdbcType="VARCHAR"
+		 	property="username" />
+		<result column="submit_time" jdbcType="TIMESTAMP"
+			property="submitTime" />
+		<result column="result" jdbcType="VARCHAR" property="result" />
+		<result column="code_id" jdbcType="INTEGER" property="codeId" />
+
+	</resultMap>
+
 	<insert id="insertCodeHistAndGetKey"
 		parameterType="com.contest.model.CodeHistModel">
 
 		insert into t_code_hist(code, submit_time, user_id, result,
 		problem_id)
-		values(#{code}, #{submitTime}, #{userId}, #{result}, #{problemId})
+		values(#{code}, #{submitTime}, #{userId}, #{result},
+		#{problemId})
 		<selectKey resultType="java.lang.Integer" order="AFTER"
 			keyProperty="id">
 			select last_insert_id() as id;
 		</selectKey>
 	</insert>
+
+	<select id="getAllUsersHistByProblemId"
+		parameterType="java.lang.Integer"
+		resultMap="ResultMapForAllUsersCodeHist">
+		SELECT 
+		t_code_hist.`id` AS code_id, t_code_hist.`user_id` AS user_id,
+		t_code_hist.`submit_time` AS submit_time, t_code_hist.`result` AS
+		result, t_user.`username`AS username
+		FROM t_code_hist
+		LEFT JOIN t_user
+		ON t_code_hist.`user_id` = t_user.`id`
+		WHERE t_code_hist.`problem_id` = #{problemId,jdbcType=INTEGER}
+
+	</select>
 </mapper>
