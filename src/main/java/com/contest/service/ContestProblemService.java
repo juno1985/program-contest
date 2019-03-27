@@ -207,4 +207,9 @@ public class ContestProblemService {
 		
 	}
 
+	public String getProblemPersonCode(Integer codeId) {
+		CodeHistModel codeHistModel = codeHistModelMapper.selectByPrimaryKey(codeId);
+		return codeHistModel.getCode();
+	}
+
 }

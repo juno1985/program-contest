@@ -166,5 +166,18 @@ public class ContestProblem {
 
 		return ajaxPojoWithObj;
 	}
+	
+	//查询历史代码
+	@RequestMapping(value = "/challenge/{id}/code", method = { RequestMethod.GET })
+	@ResponseBody
+	public AjaxPojoWithObj problemPersonalCode(@PathVariable(name="id") String codeId) {
+		String code = contestProblemService.getProblemPersonCode(Integer.parseInt(codeId));
+		code = StringHTMLConvertion.StringToHTML(code);
+		AjaxPojoWithObj ajaxPojoWithObj = new AjaxPojoWithObj();
+		ajaxPojoWithObj.setCode(0);
+		ajaxPojoWithObj.setMesg("获取历史代码成功");
+		ajaxPojoWithObj.setObject(code);
+		return ajaxPojoWithObj;
+	}
 
 }
