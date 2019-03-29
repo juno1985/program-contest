@@ -27,6 +27,7 @@ import com.contest.model.CodeHistModelExample;
 import com.contest.model.ProblemCasesModelExample;
 import com.contest.model.ProblemCasesModelWithBLOBs;
 import com.contest.model.ProblemModel;
+import com.contest.model.ProblemModelExample;
 import com.contest.model.ProblemModelWithBLOBs;
 import com.contest.model.RunCodeCaseModel;
 import com.contest.pojo.enumrator.RunCaseResult;
@@ -66,8 +67,12 @@ public class ContestProblemService {
 		return problemModelMapper.selectByPrimaryKey(id);
 	}
 
+	// 只返回status=1的问题, status=2的为未准备好或考试题目
 	public List<ProblemModel> listProblem() {
-		List<ProblemModel> listProblem = problemModelMapper.selectByExample(null);
+		ProblemModelExample problemModelExample = new ProblemModelExample();
+		ProblemModelExample.Criteria problemModelExampleCri = problemModelExample.createCriteria();
+		problemModelExampleCri.andStatusEqualTo(1);
+		List<ProblemModel> listProblem = problemModelMapper.selectByExample(problemModelExample);
 		return listProblem;
 	}
 
