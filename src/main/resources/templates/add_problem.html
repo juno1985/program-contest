@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
+<!-- 解决ajax POST被springsecurity误伤 -->
+<meta name="_csrf" th:content="${_csrf.token}">
+<meta name="_csrf_header" th:content="${_csrf.headerName}">
 <title>问题添加页面</title>
 <link th:href="@{/css/bootstrap-3.3.5.css}" rel="stylesheet">
 <script th:src="@{/js/jquery-3.2.1.js}"></script>
@@ -10,8 +13,10 @@
 <!-- include summernote css/js -->
 <link th:href="@{/summernote-dist/summernote.css}" rel="stylesheet">
 <script th:src="@{/summernote-dist/summernote.js}"></script>
-
+<link th:href="@{/css/add_problem.css}" rel="stylesheet">
+<link th:href="@{/css/switch.css}" rel="stylesheet">
 <script th:src="@{/js/add_problem.js}"></script>
+<script th:src="@{/js/add_footer.js}"></script>
 <script th:src="@{/js/add_footer.js}"></script>
 </head>
 <body style="margin-left: 300px; margin-right: 300px; margin-top: 10px;">
@@ -23,8 +28,6 @@
 		<div class="form-group">
 			<div id="problem_description"></div>
 		</div>
-		<!-- <div id="problem_input" class="problem_input_output">问题输入</div>
-	<div id="problem_output" class="problem_input_output">问题输出</div> -->
 		<div class="form-group">
 			<label for="problem_input">输入</label>
 			<textarea name="" id="problem_input" class="form-control"></textarea>
@@ -38,9 +41,24 @@
 			<textarea name="" id="problem_explanation" class="form-control"></textarea>
 		</div>
 		<div class="form-group">
+			<label><input id="hasPrefix" type="checkbox" value="">有固定前部分代码</label>
+		</div>
+		<div class="form-group">
+			<label><input id="hasSuffix" type="checkbox" value="">有固定后部分代码</label>
+		</div>
+		<div class="testswitch">
+			<input class="testswitch-checkbox" id="statusswitch" type="checkbox">
+			<label class="testswitch-label" for="statusswitch"> <span
+				class="testswitch-inner" data-on="上线" data-off="下线"></span> <span
+				class="testswitch-switch"></span>
+			</label>
+		</div>
+		<br><br><br>
+		<div class="form-group">
 			<button id="save" class="btn btn-primary" type="button">提交問題</button>
 		</div>
 	</form>
-	
+	<br><br><br><br>
+<div id="footer"></div>
 </body>
 </html>

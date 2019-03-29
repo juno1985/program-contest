@@ -12,6 +12,8 @@ public class ProblemPojo {
 	private String input;
 	private String output;
 	private String explanation;
+	private String code_prefix;
+	private String code_suffix;
 
 	public Integer getId() {
 		return id;
@@ -70,11 +72,29 @@ public class ProblemPojo {
 		this.explanation = explanation;
 	}
 
+	public String getCode_prefix() {
+		return code_prefix;
+	}
+
+	public void setCode_prefix(String code_prefix) {
+		this.code_prefix = code_prefix;
+	}
+
+	public String getCode_suffix() {
+		return code_suffix;
+	}
+
+	public void setCode_suffix(String code_suffix) {
+		this.code_suffix = code_suffix;
+	}
+
 	@Override
 	public String toString() {
 		return "ProblemPojo [id=" + id + ", title=" + title + ", status=" + status + ", description=" + description
-				+ ", input=" + input + ", output=" + output + "]";
+				+ ", input=" + input + ", output=" + output + ", explanation=" + explanation + ", code_prefix="
+				+ code_prefix + ", code_suffix=" + code_suffix + "]";
 	}
+
 
 	
 }

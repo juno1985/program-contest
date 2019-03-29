@@ -35,8 +35,6 @@ public class ContestProblemMgt {
 	@ResponseBody
 	public AjaxPojo addProblem(@RequestBody ProblemPojo problemPojo) {
 		
-		//增加问题后需要测试 才能设为0
-		problemPojo.setStatus(1);
 		contestProblemMgtService.addProblem(problemPojo);
 		
 		AjaxPojo ajaxPojo = new AjaxPojo();
