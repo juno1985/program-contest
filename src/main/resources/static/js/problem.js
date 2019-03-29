@@ -13,6 +13,8 @@ $(function() {
 	$('#code_submit_btn').on(
 			'click',
 			function() {
+				//提交按钮禁用
+				$('#code_submit_btn').attr('disabled',true);
 
 				$('#code_submit_hint').css('display', 'block');
 
@@ -40,7 +42,9 @@ $(function() {
 						xhr.setRequestHeader(header, token);
 					},
 					success : function(obj) {
-
+						
+						//恢复提交按钮
+						$('#code_submit_btn').attr('disabled',false);
 						$('#code_submit_hint').css('display', 'none');
 
 						// console.log(obj);
@@ -87,13 +91,9 @@ $(function() {
 				});
 			});
 
-	$('#href_hist')
-			.on(
-					'click',
-					function() {
+	$('#href_hist').on('click',function() {
 						var pro_id = $('#problem_id').val();
-						$
-								.ajax({
+						$.ajax({
 
 									url : "/contest/challenge/" + pro_id
 											+ "/hist",
