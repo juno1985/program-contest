@@ -84,6 +84,9 @@ public class ContestProblemService {
 	@Transactional
 	public List<RunResultPojo> codeSubmit(String username, Integer problemId, String codeInput)
 			throws IOException, InterruptedException {
+		//处理stub code
+		codeInput = appendStubCode(problemId, codeInput);
+		
 		// 保存用户提交代码
 		saveSubmitCodeToFile(username, codeInput);
 		String compilePath = userCodeSubmitPath + username + "\\";
@@ -139,6 +142,20 @@ public class ContestProblemService {
 			throw new ContestCommonException(e.getMessage());
 		}
 
+	}
+	
+	public String appendStubCode(Integer problemId, String codeInput) {
+		ProblemCodeRestrictModelWithBLOBs stubCodeModel = getProblemCodeRestrictInText(problemId);
+		if(stubCodeModel == null) {
+			return codeInput;
+		}
+		if(stubCodeModel.getHasPrefix()) {
+			codeInput = stubCodeModel.getPrefix() + codeInput;
+		}
+		if(stubCodeModel.getHasSuffix()) {
+			codeInput = codeInput + stubCodeModel.getSuffix();
+		}
+		return codeInput;
 	}
 
 	// 测试编译
@@ -238,7 +255,7 @@ public class ContestProblemService {
 		
 	}
 	
-	public ProblemCodeRestrictModelWithBLOBs getProblemCodeRestrict(int problemId) {
+	public ProblemCodeRestrictModelWithBLOBs getProblemCodeRestrictInHTML(int problemId) {
 		ProblemCodeRestrictModelExample problemCodeRestrictModelExample = new ProblemCodeRestrictModelExample();
 		ProblemCodeRestrictModelExample.Criteria problemCodeRestrictModelCri = problemCodeRestrictModelExample.createCriteria();
 		problemCodeRestrictModelCri.andFidEqualTo(problemId);
@@ -246,7 +263,7 @@ public class ContestProblemService {
 		if(codeRestrictList.size() > 1) {
 			throw new ContestCommonException("获取code restrition失败");
 		}
-		else if(codeRestrictList.size() ==0 ) {
+		else if(codeRestrictList.size() == 0 ) {
 			return null;
 		}
 		else {
@@ -258,6 +275,22 @@ public class ContestProblemService {
 				codeRestrict.setSuffix(StringHTMLConvertion.StringToHTML(codeRestrict.getSuffix()));
 			}
 			return codeRestrict;
+		}
+	}
+	
+	public ProblemCodeRestrictModelWithBLOBs getProblemCodeRestrictInText(int problemId) {
+		ProblemCodeRestrictModelExample problemCodeRestrictModelExample = new ProblemCodeRestrictModelExample();
+		ProblemCodeRestrictModelExample.Criteria problemCodeRestrictModelCri = problemCodeRestrictModelExample.createCriteria();
+		problemCodeRestrictModelCri.andFidEqualTo(problemId);
+		List<ProblemCodeRestrictModelWithBLOBs> codeRestrictList = problemCodeRestrictModelMapper.selectByExampleWithBLOBs(problemCodeRestrictModelExample);
+		if(codeRestrictList.size() > 1) {
+			throw new ContestCommonException("获取code restrition失败");
+		}
+		else if(codeRestrictList.size() == 0 ) {
+			return null;
+		}
+		else {
+			return codeRestrictList.get(0);
 		}
 	}
 

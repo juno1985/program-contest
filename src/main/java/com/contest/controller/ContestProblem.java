@@ -55,7 +55,7 @@ public class ContestProblem {
 
 		model.addAttribute("problemAttr", problemModelWithBLOBs);
 		int problemId = problemModelWithBLOBs.getId();
-		ProblemCodeRestrictModelWithBLOBs codeRestrict = contestProblemService.getProblemCodeRestrict(problemId);
+		ProblemCodeRestrictModelWithBLOBs codeRestrict = contestProblemService.getProblemCodeRestrictInHTML(problemId);
 		if(codeRestrict != null)model.addAttribute("codeRestrict", codeRestrict);
 		else model.addAttribute("codeRestrict", null);
 		return "problem";
