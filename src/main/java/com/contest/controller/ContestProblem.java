@@ -24,6 +24,7 @@ import com.contest.common.StringHTMLConvertion;
 import com.contest.exception.ContestCommonException;
 import com.contest.model.AllUsersCodeHistoryPojo;
 import com.contest.model.CodeHistModel;
+import com.contest.model.ProblemCodeRestrictModelWithBLOBs;
 import com.contest.model.ProblemModel;
 import com.contest.model.ProblemModelWithBLOBs;
 import com.contest.pojo.AjaxPojoWithObj;
@@ -53,7 +54,10 @@ public class ContestProblem {
 		problemModelWithBLOBs.setOutput(StringHTMLConvertion.StringToHTML(problemModelWithBLOBs.getOutput()));
 
 		model.addAttribute("problemAttr", problemModelWithBLOBs);
-
+		int problemId = problemModelWithBLOBs.getId();
+		ProblemCodeRestrictModelWithBLOBs codeRestrict = contestProblemService.getProblemCodeRestrict(problemId);
+		if(codeRestrict != null)model.addAttribute("codeRestrict", codeRestrict);
+		else model.addAttribute("codeRestrict", null);
 		return "problem";
 	}
 

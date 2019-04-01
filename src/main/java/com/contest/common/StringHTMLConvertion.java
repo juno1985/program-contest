@@ -8,6 +8,8 @@ public class StringHTMLConvertion {
 		str = str.replaceAll("\r\n", "<br>");
 		//替换所有空格
 		str = str.replace(" ", "&nbsp;");
+		//替换tab
+		str = str.replace("\t", "&nbsp;&nbsp;&nbsp;&nbsp;");
 		
 		return str;
 	}

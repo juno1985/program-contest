@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
 import com.contest.common.FileUtils;
@@ -19,6 +20,7 @@ import com.contest.exception.ContestCommonException;
 import com.contest.mapper.CodeHistModelMapper;
 import com.contest.mapper.CodeHistModelMapperExt;
 import com.contest.mapper.ProblemCasesModelMapper;
+import com.contest.mapper.ProblemCodeRestrictModelMapper;
 import com.contest.mapper.ProblemModelMapper;
 import com.contest.mapper.RunCodeCaseModelMapper;
 import com.contest.model.AllUsersCodeHistoryPojo;
@@ -26,6 +28,8 @@ import com.contest.model.CodeHistModel;
 import com.contest.model.CodeHistModelExample;
 import com.contest.model.ProblemCasesModelExample;
 import com.contest.model.ProblemCasesModelWithBLOBs;
+import com.contest.model.ProblemCodeRestrictModelExample;
+import com.contest.model.ProblemCodeRestrictModelWithBLOBs;
 import com.contest.model.ProblemModel;
 import com.contest.model.ProblemModelExample;
 import com.contest.model.ProblemModelWithBLOBs;
@@ -42,7 +46,8 @@ public class ContestProblemService {
 
 	@Autowired
 	private UserService userService;
-
+	@Autowired
+	private ProblemCodeRestrictModelMapper problemCodeRestrictModelMapper;
 	@Autowired
 	private ProblemCasesModelMapper problemCasesModelMapper;
 	@Autowired
@@ -76,6 +81,7 @@ public class ContestProblemService {
 		return listProblem;
 	}
 
+	@Transactional
 	public List<RunResultPojo> codeSubmit(String username, Integer problemId, String codeInput)
 			throws IOException, InterruptedException {
 		// 保存用户提交代码
@@ -230,6 +236,29 @@ public class ContestProblemService {
 	public List<AllUsersCodeHistoryPojo> getProblemAllUsersCode(int problemId) {
 		return codeHistModelMapperExt.getAllUsersHistByProblemId(problemId);
 		
+	}
+	
+	public ProblemCodeRestrictModelWithBLOBs getProblemCodeRestrict(int problemId) {
+		ProblemCodeRestrictModelExample problemCodeRestrictModelExample = new ProblemCodeRestrictModelExample();
+		ProblemCodeRestrictModelExample.Criteria problemCodeRestrictModelCri = problemCodeRestrictModelExample.createCriteria();
+		problemCodeRestrictModelCri.andFidEqualTo(problemId);
+		List<ProblemCodeRestrictModelWithBLOBs> codeRestrictList = problemCodeRestrictModelMapper.selectByExampleWithBLOBs(problemCodeRestrictModelExample);
+		if(codeRestrictList.size() > 1) {
+			throw new ContestCommonException("获取code restrition失败");
+		}
+		else if(codeRestrictList.size() ==0 ) {
+			return null;
+		}
+		else {
+			ProblemCodeRestrictModelWithBLOBs codeRestrict = codeRestrictList.get(0);
+			if(codeRestrict.getHasPrefix()) {
+				codeRestrict.setPrefix(StringHTMLConvertion.StringToHTML(codeRestrict.getPrefix()));
+			}
+			if(codeRestrict.getHasSuffix()) {
+				codeRestrict.setSuffix(StringHTMLConvertion.StringToHTML(codeRestrict.getSuffix()));
+			}
+			return codeRestrict;
+		}
 	}
 
 }

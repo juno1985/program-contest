@@ -5,6 +5,9 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
 import com.contest.exception.ContestCommonException;
 import com.contest.mapper.ProblemCasesModelMapper;
 import com.contest.mapper.ProblemCodeRestrictModelMapper;
@@ -26,7 +29,7 @@ public class ContestProblemMgtService {
 	private ProblemCasesModelMapper problemCasesModelMapper;
 	@Autowired
 	private ProblemCodeRestrictModelMapper problemCodeRestrictModelMapper;
-	
+	@Transactional
 	public void addProblem(ProblemPojo problemPojo) {
 		
 		ProblemModelWithBLOBs problemModelWithBLOBs = new ProblemModelWithBLOBs();
@@ -34,7 +37,19 @@ public class ContestProblemMgtService {
 		
 		BeanUtils.copyProperties(problemPojo, problemModelWithBLOBs);
 		problemModelWithBLOBs.setTitle(problemModelWithBLOBs.getTitle().trim());
-		BeanUtils.copyProperties(problemPojo, problemCodeRestrictModelWithBLOBs);
+		if(!StringUtils.isEmpty(problemPojo.getCode_prefix())) {
+			problemCodeRestrictModelWithBLOBs.setHasPrefix(true);
+			problemCodeRestrictModelWithBLOBs.setPrefix(problemPojo.getCode_prefix());
+		}
+		else {
+			problemCodeRestrictModelWithBLOBs.setHasPrefix(false);
+		}
+		if(!StringUtils.isEmpty(problemPojo.getCode_suffix())) {
+			problemCodeRestrictModelWithBLOBs.setHasSuffix(true);
+			problemCodeRestrictModelWithBLOBs.setSuffix(problemPojo.getCode_suffix());
+		}else {
+			problemCodeRestrictModelWithBLOBs.setHasSuffix(false);
+		}
 		
 		//增加问题
 		problemModelMapper.insertSelective(problemModelWithBLOBs);
@@ -49,7 +64,7 @@ public class ContestProblemMgtService {
 	}
 
 
-
+	@Transactional
 	public int addCase(CasePojo casePojo) {
 		ProblemCasesModelWithBLOBs caseModel = new ProblemCasesModelWithBLOBs();
 		BeanUtils.copyProperties(casePojo, caseModel);
