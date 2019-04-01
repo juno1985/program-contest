@@ -2,12 +2,14 @@ package com.contest.service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,6 +69,8 @@ public class ContestProblemService {
 	private String USER_CODE_FILE;
 	@Value("${usercode.timeout.limit}")
 	private Long TIMEOUT_SECONDS;
+	@Value("${contest.admin.role}")
+	private String ROLE_ADMIN;
 
 	public ProblemModelWithBLOBs getSingleProblem(int id) {
 		return problemModelMapper.selectByPrimaryKey(id);
@@ -74,19 +78,25 @@ public class ContestProblemService {
 
 	// 只返回status=1的问题, status=2的为未准备好或考试题目
 	public List<ProblemModel> listProblem() {
-		ProblemModelExample problemModelExample = new ProblemModelExample();
-		ProblemModelExample.Criteria problemModelExampleCri = problemModelExample.createCriteria();
-		problemModelExampleCri.andStatusEqualTo(1);
-		List<ProblemModel> listProblem = problemModelMapper.selectByExample(problemModelExample);
+		List<ProblemModel> listProblem = null;
+		//admin则返回完成problem list
+		if (isAdmin()) {
+			listProblem = problemModelMapper.selectByExample(null);
+		} else {
+			ProblemModelExample problemModelExample = new ProblemModelExample();
+			ProblemModelExample.Criteria problemModelExampleCri = problemModelExample.createCriteria();
+			problemModelExampleCri.andStatusEqualTo(1);
+			listProblem = problemModelMapper.selectByExample(problemModelExample);
+		}
 		return listProblem;
 	}
 
 	@Transactional
 	public List<RunResultPojo> codeSubmit(String username, Integer problemId, String codeInput)
 			throws IOException, InterruptedException {
-		//处理stub code
+		// 处理stub code
 		codeInput = appendStubCode(problemId, codeInput);
-		
+
 		// 保存用户提交代码
 		saveSubmitCodeToFile(username, codeInput);
 		String compilePath = userCodeSubmitPath + username + "\\";
@@ -120,7 +130,7 @@ public class ContestProblemService {
 		// 运行代码
 		CompileAndRun compileCode = new CompileAndRunImpl();
 		runResultList = compileCode.RunCode(className, caseModelList, TIMEOUT_SECONDS, compilePath);
-		
+
 		// 记录用户运行结果
 		insertRunCodeHist(problemId, username, runResultList, codeInput);
 
@@ -143,16 +153,16 @@ public class ContestProblemService {
 		}
 
 	}
-	
+
 	public String appendStubCode(Integer problemId, String codeInput) {
 		ProblemCodeRestrictModelWithBLOBs stubCodeModel = getProblemCodeRestrictInText(problemId);
-		if(stubCodeModel == null) {
+		if (stubCodeModel == null) {
 			return codeInput;
 		}
-		if(stubCodeModel.getHasPrefix()) {
+		if (stubCodeModel.getHasPrefix()) {
 			codeInput = stubCodeModel.getPrefix() + codeInput;
 		}
-		if(stubCodeModel.getHasSuffix()) {
+		if (stubCodeModel.getHasSuffix()) {
 			codeInput = codeInput + stubCodeModel.getSuffix();
 		}
 		return codeInput;
@@ -189,9 +199,9 @@ public class ContestProblemService {
 		codeHistModel.setSubmitTime(new Date());
 		Integer userId = userService.getUserPrimaryKey(username);
 		codeHistModel.setUserId(userId);
-		if(isCodeSuccess(runResultList)) {
+		if (isCodeSuccess(runResultList)) {
 			codeHistModel.setResult("success");
-		}else {
+		} else {
 			codeHistModel.setResult("failure");
 		}
 		codeHistModelMapperExt.insertCodeHistAndGetKey(codeHistModel);
@@ -221,21 +231,22 @@ public class ContestProblemService {
 		}
 		return true;
 	}
-	
-	public List<CodeHistModel> getProblemPersonalHist(Integer problemId, String userName){
-		
+
+	public List<CodeHistModel> getProblemPersonalHist(Integer problemId, String userName) {
+
 		Integer userId = userService.getUserPrimaryKey(userName);
-		
+
 		CodeHistModelExample codeHistModelExa = new CodeHistModelExample();
 		CodeHistModelExample.Criteria codeHistModelCri = codeHistModelExa.createCriteria();
-		
-		if(userName != null) codeHistModelCri.andUserIdEqualTo(userId);
-		
+
+		if (userName != null)
+			codeHistModelCri.andUserIdEqualTo(userId);
+
 		codeHistModelCri.andProblemIdEqualTo(problemId);
 		List<CodeHistModel> codeHistModelList = codeHistModelMapper.selectByExample(codeHistModelExa);
-		
+
 		return codeHistModelList;
-		
+
 	}
 
 	public String getProblemPersonCode(Integer codeId) {
@@ -243,55 +254,67 @@ public class ContestProblemService {
 		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
 		String username = userDetails.getUsername();
 		Integer userId = userService.getUserPrimaryKey(username);
-		if(!codeHistModel.getUserId().equals(userId)) {
+		if (!codeHistModel.getUserId().equals(userId)) {
 			throw new ContestCommonException("你聪明我也不傻");
 		}
 		return codeHistModel.getCode();
 	}
 
-	//获取所有用户历史
+	// 获取所有用户历史
 	public List<AllUsersCodeHistoryPojo> getProblemAllUsersCode(int problemId) {
 		return codeHistModelMapperExt.getAllUsersHistByProblemId(problemId);
-		
+
 	}
-	
+
 	public ProblemCodeRestrictModelWithBLOBs getProblemCodeRestrictInHTML(int problemId) {
 		ProblemCodeRestrictModelExample problemCodeRestrictModelExample = new ProblemCodeRestrictModelExample();
-		ProblemCodeRestrictModelExample.Criteria problemCodeRestrictModelCri = problemCodeRestrictModelExample.createCriteria();
+		ProblemCodeRestrictModelExample.Criteria problemCodeRestrictModelCri = problemCodeRestrictModelExample
+				.createCriteria();
 		problemCodeRestrictModelCri.andFidEqualTo(problemId);
-		List<ProblemCodeRestrictModelWithBLOBs> codeRestrictList = problemCodeRestrictModelMapper.selectByExampleWithBLOBs(problemCodeRestrictModelExample);
-		if(codeRestrictList.size() > 1) {
+		List<ProblemCodeRestrictModelWithBLOBs> codeRestrictList = problemCodeRestrictModelMapper
+				.selectByExampleWithBLOBs(problemCodeRestrictModelExample);
+		if (codeRestrictList.size() > 1) {
 			throw new ContestCommonException("获取code restrition失败");
-		}
-		else if(codeRestrictList.size() == 0 ) {
+		} else if (codeRestrictList.size() == 0) {
 			return null;
-		}
-		else {
+		} else {
 			ProblemCodeRestrictModelWithBLOBs codeRestrict = codeRestrictList.get(0);
-			if(codeRestrict.getHasPrefix()) {
+			if (codeRestrict.getHasPrefix()) {
 				codeRestrict.setPrefix(StringHTMLConvertion.StringToHTML(codeRestrict.getPrefix()));
 			}
-			if(codeRestrict.getHasSuffix()) {
+			if (codeRestrict.getHasSuffix()) {
 				codeRestrict.setSuffix(StringHTMLConvertion.StringToHTML(codeRestrict.getSuffix()));
 			}
 			return codeRestrict;
 		}
 	}
-	
+
 	public ProblemCodeRestrictModelWithBLOBs getProblemCodeRestrictInText(int problemId) {
 		ProblemCodeRestrictModelExample problemCodeRestrictModelExample = new ProblemCodeRestrictModelExample();
-		ProblemCodeRestrictModelExample.Criteria problemCodeRestrictModelCri = problemCodeRestrictModelExample.createCriteria();
+		ProblemCodeRestrictModelExample.Criteria problemCodeRestrictModelCri = problemCodeRestrictModelExample
+				.createCriteria();
 		problemCodeRestrictModelCri.andFidEqualTo(problemId);
-		List<ProblemCodeRestrictModelWithBLOBs> codeRestrictList = problemCodeRestrictModelMapper.selectByExampleWithBLOBs(problemCodeRestrictModelExample);
-		if(codeRestrictList.size() > 1) {
+		List<ProblemCodeRestrictModelWithBLOBs> codeRestrictList = problemCodeRestrictModelMapper
+				.selectByExampleWithBLOBs(problemCodeRestrictModelExample);
+		if (codeRestrictList.size() > 1) {
 			throw new ContestCommonException("获取code restrition失败");
-		}
-		else if(codeRestrictList.size() == 0 ) {
+		} else if (codeRestrictList.size() == 0) {
 			return null;
-		}
-		else {
+		} else {
 			return codeRestrictList.get(0);
 		}
+	}
+
+	// 判断是否有ADMIN ROLE
+	public boolean isAdmin() {
+		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
+		Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+		for (GrantedAuthority ga : authorities) {
+			if (ROLE_ADMIN.equals(ga.getAuthority())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

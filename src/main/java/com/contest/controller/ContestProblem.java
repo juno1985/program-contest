@@ -111,10 +111,6 @@ public class ContestProblem {
 	// 登录成功后执行
 	@RequestMapping("/")
 	public String index(Model model) {
-		/*
-		 * MsgPojo msg = new MsgPojo("测试标题", "测试内容", "额外信息，只对管理员显示");
-		 * model.addAttribute("msg", msg);
-		 */
 
 		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
 
