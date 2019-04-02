@@ -1,6 +1,8 @@
 package com.contest.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import com.contest.exception.ContestCommonException;
 import com.contest.mapper.ProblemCasesModelMapper;
 import com.contest.mapper.ProblemCodeRestrictModelMapper;
 import com.contest.mapper.ProblemModelMapper;
+import com.contest.mapper.ProblemModelMapperExt;
 import com.contest.model.ProblemCasesModelWithBLOBs;
 import com.contest.model.ProblemCodeRestrictModelWithBLOBs;
 import com.contest.model.ProblemModel;
@@ -29,6 +32,8 @@ public class ContestProblemMgtService {
 	private ProblemCasesModelMapper problemCasesModelMapper;
 	@Autowired
 	private ProblemCodeRestrictModelMapper problemCodeRestrictModelMapper;
+	@Autowired
+	private ProblemModelMapperExt problemModelMapperExt;
 	@Transactional
 	public void addProblem(ProblemPojo problemPojo) {
 		
@@ -89,5 +94,13 @@ public class ContestProblemMgtService {
 		else {
 			return problemList.get(0).getId();
 		}
+	}
+
+
+	public Integer changeProblemStatus(Integer problemId, Integer statusId) {
+		Map<String, Integer> params = new HashMap<String, Integer>();
+		params.put("statusId", statusId);
+		params.put("problemId", problemId);
+		return problemModelMapperExt.updateStatusByProblemId(params);
 	}
 }

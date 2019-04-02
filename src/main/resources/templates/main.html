@@ -6,7 +6,6 @@
 <!-- 解决ajax POST被springsecurity误伤 -->
 <meta name="_csrf" th:content="${_csrf.token}">
 <meta name="_csrf_header" th:content="${_csrf.headerName}">
-
 <title>softcits</title>
 <link th:href="@{/css/bootstrap-3.3.5.css}" rel="stylesheet">
 <script th:src="@{/js/jquery-3.2.1.js}"></script>
@@ -16,6 +15,8 @@
 <script th:src="@{/summernote-dist/summernote.js}"></script>
 <script th:src="@{/js/main_problem.js}"></script>
 <script th:src="@{/js/add_footer.js}"></script>
+<link th:href="@{/css/jsswitch.css}" rel="stylesheet">
+
 </head>
 <body>
 
@@ -31,11 +32,9 @@
 					<li class="active"><a href="#">编程练习</a></li>
 					<li><a href="#">练习情况</a></li>
 					<li><a href="#">进入论坛</a></li>
-					<li sec:authorize="hasRole('ROLE_ADMIN')"><a th:href="@{/mgt/addproblem}" style="color:#FF0033">新增问题</a>
-					</li>
+					<li sec:authorize="hasRole('ROLE_ADMIN')"><a
+						th:href="@{/mgt/addproblem}" style="color: #FF0033">新增问题</a></li>
 				</ul>
-
-
 
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
@@ -55,8 +54,6 @@
 							</li>
 						</ul></li>
 				</ul>
-
-
 			</div>
 		</div>
 	</nav>

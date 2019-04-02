@@ -3,9 +3,11 @@ package com.contest.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.contest.pojo.AjaxPojo;
@@ -63,5 +65,16 @@ public class ContestProblemMgt {
 		ajaxPojo.setCode(0);
 		ajaxPojo.setMesg("创建成功");
 		return ajaxPojo;
+	}
+	
+	@RequestMapping(value="/mgt/{problemId}/status", method= {RequestMethod.POST})
+	@ResponseBody
+	public AjaxPojo changeProblemStatus(@PathVariable(name="problemId") String problemId, @RequestParam(required = true) String statusId) {
+		contestProblemMgtService.changeProblemStatus(Integer.parseInt(problemId), Integer.parseInt(statusId));
+		AjaxPojo ajaxPojo = new AjaxPojo();
+		ajaxPojo.setCode(0);
+		ajaxPojo.setMesg("更改status成功");
+		return ajaxPojo;
+		
 	}
 }

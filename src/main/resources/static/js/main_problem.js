@@ -1,4 +1,9 @@
 $(function() {
+
+	// 解决ajax POST被springsecurity误伤
+	var header = $("meta[name='_csrf_header']").attr('content');
+	var token = $("meta[name='_csrf']").attr('content');
+
 	$.ajax({
 		url : "/contest/listproblem",
 		type : "GET",
@@ -71,16 +76,20 @@ $(function() {
 
 			// 生成管理员操作button
 			if ($('#isAdmin').val() == 0) {
-				td += "<td>" + "<button  style=\"color:#FF0033\" value=\"" + element["id"]
+
+				td += "<td>"
+						+ generateSwitchHTML(element['id'], element['status'])
+						+ "</td>";
+
+				td += "<td>" + "<button  style=\"color:#FF0033\" value=\""
+						+ element["id"]
 						+ "\" class=\"btn btn-default case_add_btn\" >"
-						+ "增加case" + "</button></td>"
+						+ "增加case" + "</button></td>";
 			}
 
 			td = "<tr>" + td + "</tr>";
 		}
 		td = "<tbody>" + td + "</tbody>";
-		// console.log(td);
-		// console.log($(obj));
 		$(obj).find("thead").after(td);
 
 		// 为管理员button绑定事件
@@ -98,10 +107,96 @@ $(function() {
 
 				});
 			});
+
+			var array_status_switch = $(obj).find('div.switch');
+			$.each(array_status_switch, function(index, element) {
+				$(element).on('click', function() {
+					// 问题id
+					var id = $(this).attr("value");
+
+					var ele = $(this).find("div.move");
+					if (ele.attr("data-state") == "on") {
+						problemStatusChange(id, 0, $(this));
+
+					} else if (ele.attr("data-state") == "off") {
+						problemStatusChange(id, 1, $(this));
+					}
+
+				});
+			});
+
 		}
 		return obj;
 	}
-	
+	// 初始页面加载
+	function generateSwitchHTML(id, status) {
+		var switch_html = '';
+		// 下线状态
+		if (status == 0) {
+			switch_html += '<div class="switch" value="' + id
+					+ '"><div class="btn_fath clearfix off">';
+			switch_html += '<div class="move" data-state="off"></div><div class="btnSwitch btn1">上线</div><div class="btnSwitch btn2 ">下线</div></div></div>';
+		}// 上线状态
+		else {
+			switch_html += '<div class="switch" value="' + id
+					+ '"><div class="btn_fath clearfix on">';
+			switch_html += '<div class="move" data-state="on" style="left : 60px;"></div><div class="btnSwitch btn1">上线</div><div class="btnSwitch btn2 ">下线</div></div></div>';
+		}
+		return switch_html;
+	}
+
+	function problemStatusChange(problemId, statusId, obj) {
+
+		$.ajax({
+			url : "/contest/mgt/" + problemId + "/status",
+			type : "POST",
+			contentType : "application/x-www-form-urlencoded",
+			data : {
+				'statusId' : statusId
+			},
+			dataType : "json",
+			// 解决ajax POST被springsecurity误伤
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success : function(result) {
+				if (result.code == 0) {
+					if (statusId == 0) {
+						switchAnimate('off', obj);
+					} else {
+						switchAnimate('on', obj);
+					}
+				}
+			}
+
+		});
+	}
+
+	function switchAnimate(action, obj) {
+		var move_ele = $(obj).find("div.move");
+		var btn_fath_ele = $(obj).find('.btn_fath');
+		if (action == 'off') {
+			$(move_ele).animate({
+				left : "0"
+			}, 300, function() {
+				// 使问题下线
+				$(move_ele).attr("data-state", "off");
+			});
+			$(btn_fath_ele).removeClass("on").addClass("off");
+		} else {
+			$(move_ele).animate({
+				left : '60px'
+			}, 300, function() {
+				// 使问题上线
+				$(move_ele).attr("data-state", "on");
+			});
+			// 使问题上线
+
+			$(btn_fath_ele).removeClass("off").addClass("on");
+		}
+
+	}
+
 });
 
 function case_add_submit() {
@@ -110,33 +205,33 @@ function case_add_submit() {
 	var input = $('#case_add_modal').find("textarea#case_input").val();
 	var output = $('#case_add_modal').find("textarea#case_output").val();
 	var caseModel = {
-			'fid' : fid,
-			'input' : input,
-			'output' : output
+		'fid' : fid,
+		'input' : input,
+		'output' : output
 	}
-	//console.log(caseModel);
+	// console.log(caseModel);
 	var data = JSON.stringify(caseModel);
-	//解决ajax POST被springsecurity误伤
+	// 解决ajax POST被springsecurity误伤
 	var header = $("meta[name='_csrf_header']").attr('content');
 	var token = $("meta[name='_csrf']").attr('content');
-	
+
 	$.ajax({
 		url : "/contest/mgt/addcase",
 		type : "POST",
 		contentType : "application/json",
 		data : data,
 		dataType : "json",
-		//解决ajax POST被springsecurity误伤
-		beforeSend : function(xhr){
+		// 解决ajax POST被springsecurity误伤
+		beforeSend : function(xhr) {
 			xhr.setRequestHeader(header, token);
 		},
-			
+
 		success : function(obj) {
 
 			if (obj.code == 0) {
-				//关闭模态框
+				// 关闭模态框
 				$('#case_add_modal').modal('hide');
-				//清空输入框
+				// 清空输入框
 				$('#case_add_modal').find("textarea#case_input").val("");
 				$('#case_add_modal').find("textarea#case_output").val("");
 			}
