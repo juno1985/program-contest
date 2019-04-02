@@ -56,8 +56,20 @@ public class ContestProblem {
 		model.addAttribute("problemAttr", problemModelWithBLOBs);
 		int problemId = problemModelWithBLOBs.getId();
 		ProblemCodeRestrictModelWithBLOBs codeRestrict = contestProblemService.getProblemCodeRestrictInHTML(problemId);
-		if(codeRestrict != null)model.addAttribute("codeRestrict", codeRestrict);
-		else model.addAttribute("codeRestrict", null);
+		if (codeRestrict != null)
+			model.addAttribute("codeRestrict", codeRestrict);
+		else
+			model.addAttribute("codeRestrict", null);
+
+		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
+		String username = userDetails.getUsername();
+		model.addAttribute("username", username);
+
+		/*
+		 * if(isAdmin()) { model.addAttribute("isAdmin", true); }else {
+		 * model.addAttribute("isAdmin", false); }
+		 */
+
 		return "problem";
 	}
 
@@ -146,32 +158,33 @@ public class ContestProblem {
 	// 查询个人某个问题提交历史
 	@RequestMapping(value = "/challenge/{id}/hist", method = { RequestMethod.GET })
 	@ResponseBody
-	public AjaxPojoWithObj problemPersonalHist(@PathVariable(name="id") String problemId, Model model) {
-		
+	public AjaxPojoWithObj problemPersonalHist(@PathVariable(name = "id") String problemId, Model model) {
+
 		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
 		String username = userDetails.getUsername();
 
-		List<CodeHistModel> codeHistModelList = contestProblemService.getProblemPersonalHist(Integer.parseInt(problemId), username);
-		
+		List<CodeHistModel> codeHistModelList = contestProblemService
+				.getProblemPersonalHist(Integer.parseInt(problemId), username);
+
 		model.addAttribute("username", username);
-		
+
 		AjaxPojoWithObj ajaxPojoWithObj = new AjaxPojoWithObj();
-		if(codeHistModelList.size() > 0) {
+		if (codeHistModelList.size() > 0) {
 			ajaxPojoWithObj.setCode(0);
 			ajaxPojoWithObj.setMesg("获取历史成功");
 			ajaxPojoWithObj.setObject(codeHistModelList);
-		}else {
+		} else {
 			ajaxPojoWithObj.setCode(1);
 			ajaxPojoWithObj.setMesg("没有提交历史");
 		}
 
 		return ajaxPojoWithObj;
 	}
-	
-	//查询用户自己的历史代码
+
+	// 查询用户自己的历史代码
 	@RequestMapping(value = "/challenge/{id}/code", method = { RequestMethod.GET })
 	@ResponseBody
-	public AjaxPojoWithObj problemPersonalCode(@PathVariable(name="id") String codeId) {
+	public AjaxPojoWithObj problemPersonalCode(@PathVariable(name = "id") String codeId) {
 		String code = contestProblemService.getProblemPersonCode(Integer.parseInt(codeId));
 		code = StringHTMLConvertion.StringToHTML(code);
 		AjaxPojoWithObj ajaxPojoWithObj = new AjaxPojoWithObj();
@@ -180,12 +193,13 @@ public class ContestProblem {
 		ajaxPojoWithObj.setObject(code);
 		return ajaxPojoWithObj;
 	}
-	
-	//查询所有用户的历史提交
-	@RequestMapping(value ="/challenge/{id}/allhist", method = { RequestMethod.GET })
+
+	// 查询成功历史
+	@RequestMapping(value = "/challenge/{id}/allhist", method = { RequestMethod.GET })
 	@ResponseBody
-	public AjaxPojoWithObj problemAllUsersHist(@PathVariable(name="id") String problemId){
-		List<AllUsersCodeHistoryPojo> allUsersCodeHistoryList = contestProblemService.getProblemAllUsersCode(Integer.parseInt(problemId));
+	public AjaxPojoWithObj problemAllUsersHist(@PathVariable(name = "id") String problemId) {
+		List<AllUsersCodeHistoryPojo> allUsersCodeHistoryList = contestProblemService
+				.getProblemAllUsersCode(Integer.parseInt(problemId));
 		AjaxPojoWithObj ajaxPojoWithObj = new AjaxPojoWithObj();
 		ajaxPojoWithObj.setCode(0);
 		ajaxPojoWithObj.setMesg("获取历史成功");
@@ -193,4 +207,16 @@ public class ContestProblem {
 		return ajaxPojoWithObj;
 	}
 
+	// 查询所有提交历史
+	@RequestMapping(value = "/challenge/{id}/allsubmit", method = { RequestMethod.GET })
+	@ResponseBody
+	public AjaxPojoWithObj problemAllSubmitHist(@PathVariable(name = "id") String problemId) {
+		List<AllUsersCodeHistoryPojo> allUsersCodeHistoryList = contestProblemService
+				.getProblemAllSubmitHist(Integer.parseInt(problemId));
+		AjaxPojoWithObj ajaxPojoWithObj = new AjaxPojoWithObj();
+		ajaxPojoWithObj.setCode(0);
+		ajaxPojoWithObj.setMesg("获取历史成功");
+		ajaxPojoWithObj.setObject(allUsersCodeHistoryList);
+		return ajaxPojoWithObj;
+	}
 }

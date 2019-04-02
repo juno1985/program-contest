@@ -13,8 +13,8 @@ $(function() {
 	$('#code_submit_btn').on(
 			'click',
 			function() {
-				//提交按钮禁用
-				$('#code_submit_btn').attr('disabled',true);
+				// 提交按钮禁用
+				$('#code_submit_btn').attr('disabled', true);
 
 				$('#code_submit_hint').css('display', 'block');
 
@@ -42,9 +42,9 @@ $(function() {
 						xhr.setRequestHeader(header, token);
 					},
 					success : function(obj) {
-						
-						//恢复提交按钮
-						$('#code_submit_btn').attr('disabled',false);
+
+						// 恢复提交按钮
+						$('#code_submit_btn').attr('disabled', false);
 						$('#code_submit_hint').css('display', 'none');
 
 						// console.log(obj);
@@ -91,9 +91,13 @@ $(function() {
 				});
 			});
 
-	$('#href_hist').on('click',function() {
+	$('#href_hist')
+			.on(
+					'click',
+					function() {
 						var pro_id = $('#problem_id').val();
-						$.ajax({
+						$
+								.ajax({
 
 									url : "/contest/challenge/" + pro_id
 											+ "/hist",
@@ -119,34 +123,20 @@ $(function() {
 
 											$('#hist').html(table);
 
-											$('#hist')
-													.find('.result-btn')
-													.on(
+											$('#hist').find('.result-btn').on(
 															'click',
 															function() {
-																var code_id = $(
-																		this)
-																		.val();
+																var code_id = $(this).val();
 																// 获取历史代码
-																$
-																		.ajax({
-																			url : "/contest/challenge/"
+																$.ajax({url : "/contest/challenge/"
 																					+ code_id
 																					+ "/code",
-																			type : "GET",
-																			dataType : "json",
-																			success : function(
-																					obj) {
+																		type : "GET",
+																		dataType : "json",
+																		success : function(obj) {
 																				var code_html = obj.object;
-																				$(
-																						'#hist')
-																						.find(
-																								'#code_div')
-																						.remove();
-																				$(
-																						'#hist')
-																						.append(
-																								'<div id="code_div" style="border:2px solid #939393;background-color: #f9f9f9;padding: 10px 10px;">'
+																				$('#hist').find('#code_div').remove();
+																				$('#hist').append('<div id="code_div" style="border:2px solid #939393;background-color: #f9f9f9;padding: 10px 10px;">'
 																										+ code_html
 																										+ '</div>');
 																			}
@@ -158,33 +148,135 @@ $(function() {
 								});
 					});
 
-	$('#href_range').on(
-			'click',
-			function() {
-				var pro_id = $('#problem_id').val();
-				$.ajax({
-					url : "/contest/challenge/" + pro_id + "/allhist",
-					type : "GET",
-					contentType : "application/json",
-					dataType : "json",
-					success : function(obj) {
-						$('#range').find('table').remove();
-						if (obj.code != 0) {
-							$('#range').html("<strong>无记录</strong>");
-						} else {
-							var element_array = obj.object;
-							var rang_table_html = "";
-							$.each(element_array, function(index, value){
-								rang_table_html +='<tr>' + '<td>' + (index+1) +'</td>' + '<td>'+ value['username'] + '</td>' +  '<td>'+ value['submitTime'].substring(0, 19)
-								.replace("T", " ") + '</td>' +'</tr>';
-							});
-							rang_table_html = '<table class="table table-striped"><caption>解決过该问题的学员</caption>' + rang_table_html + '</table>';
-							
-							$('#range').append(rang_table_html);
-						}
-					}
-				});
-			});
+	$('#href_range')
+			.on(
+					'click',
+					function() {
+						var pro_id = $('#problem_id').val();
+						$
+								.ajax({
+									url : "/contest/challenge/" + pro_id
+											+ "/allhist",
+									type : "GET",
+									contentType : "application/json",
+									dataType : "json",
+									success : function(obj) {
+										$('#range').find('table').remove();
+										if (obj.code != 0) {
+											$('#range').html(
+													"<strong>无记录</strong>");
+										} else {
+											var element_array = obj.object;
+											var rang_table_html = "";
+											$.each(element_array, function(
+													index, value) {
+												rang_table_html += '<tr>'
+														+ '<td>'
+														+ (index + 1)
+														+ '</td>'
+														+ '<td>'
+														+ value['username']
+														+ '</td>'
+														+ '<td>'
+														+ value['submitTime']
+																.substring(0,
+																		19)
+																.replace("T",
+																		" ")
+														+ '</td>' + '</tr>';
+											});
+											rang_table_html = '<table class="table table-striped"><caption>解決过该问题的学员</caption>'
+													+ rang_table_html
+													+ '</table>';
+
+											$('#range').append(rang_table_html);
+										}
+									
+									}
+								});
+					});
+	$('#href_all_hist')
+			.on(
+					'click',
+					function() {
+						$('#all_hist').empty();
+						var pro_id = $('#problem_id').val();
+						$
+								.ajax({
+									url : "/contest/challenge/" + pro_id
+											+ "/allsubmit",
+									type : "GET",
+									dataType : "json",
+									success : function(obj) {
+										$('#all_hist').find('table').remove();
+										if (obj.code != 0) {
+											$('#all_hist').html(
+													"<strong>无记录</strong>");
+										} else {
+											var element_array = obj.object;
+											var rang_table_html = "";
+											$.each(element_array, function(
+													index, value) {
+												rang_table_html += '<tr>'
+														+ '<td>'
+														+ (index + 1)
+														+ '</td>'
+														+ '<td>'
+														+ value['username']
+														+ '</td>'
+														+ '<td>'
+														+ value['submitTime']
+																.substring(0,
+																		19)
+																.replace("T",
+																		" ")
+														+ '</td>' ;
+												var cell_data = '';
+												if (value['result'] == "success") {
+													cell_data = "成功";
+													cell_data = '<button type="button" class="btn btn-success result-btn" value="'
+															+ value["codeId"]
+															+ '">'
+															+ cell_data
+															+ '</button>';
+												} else {
+													cell_data = "失败";
+													cell_data = '<button type="button" class="btn btn-danger result-btn" value="'
+															+ value["codeId"]
+															+ '">'
+															+ cell_data
+															+ '</button>';
+												}
+												rang_table_html = rang_table_html + '<td>' + cell_data + '</td></tr>';
+											});
+											rang_table_html = '<table class="table table-striped"><caption>所有学员在该问题的提交历史</caption>'
+													+ rang_table_html
+													+ '</table>';
+											$('#all_hist').append(
+													rang_table_html);
+										}
+										$('#all_hist').find('.result-btn').on(
+												'click',
+												function() {
+													var code_id = $(this).val();
+													// 获取历史代码
+													$.ajax({url : "/contest/challenge/"
+																		+ code_id
+																		+ "/code",
+															type : "GET",
+															dataType : "json",
+															success : function(obj) {
+																	var code_html = obj.object;
+																	$('#all_hist').find('#code_div').remove();
+																	$('#all_hist').append('<div id="code_div" style="border:2px solid #939393;background-color: #f9f9f9;padding: 10px 10px;">'
+																							+ code_html
+																							+ '</div>');
+																}
+															});
+												});
+									}
+								});
+					});
 
 	/*
 	 * str_caption: caption array_thead: thead array_elment: 对象数组,展示表格的数据源

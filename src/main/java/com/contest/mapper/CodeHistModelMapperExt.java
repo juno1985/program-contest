@@ -8,4 +8,6 @@ public interface CodeHistModelMapperExt {
   Integer insertCodeHistAndGetKey(CodeHistModel codeHistModel);
   
   List<AllUsersCodeHistoryPojo> getAllUsersHistByProblemId(Integer problemId);
+  
+  List<AllUsersCodeHistoryPojo> getAllUsersSubmitByProblemId(Integer problemId);
 }

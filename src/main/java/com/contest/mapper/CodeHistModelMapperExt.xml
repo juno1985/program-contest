@@ -5,8 +5,8 @@
 		type="com.contest.model.AllUsersCodeHistoryPojo">
 
 		<result column="user_id" jdbcType="INTEGER" property="userId" />
-	 	<result column="username" jdbcType="VARCHAR"
-		 	property="username" />
+		<result column="username" jdbcType="VARCHAR"
+			property="username" />
 		<result column="submit_time" jdbcType="TIMESTAMP"
 			property="submitTime" />
 		<result column="result" jdbcType="VARCHAR" property="result" />
@@ -30,14 +30,38 @@
 	<select id="getAllUsersHistByProblemId"
 		parameterType="java.lang.Integer"
 		resultMap="ResultMapForAllUsersCodeHist">
-		SELECT 
-		t_code_hist.`id` AS code_id, t_code_hist.`user_id` AS user_id,
-		t_code_hist.`submit_time` AS submit_time, t_code_hist.`result` AS
-		result, t_user.`username`AS username
+		SELECT t_user.`username`AS username,
+		t_code_hist.`id` AS code_id,
+		t_code_hist.`user_id` AS user_id,
+		t_code_hist.`submit_time` AS
+		submit_time, t_code_hist.`result` AS
+		result
 		FROM t_code_hist
-		LEFT JOIN t_user
+		LEFT JOIN
+		t_user
 		ON t_code_hist.`user_id` = t_user.`id`
-		WHERE t_code_hist.`problem_id` = #{problemId,jdbcType=INTEGER}
+		WHERE
+		t_code_hist.`problem_id` = #{problemId,jdbcType=INTEGER} and
+		t_code_hist.`result` = 'success'
+		GROUP BY t_user.`username`
+
+	</select>
+
+	<select id="getAllUsersSubmitByProblemId"
+		parameterType="java.lang.Integer"
+		resultMap="ResultMapForAllUsersCodeHist">
+		SELECT t_user.`username`AS username,
+		t_code_hist.`id` AS code_id,
+		t_code_hist.`user_id` AS user_id,
+		t_code_hist.`submit_time` AS
+		submit_time, t_code_hist.`result` AS
+		result
+		FROM t_code_hist
+		LEFT JOIN
+		t_user
+		ON t_code_hist.`user_id` = t_user.`id`
+		WHERE
+		t_code_hist.`problem_id` = #{problemId,jdbcType=INTEGER}
 
 	</select>
 </mapper>

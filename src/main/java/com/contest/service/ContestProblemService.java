@@ -251,11 +251,13 @@ public class ContestProblemService {
 
 	public String getProblemPersonCode(Integer codeId) {
 		CodeHistModel codeHistModel = codeHistModelMapper.selectByPrimaryKey(codeId);
-		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
-		String username = userDetails.getUsername();
-		Integer userId = userService.getUserPrimaryKey(username);
-		if (!codeHistModel.getUserId().equals(userId)) {
-			throw new ContestCommonException("你聪明我也不傻");
+		if(!isAdmin()) {
+			UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
+			String username = userDetails.getUsername();
+			Integer userId = userService.getUserPrimaryKey(username);
+			if (!codeHistModel.getUserId().equals(userId)) {
+				throw new ContestCommonException("你聪明我也不傻");
+			}
 		}
 		return codeHistModel.getCode();
 	}
@@ -315,6 +317,11 @@ public class ContestProblemService {
 			}
 		}
 		return false;
+	}
+
+	public List<AllUsersCodeHistoryPojo> getProblemAllSubmitHist(int problemId) {
+		
+		return codeHistModelMapperExt.getAllUsersSubmitByProblemId(problemId);
 	}
 
 }

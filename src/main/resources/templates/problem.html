@@ -1,28 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
-
 <!-- 解决ajax POST被springsecurity误伤 -->
 <meta name="_csrf" th:content="${_csrf.token}">
 <meta name="_csrf_header" th:content="${_csrf.headerName}">
-
 <title th:text="${problemAttr.title}"></title>
 <link th:href="@{/css/bootstrap-3.3.5.css}" rel="stylesheet">
 <script th:src="@{/js/jquery-3.2.1.js}"></script>
 <script th:src="@{/js/bootstrap-3.3.5.js}"></script>
-
 <!-- include summernote css/js -->
 <link th:href="@{/summernote-dist/summernote.css}" rel="stylesheet">
 <script th:src="@{/summernote-dist/summernote.js}"></script>
-
 <link th:href="@{/css/problem.css}" rel="stylesheet">
-
 <script th:src="@{/js/problem.js}"></script>
 <script th:src="@{/js/add_footer.js}"></script>
 </head>
 <body>
-
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -33,12 +28,11 @@
 					<li class="active"><a href="#">编程练习</a></li>
 					<li><a href="#">练习情况</a></li>
 					<li><a href="#">进入论坛</a></li>
-
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
-						data-toggle="dropdown"><span class="glyphicon glyphicon-user">
-								wangzhen_tju@126.com <b class="caret"></b></a>
+						data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>
+							&nbsp; <span th:text="${username}"></span>&nbsp;<b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="#">xxxx</a></li>
 							<li><a href="#">xxxx</a></li>
@@ -52,8 +46,6 @@
 							</li>
 						</ul></li>
 				</ul>
-
-
 			</div>
 		</div>
 	</nav>
@@ -63,52 +55,43 @@
 			<a th:href="@{/}">>>返回问题列表</a>
 		</p>
 		<br>
-
 	</div>
-
-
 	<div class="container">
 
 		<div class="row">
 			<div class="col-md-9 col-sm-9 col-lg-9">
 				<ul id="problemTab" class="nav nav-tabs">
 					<li class="active"><a href="#home" data-toggle="tab"> 问题描述</a></li>
-					<li><a id="href_hist" href="#hist" data-toggle="tab">历史</a></li>
-					<li><a id="href_range" href="#range" data-toggle="tab">提交榜</a></li>
-
+					<li><a id="href_hist" href="#hist" data-toggle="tab">我的历史</a></li>
+					<li><a id="href_range" href="#range" data-toggle="tab">学员成功记录</a></li>
+					<!-- 用户类型为ROLE_ADMIN 显示 -->
+					<li sec:authorize="hasRole('ROLE_ADMIN')"><a
+						id="href_all_hist" href="#all_hist" data-toggle="tab">学员提交记录</a></li>
 				</ul>
 				<div id="problemTabContent" class="tab-content">
 					<div class="tab-pane fade in active" id="home">
 
 						<input id="problem_id" hidden="true" th:value="${problemAttr.id}"></input>
-
-
 						<p th:utext="${problemAttr.title}"></p>
-
-
 						<p th:utext="${problemAttr.description}"></p>
-
 						<p
 							style="border: 0px; font-weight: bolder; font-size: 15px; line-height: 2; margin-top: 5px; vertical-align: baseline;">Input</p>
-
 						<p class="bg-info" th:utext="${problemAttr.input}"></p>
-
 						<p
 							style="border: 0px; font-weight: bolder; font-size: 15px; line-height: 2; margin-top: 5px; vertical-align: baseline;">Output</p>
-
 						<p class="bg-info" th:utext="${problemAttr.output}"></p>
-
 						<span
 							style="border: 0px; font-weight: bolder; font-size: 15px; line-height: 2; margin-top: 5px; vertical-align: baseline;">Code:</span>
-
-						<div style="border: 1px solid #000;padding: 2px 4px;">
-							
+						<div style="border: 1px solid #000; padding: 2px 4px;">
 							<div id="code_prefix">
-								<p th:if="${codeRestrict != null && codeRestrict.hasPrefix}" th:utext="${codeRestrict.prefix}"></p>
+								<p th:if="${codeRestrict != null && codeRestrict.hasPrefix}"
+									th:utext="${codeRestrict.prefix}"></p>
 							</div>
-							<textarea id="code_textarea" style="width: 100%; resize: none; margin-top: 5px;"></textarea>
+							<textarea id="code_textarea"
+								style="width: 100%; resize: none; margin-top: 5px;"></textarea>
 							<div id="code_suffix">
-								<p th:if="${codeRestrict != null && codeRestrict.hasSuffix}" th:utext="${codeRestrict.suffix}"></p>
+								<p th:if="${codeRestrict != null && codeRestrict.hasSuffix}"
+									th:utext="${codeRestrict.suffix}"></p>
 							</div>
 						</div>
 
@@ -123,18 +106,13 @@
 					</div>
 					<div class="tab-pane fade" id="hist"></div>
 					<div class="tab-pane fade" id="range"></div>
-
+					<div class="tab-pane fade" id="all_hist"></div>
 				</div>
-
 			</div>
 			<div class="col-md-3 col-sm-3 col-lg-3">xxxxxxxxxxxxxxxxxxxxx
 				sssssssssssssssssssss</div>
 		</div>
 	</div>
-
-
 	<div id="footer"></div>
-
-
 </body>
 </html>
