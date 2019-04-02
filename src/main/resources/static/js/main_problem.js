@@ -101,7 +101,7 @@ $(function() {
 
 					// 问题id
 					var id = $(this).attr("value");
-
+					$('#case_add_modal').find('#myModalLabel').text("#"+id+": 增加CASE");
 					$('#case_add_modal').modal('show');
 					$('#case_add_modal').find("input#problem_id").val(id);
 
