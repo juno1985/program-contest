@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,9 +89,9 @@ public class ContestProblemService {
 	}
 
 	// 只返回status=1的问题, status=2的为未准备好或考试题目
-	public List<ProblemModel> listProblem() {
+	public List<ProblemModel> listProblem(Integer sum) {
 		List<ProblemModel> listProblem = null;
-		//admin则返回完成problem list
+		// admin则返回完成problem list
 		if (isAdmin()) {
 			listProblem = problemModelMapper.selectByExample(null);
 		} else {
@@ -98,7 +100,52 @@ public class ContestProblemService {
 			problemModelExampleCri.andStatusEqualTo(1);
 			listProblem = problemModelMapper.selectByExample(problemModelExample);
 		}
-		return listProblem;
+		String flag = getProblemFlag(sum);
+		return getSolvedUnSolvedProblemList(listProblem, flag);
+	}
+
+	private String getProblemFlag(Integer sum) {
+		if (sum == 3 || sum == 0)
+			return null;
+		else if (sum == 1)
+			return "solved";
+		else
+			return "unsolved";
+	}
+
+	// 返回所有问题列表、已解决、未解决
+	private List<ProblemModel> getSolvedUnSolvedProblemList(List<ProblemModel> listProblem, String flag) {
+		if (flag == null)
+			return listProblem;
+		Integer userId = getUserId();
+		UserProblemSolveStateModelExample userProblemSolveStateModelExample = new UserProblemSolveStateModelExample();
+		UserProblemSolveStateModelExample.Criteria userProblemSolveStateModelCri = userProblemSolveStateModelExample
+				.createCriteria();
+		List<UserProblemSolveStateModel> userProblemList = null;
+		// 得到所有解决的问题
+		userProblemSolveStateModelCri.andUidEqualTo(userId).andStateEqualTo(0);
+		userProblemList = userProblemSolveStateModelMapper.selectByExample(userProblemSolveStateModelExample);
+		// 所有解决问题的ID集合
+		Set<Integer> filterProblemSet = new HashSet<Integer>();
+		for (UserProblemSolveStateModel stateModel : userProblemList) {
+			filterProblemSet.add(stateModel.getFid());
+		}
+		List<ProblemModel> filterProblemList = new ArrayList<ProblemModel>();
+		if ("solved".equals(flag)) {
+			for (ProblemModel problemModel : listProblem) {
+				if (filterProblemSet.contains(problemModel.getId())) {
+					filterProblemList.add(problemModel);
+				}
+			}
+		}else {
+			for (ProblemModel problemModel : listProblem) {
+				if (!filterProblemSet.contains(problemModel.getId())) {
+					filterProblemList.add(problemModel);
+				}
+			}
+		}
+
+		return filterProblemList;
 	}
 
 	@Transactional
@@ -259,9 +306,15 @@ public class ContestProblemService {
 
 	}
 
+	private Integer getUserId() {
+		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
+		String username = userDetails.getUsername();
+		return userService.getUserPrimaryKey(username);
+	}
+
 	public String getProblemPersonCode(Integer codeId) {
 		CodeHistModel codeHistModel = codeHistModelMapper.selectByPrimaryKey(codeId);
-		if(!isAdmin()) {
+		if (!isAdmin()) {
 			UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
 			String username = userDetails.getUsername();
 			Integer userId = userService.getUserPrimaryKey(username);
@@ -330,34 +383,36 @@ public class ContestProblemService {
 	}
 
 	public List<AllUsersCodeHistoryPojo> getProblemAllSubmitHist(int problemId) {
-		
+
 		return codeHistModelMapperExt.getAllUsersSubmitByProblemId(problemId);
 	}
+
 	// 记录问题是否通过
 	public void setUserProblemSolveState(String username, Integer problemId, Integer state) {
 		Integer userId = userService.getUserPrimaryKey(username);
 		UserProblemSolveStateModelExample userProblemSolveStateModelExample = new UserProblemSolveStateModelExample();
-		UserProblemSolveStateModelExample.Criteria userProblemSolveStateModelCri = userProblemSolveStateModelExample.createCriteria();
+		UserProblemSolveStateModelExample.Criteria userProblemSolveStateModelCri = userProblemSolveStateModelExample
+				.createCriteria();
 		userProblemSolveStateModelCri.andUidEqualTo(userId).andFidEqualTo(problemId);
-		List<UserProblemSolveStateModel> UserProblemSolveStateModelList = userProblemSolveStateModelMapper.selectByExample(userProblemSolveStateModelExample);
-		if(UserProblemSolveStateModelList.size() > 1) {
+		List<UserProblemSolveStateModel> UserProblemSolveStateModelList = userProblemSolveStateModelMapper
+				.selectByExample(userProblemSolveStateModelExample);
+		if (UserProblemSolveStateModelList.size() > 1) {
 			throw new ContestCommonException("获取状态失败");
-		}
-		else if(UserProblemSolveStateModelList.size() == 1) {
+		} else if (UserProblemSolveStateModelList.size() == 1) {
 			UserProblemSolveStateModel userProblemSolveStateModel = UserProblemSolveStateModelList.get(0);
-			if(userProblemSolveStateModel.getState() != state) {
+			if (userProblemSolveStateModel.getState() != state) {
 				Map<String, Integer> params = new HashMap<String, Integer>();
 				params.put("stateId", state);
 				params.put("id", userProblemSolveStateModel.getId());
 				userProblemSolveStateModelMapperExt.updateStateByPrimaryKey(params);
 			}
-		}else {
+		} else {
 			UserProblemSolveStateModel userProblemSolveStateModel = new UserProblemSolveStateModel();
 			userProblemSolveStateModel.setUid(userId);
 			userProblemSolveStateModel.setFid(problemId);
 			userProblemSolveStateModel.setState(state);
 			userProblemSolveStateModelMapper.insert(userProblemSolveStateModel);
-			
+
 		}
 	}
 

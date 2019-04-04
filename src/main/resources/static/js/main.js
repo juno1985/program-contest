@@ -3,29 +3,51 @@ $(function() {
 	// 解决ajax POST被springsecurity误伤
 	var header = $("meta[name='_csrf_header']").attr('content');
 	var token = $("meta[name='_csrf']").attr('content');
-
-	$.ajax({
-		url : "/contest/listproblem",
-		type : "GET",
-		contentType : "application/json",
-		// data: data,
-		dataType : "json",
-		success : function(obj) {
-
-			var array_elment = obj.object;
-			var array_attr = [ "id", "title" ];
-			var array_thead = [ "序号", "名称" ];
-
-			// 删除body内所有元素
-			$('#content').children().remove();
-
-			var table = create_table("问题列表", array_thead, array_elment,
-					array_attr);
-
-			$('#content').html(table);
+	//默认展现所有已解决未解决问题
+	var sum = 3;
+	initPage(sum);
+	// 绑定监听
+	$('.solve_problem_state').change(function(){
+		var isChecked = $(this).is(':checked');
+		if(isChecked){
+			sum += parseInt($(this).val());
+		}else{
+			sum -= parseInt($(this).val());
 		}
-
+		initPage(sum);
 	});
+	
+	function initPage(sum){
+		$.ajax({
+			url : "/contest/listproblem",
+			type : "GET",
+			contentType : "application/json",
+			data: {'sum': sum},
+			dataType : "json",
+			success : function(obj) {
+
+				var array_elment = obj.object;
+				var array_attr = [ "id", "title" ];
+				var array_thead = [ "序号", "名称" ];
+				
+				// 删除body内所有元素
+				$('#content').children().remove();
+				
+				if(array_elment == null || array_elment == 'undefined'){
+					$('#content').html('<strong>暂无内容</strong>');
+					return false;
+				}
+
+			
+
+				var table = create_table("问题列表", array_thead, array_elment,
+						array_attr);
+
+				$('#content').html(table);
+			}
+
+		});
+	}
 
 	/*
 	 * str_caption: caption array_thead: thead array_elment: 对象数组,展示表格的数据源

@@ -153,8 +153,8 @@ public class ContestProblem {
 
 	@RequestMapping(value = "/listproblem", method = { RequestMethod.GET })
 	@ResponseBody
-	public AjaxPojoWithObj listProblem() {
-		List<ProblemModel> problemList = contestProblemService.listProblem();
+	public AjaxPojoWithObj listProblem(@RequestParam String sum) {
+		List<ProblemModel> problemList = contestProblemService.listProblem(Integer.parseInt(sum));
 		AjaxPojoWithObj ajaxPojoWithObj = new AjaxPojoWithObj();
 		ajaxPojoWithObj.setCode(0);
 		ajaxPojoWithObj.setMesg("获取列表成功");
