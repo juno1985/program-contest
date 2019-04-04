@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ import com.contest.mapper.ProblemCasesModelMapper;
 import com.contest.mapper.ProblemCodeRestrictModelMapper;
 import com.contest.mapper.ProblemModelMapper;
 import com.contest.mapper.RunCodeCaseModelMapper;
+import com.contest.mapper.UserProblemSolveStateModelMapper;
+import com.contest.mapper.UserProblemSolveStateModelMapperExt;
 import com.contest.model.AllUsersCodeHistoryPojo;
 import com.contest.model.CodeHistModel;
 import com.contest.model.CodeHistModelExample;
@@ -36,6 +40,8 @@ import com.contest.model.ProblemModel;
 import com.contest.model.ProblemModelExample;
 import com.contest.model.ProblemModelWithBLOBs;
 import com.contest.model.RunCodeCaseModel;
+import com.contest.model.UserProblemSolveStateModel;
+import com.contest.model.UserProblemSolveStateModelExample;
 import com.contest.pojo.enumrator.RunCaseResult;
 import com.contest.service.compile.CompileAndRun;
 import com.contest.service.compile.CompileAndRunImpl;
@@ -60,6 +66,10 @@ public class ContestProblemService {
 	private RunCodeCaseModelMapper runCodeCaseModelMapper;
 	@Autowired
 	private ProblemModelMapper problemModelMapper;
+	@Autowired
+	private UserProblemSolveStateModelMapper userProblemSolveStateModelMapper;
+	@Autowired
+	private UserProblemSolveStateModelMapperExt userProblemSolveStateModelMapperExt;
 	@Value("${usercode.submit.path}")
 	private String userCodeSubmitPath;
 	// 运行code超时时间 单位:秒
@@ -322,6 +332,33 @@ public class ContestProblemService {
 	public List<AllUsersCodeHistoryPojo> getProblemAllSubmitHist(int problemId) {
 		
 		return codeHistModelMapperExt.getAllUsersSubmitByProblemId(problemId);
+	}
+	// 记录问题是否通过
+	public void setUserProblemSolveState(String username, Integer problemId, Integer state) {
+		Integer userId = userService.getUserPrimaryKey(username);
+		UserProblemSolveStateModelExample userProblemSolveStateModelExample = new UserProblemSolveStateModelExample();
+		UserProblemSolveStateModelExample.Criteria userProblemSolveStateModelCri = userProblemSolveStateModelExample.createCriteria();
+		userProblemSolveStateModelCri.andUidEqualTo(userId).andFidEqualTo(problemId);
+		List<UserProblemSolveStateModel> UserProblemSolveStateModelList = userProblemSolveStateModelMapper.selectByExample(userProblemSolveStateModelExample);
+		if(UserProblemSolveStateModelList.size() > 1) {
+			throw new ContestCommonException("获取状态失败");
+		}
+		else if(UserProblemSolveStateModelList.size() == 1) {
+			UserProblemSolveStateModel userProblemSolveStateModel = UserProblemSolveStateModelList.get(0);
+			if(userProblemSolveStateModel.getState() != state) {
+				Map<String, Integer> params = new HashMap<String, Integer>();
+				params.put("stateId", state);
+				params.put("id", userProblemSolveStateModel.getId());
+				userProblemSolveStateModelMapperExt.updateStateByPrimaryKey(params);
+			}
+		}else {
+			UserProblemSolveStateModel userProblemSolveStateModel = new UserProblemSolveStateModel();
+			userProblemSolveStateModel.setUid(userId);
+			userProblemSolveStateModel.setFid(problemId);
+			userProblemSolveStateModel.setState(state);
+			userProblemSolveStateModelMapper.insert(userProblemSolveStateModel);
+			
+		}
 	}
 
 }

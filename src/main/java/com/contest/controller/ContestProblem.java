@@ -102,6 +102,14 @@ public class ContestProblem {
 				break;
 			}
 		}
+		
+		if(ajaxPojo.getCode() == 0) {
+			//记录通过
+			contestProblemService.setUserProblemSolveState(username, Integer.parseInt(id), 0);
+		}else {
+			//记录未通过
+			contestProblemService.setUserProblemSolveState(username, Integer.parseInt(id), 1);
+		}
 
 		return ajaxPojo;
 	}
