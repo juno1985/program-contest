@@ -1,0 +1,193 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+.large-bg {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+
+}
+.navBox {
+    width: 100%;
+    position: absolute;
+}
+.navCont{
+    font-size: 26px;
+    float: left;
+    margin: 10px 20px;
+}
+.navCont a{
+    color: #fff;
+   
+}
+.rt {
+    float: right;
+}
+.rightCont {
+    margin-top: 18px;
+    width: 400px;
+}
+.rightCont a{
+    font-size: 16px;
+    color: #fff;
+}
+
+.navItemList li
+{
+    display: inline;
+    list-style: none;
+    margin-left: 20px;
+}
+.navIconList {
+    width: 100px;
+    margin-top: -8px
+
+}
+.navIconList li{
+    display: inline;
+    list-style: none;
+}
+.navIconList .soBtnIcon{
+    display: block;
+    overflow: hidden;
+    text-indent: -2000px;
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+    height: 50px;
+
+}
+.navIconList .SoBtn {
+    cursor: pointer;
+}
+#search {
+    background-image: url("../img/so.png");
+}
+#user {
+    background-image: url("../img/user.png");
+}
+.lf{
+    float: left;
+}
+.sidebarWra {
+    position: fixed;
+    right: 0;
+    bottom: 190px;
+    z-index: 999;
+}
+.sidebar {
+    float: right;
+}
+.kefu.show {
+    
+    color: #fff;
+}
+.sidebar li{
+    background: rgba(200, 200, 200, 9);
+    height: 46px;
+    width: 46px;
+    text-align: center;
+    line-height: 46px;
+    margin-bottom: 1px;
+    cursor: pointer;
+    transition: .4s all ease;
+    list-style: none;
+    font-size: 22px;
+}
+.icon-kefu1:before {
+    content: "\260f";
+}
+.whiteKefuWra {
+    left: -209px;
+    width: 209px;
+    color: #fff;
+    font-size: 16px;
+    position: absolute;
+    top: 0;
+  	background-color: #007cb8;
+}
+.kefuInfo {
+    width: 202px;
+    text-align: left;
+    position: relative;
+}
+.kefuInfo span {
+    display: inline-block;
+    color: #fff;
+    margin-right: 10px;
+    position: relative;
+    top: 3px;
+}
+.iconfont {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-style: normal;
+    padding: 5px 0 0 26px;
+}
+.telNum {
+    display: block;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: Arial, Helvetica, sans-serif;
+    font-style: italic;
+    padding: 5px 0 0 36px;
+}
+.whiteWechatWra {
+	left: -194px;
+	width: 194px;
+	text-align: left;
+	position: absolute;
+    top: 0;
+    background: rgba(0,0,0,0);
+}
+.whiteWechatWra img {
+	width: 187px;
+	vertical-align: top;
+	border-style: none;
+}
+
+.banner {
+	height: 100%;
+    max-width: 1920px;
+    margin: 0px auto;
+    width: 100%;
+    position: absolute;
+}
+.swiperbox {
+	max-width: 1320px;
+	height: 100%;
+	margin: 0px auto;
+	position: relative;
+}
+.swiperbox-con {
+    max-width: 1320px;
+    height: 100%;
+    margin: 0 50px;
+    position: relative;
+}
+.banner-m {
+    top:50%;
+    transform: translateY(-50%);
+}
+.banner-l {
+    left: 0;
+}
+.bannerchild {
+    position: absolute;
+    width: 100%;
+}
+.hero-title {
+    color: #fff;
+    width: 70%
+}
+.intro-title {
+    color: #ddd;
+    width: 70%;
+    font-family: inherit;
+    line-height: 1.6;
+    margin-top: 20px;
+    margin-left: 38px;
+}
