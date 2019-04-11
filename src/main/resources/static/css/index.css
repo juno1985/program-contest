@@ -192,3 +192,191 @@
     margin-top: 20px;
     margin-left: 38px;
 }
+#ntalker .nt-ui-chat-wrapper {
+	width: 500px;
+	height: 536px; 
+	position: fixed;
+	right: 0;
+	top: 60px; 
+    left: 360px; 
+	border-radius: 8px;"
+    bottom: 0;
+    z-index: 300000;
+    background: #fff;
+    box-shadow: 0 0 10px #928080;
+    border-radius: 8px;
+    box-sizing: content-box;
+}
+#ntalker .nt-ui-chat-header-wrapper {
+	width: auto;
+    height: 50px;
+    background: #06a9f4;
+}
+#ntalker .nt-ui-wrapper {
+	position: relative;
+}
+#ntalker .icon-minimize {
+	font-size: 36px;
+}
+#ntalker .nt-ui-chat-header-kefuLogo-image {
+	margin: 5px 10px auto 14px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: contain;
+    background: transparent;
+}
+#ntalker .nt-ui-image {
+	display: inline;
+    max-width: 100%;
+    -webkit-user-select: none;
+}
+#ntalker * {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    box-sizing: border-box;
+    vertical-align: initial;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: Microsoft YaHei;
+    line-height: normal;
+}
+img {
+    border-style: none;
+}
+#ntalker .nt-ui-chat-header-middle-wrapper {
+    position: absolute;
+    left: 64px;
+    top: 0;
+    display: table;
+    width: 80%;
+    height: 50px;
+}
+#ntalker .nt-ui-chat-header-inner-wrapper {
+    display: table-cell;
+    vertical-align: middle;
+}
+#ntalker .nt-ui-chat-header-kefuName-text {
+    display: block;
+    width: auto;
+    max-width: 400px;
+    color: #a0e1ff;
+}
+#ntalker .nt-ui-text {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+#ntalker .nt-ui-chat-header-kefuSignature-text {
+    display: block;
+    width: 400px;
+    color: #a0e1ff;
+    font-size: 12px;
+    cursor: pointer;
+    transform: scale(.8) translateX(-50px);
+}
+#ntalker #chat-mainsection-messagebox-iscroll {
+    position: relative;
+    width: 480px;
+    height: 266px;
+    overflow: hidden;
+    background: #fafafa;
+}
+#ntalker .nt-ui-chat-mainsection-toolbar-wrapper {
+    height: 40px;
+    position: relative;
+}
+#ntalker .nt-ui-chat-mainsection-textarea-wrapper {
+    width: 100%;
+    height: 114px;
+    overflow: hidden;
+    background: #fafafa;
+}
+#ntalker .nt-ui-chat-mainsection-textarea-placeholder {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    padding: 10px;
+    color: #999;
+    background: #fafafa;
+    font-size: 12px;
+    border: none;
+    outline: none;
+}
+
+#ntalker .nt-ui-chat-mainsection-bottom-support {
+    width: 60%;
+    position: absolute;
+    font-size: 12px;
+    top: 10px;
+    left: 0;
+    color: #666;
+    height: 30px;
+    line-height: 30px;
+}
+#ntalker .nt-ui-chat-mainsection-bottom-support {
+    width: 60%;
+    position: absolute;
+    font-size: 12px;
+    top: 10px;
+    left: 0;
+    color: #666;
+    height: 30px;
+    line-height: 30px;
+}
+#ntalker .nt-ui-chat-mainsection-bottom-closeButton-button {
+    width: 80px;
+    height: 30px;
+    color: #000;
+    background: #eee;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 12px;
+}
+#ntalker .nt-ui-chat-mainsection-bottom-wrapper {
+    width: 100%;
+    padding: 12px 0 14px;
+    text-align: right;
+}
+#ntalker .nt-ui-chat-mainsection-bottom-support {
+    width: 60%;
+    position: absolute;
+    font-size: 12px;
+    top: 10px;
+    left: 0;
+    color: #666;
+    height: 30px;
+    line-height: 30px;
+}
+#ntalker .nt-ui-chat-mainsection-bottom-sendButton-button {
+    width: 80px;
+    height: 30px;
+    color: #fff;
+    background: #4fc8ff;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: 700;
+    position: relative;
+    right: 6px;
+}
+#ntalker .nt-ui-button, #ntalker .nt-ui-icon {
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+#ntalker .nt-ui-chat-header-close-icon {
+    position: absolute;
+    padding: 4px;
+    top: 6px;
+    right: 7px;
+    font-size: 28px;
+    color: #fff;
+    /* 不设置font-family, awesome font会显示不出来 */
+    font-family: FontAwesome;
+}
