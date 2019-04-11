@@ -13,6 +13,7 @@
 
 }
 .navBox {
+	z-index: 1001;
     width: 100%;
     position: absolute;
 }
@@ -43,16 +44,16 @@
     list-style: none;
     margin-left: 20px;
 }
-.navIconList {
+/* .navIconList {
     width: 100px;
     margin-top: -8px
 
-}
-.navIconList li{
+} */
+/* .navIconList li{
     display: inline;
     list-style: none;
-}
-.navIconList .soBtnIcon{
+} */
+/* .navIconList .soBtnIcon{
     display: block;
     overflow: hidden;
     text-indent: -2000px;
@@ -60,10 +61,10 @@
     background-size: 30px 30px;
     height: 50px;
 
-}
-.navIconList .SoBtn {
+} */
+/* .navIconList .SoBtn {
     cursor: pointer;
-}
+} */
 #search {
     background-image: url("../img/so.png");
 }
