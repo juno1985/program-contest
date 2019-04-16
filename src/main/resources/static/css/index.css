@@ -192,7 +192,7 @@
     margin-top: 20px;
     margin-left: 38px;
 }
-#ntalker .nt-ui-chat-wrapper {
+.ntalker .nt-ui-chat-wrapper {
 	width: 500px;
 	height: 536px; 
 	position: fixed;
@@ -207,18 +207,18 @@
     border-radius: 8px;
     box-sizing: content-box;
 }
-#ntalker .nt-ui-chat-header-wrapper {
+.ntalker .nt-ui-chat-header-wrapper {
 	width: auto;
     height: 50px;
     background: #06a9f4;
 }
-#ntalker .nt-ui-wrapper {
+.ntalker .nt-ui-wrapper {
 	position: relative;
 }
-#ntalker .icon-minimize {
+.ntalker .icon-minimize {
 	font-size: 36px;
 }
-#ntalker .nt-ui-chat-header-kefuLogo-image {
+.ntalker .nt-ui-chat-header-kefuLogo-image {
 	margin: 5px 10px auto 14px;
     width: 40px;
     height: 40px;
@@ -226,12 +226,12 @@
     object-fit: contain;
     background: transparent;
 }
-#ntalker .nt-ui-image {
+.ntalker .nt-ui-image {
 	display: inline;
     max-width: 100%;
     -webkit-user-select: none;
 }
-#ntalker * {
+.ntalker * {
     margin: 0;
     padding: 0;
     text-align: left;
@@ -245,7 +245,7 @@
 img {
     border-style: none;
 }
-#ntalker .nt-ui-chat-header-middle-wrapper {
+.ntalker .nt-ui-chat-header-middle-wrapper {
     position: absolute;
     left: 64px;
     top: 0;
@@ -253,22 +253,22 @@ img {
     width: 80%;
     height: 50px;
 }
-#ntalker .nt-ui-chat-header-inner-wrapper {
+.ntalker .nt-ui-chat-header-inner-wrapper {
     display: table-cell;
     vertical-align: middle;
 }
-#ntalker .nt-ui-chat-header-kefuName-text {
+.ntalker .nt-ui-chat-header-kefuName-text {
     display: block;
     width: auto;
     max-width: 400px;
     color: #a0e1ff;
 }
-#ntalker .nt-ui-text {
+.ntalker .nt-ui-text {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
 }
-#ntalker .nt-ui-chat-header-kefuSignature-text {
+.ntalker .nt-ui-chat-header-kefuSignature-text {
     display: block;
     width: 400px;
     color: #a0e1ff;
@@ -276,24 +276,25 @@ img {
     cursor: pointer;
     transform: scale(.8) translateX(-50px);
 }
-#ntalker #chat-mainsection-messagebox-iscroll {
+.ntalker #chat-mainsection-messagebox-iscroll {
     position: relative;
     width: 480px;
     height: 266px;
-    overflow: hidden;
+    /* 这里更改聊天历史是否可以滚动 */
+    overflow: auto;
     background: #fafafa;
 }
-#ntalker .nt-ui-chat-mainsection-toolbar-wrapper {
+.ntalker .nt-ui-chat-mainsection-toolbar-wrapper {
     height: 40px;
     position: relative;
 }
-#ntalker .nt-ui-chat-mainsection-textarea-wrapper {
+.ntalker .nt-ui-chat-mainsection-textarea-wrapper {
     width: 100%;
     height: 114px;
     overflow: hidden;
     background: #fafafa;
 }
-#ntalker .nt-ui-chat-mainsection-textarea-placeholder {
+.ntalker .nt-ui-chat-mainsection-textarea-placeholder {
     width: 100%;
     height: 100%;
     overflow: auto;
@@ -305,7 +306,7 @@ img {
     outline: none;
 }
 
-#ntalker .nt-ui-chat-mainsection-bottom-support {
+.ntalker .nt-ui-chat-mainsection-bottom-support {
     width: 60%;
     position: absolute;
     font-size: 12px;
@@ -315,7 +316,7 @@ img {
     height: 30px;
     line-height: 30px;
 }
-#ntalker .nt-ui-chat-mainsection-bottom-support {
+.ntalker .nt-ui-chat-mainsection-bottom-support {
     width: 60%;
     position: absolute;
     font-size: 12px;
@@ -325,7 +326,7 @@ img {
     height: 30px;
     line-height: 30px;
 }
-#ntalker .nt-ui-chat-mainsection-bottom-closeButton-button {
+.ntalker .nt-ui-chat-mainsection-bottom-closeButton-button {
     width: 80px;
     height: 30px;
     color: #000;
@@ -334,12 +335,12 @@ img {
     margin-right: 10px;
     font-size: 12px;
 }
-#ntalker .nt-ui-chat-mainsection-bottom-wrapper {
+.ntalker .nt-ui-chat-mainsection-bottom-wrapper {
     width: 100%;
     padding: 12px 0 14px;
     text-align: right;
 }
-#ntalker .nt-ui-chat-mainsection-bottom-support {
+.ntalker .nt-ui-chat-mainsection-bottom-support {
     width: 60%;
     position: absolute;
     font-size: 12px;
@@ -349,7 +350,7 @@ img {
     height: 30px;
     line-height: 30px;
 }
-#ntalker .nt-ui-chat-mainsection-bottom-sendButton-button {
+.ntalker .nt-ui-chat-mainsection-bottom-sendButton-button {
     width: 80px;
     height: 30px;
     color: #fff;
@@ -360,7 +361,7 @@ img {
     position: relative;
     right: 6px;
 }
-#ntalker .nt-ui-button, #ntalker .nt-ui-icon {
+.ntalker .nt-ui-button, .ntalker .nt-ui-icon {
     text-align: center;
     cursor: pointer;
     border: none;
@@ -370,7 +371,7 @@ img {
     -o-user-select: none;
     user-select: none;
 }
-#ntalker .nt-ui-chat-header-close-icon {
+.ntalker .nt-ui-chat-header-close-icon {
     position: absolute;
     padding: 4px;
     top: 6px;
@@ -379,4 +380,18 @@ img {
     color: #fff;
     /* 不设置font-family, awesome font会显示不出来 */
     font-family: FontAwesome;
+}
+#chat-mainsection-messagebox-iscroll .kefu_chat_icon {
+	width: 32px;
+}
+#chat-mainsection-messagebox-iscroll .chat_span {
+	margin: 5px 5px;
+}
+
+.user_chat{
+	text-align:right;
+}
+.user_chat span{
+	background-color: #c0c0c0;
+	border-radius: 5px;
 }
