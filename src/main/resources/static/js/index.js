@@ -1,7 +1,9 @@
 $(function(){
+	
+//	$('#nt-ui-chat-wrapper').draggable();
+	
 	var kefuWarpper = $('#whiteKefuWra');
 	var wechatWrapper = $('#whiteWechatWra');
-	$(kefuWarpper).hide();
 	$('.kefu.show').hover(function(){
 		$(this).css('background-color', '#007cb8');
 		$(kefuWarpper).show();
@@ -25,6 +27,28 @@ $(function(){
 	$('#chat_send_button').on('click', function(){
 		userSendChat();
 	});
+	//绑定最小化对话框事件
+	$('#chat-header-close-icon').on('click', function(){
+		$('#nt-ui-chat-wrapper').hide("drop", {direction:"down"},"slow",function(){
+			$('#nt-ui-minimum-wrapper').css('display','block');
+			//$('#nt-ui-minimum-wrapper').show();
+			});
+		});
+	
+	$('#chat-mainsection-bottom-closeButton').on('click', function(){
+		$('#nt-ui-chat-wrapper').hide("drop", {direction:"down"},"slow",function(){
+			$('#nt-ui-minimum-wrapper').css('display','block');
+			//$('#nt-ui-minimum-wrapper').show();
+			});
+		});
+	
+	//绑定最大化对话框
+	$('#nt-ui-minimum-wrapper').on('click', function(){
+		$('#nt-ui-chat-wrapper').show("drop", {direction:"down"},"slow",function(){
+			$('#nt-ui-minimum-wrapper').hide();
+			//$('#nt-ui-minimum-wrapper').show();
+			});
+	});
 	
 	//绑定聊天回车发送事件
 	$('#nt-ui-send-message-textarea').keypress(function(e){
@@ -45,7 +69,6 @@ $(function(){
 //		sleep(1000);
 		kefuAutoReply('');
 		
-		
 	}
 	function kefuAutoReply(str){
 		
@@ -54,7 +77,6 @@ $(function(){
 		$('#chat-mainsection-messagebox-iscroll')
 			.append(new_reply);
 		new_reply.animate({'opacity':1},1500,function(){
-			console.log('aaaa');
 			alwaysScrollToBottom();
 		});
 	

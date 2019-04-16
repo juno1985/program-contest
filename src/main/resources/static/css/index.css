@@ -395,3 +395,31 @@ img {
 	background-color: #84cffd;
 	border-radius: 5px;
 }
+.nt-ui-minimum-wrapper {
+	display: none;
+    width: 150px;
+    height: 56px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #aaa;
+    cursor: pointer;
+    z-index: 100000000000000000;
+}
+.nt-ui-minimum-kefuLogo-image {
+	margin: 5px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+}
+.nt-ui-minimum-kefuName-text{
+	float: right;
+	display: inline-block;
+    height: 56px;
+    line-height: 56px;
+    max-width: 94px;
+    color: #666;
+    font-size: 12px;
+}
