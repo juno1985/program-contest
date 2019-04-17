@@ -13,6 +13,7 @@
 	<artifactId>program-contest</artifactId>
 	<version>1.0.0</version>
 	<name>program-contest</name>
+	<packaging>war</packaging>
 	<description>program training project</description>
 
 	<properties>
@@ -81,6 +82,7 @@
 	</dependencies>
 
 	<build>
+	 	<finalName>contest</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
