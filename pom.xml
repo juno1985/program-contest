@@ -13,6 +13,7 @@
 	<artifactId>program-contest</artifactId>
 	<version>1.0.0</version>
 	<name>program-contest</name>
+	<packaging>war</packaging>
 	<description>program training project</description>
 
 	<properties>
@@ -102,6 +103,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
