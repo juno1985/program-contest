@@ -12,6 +12,10 @@ public class UserPojo {
 	@Size(min=4,message="最小长度4")
 	private String username;
 	
+	@NotEmpty(message="用户名不为空")
+	@Size(min=2,message="最小长度2")
+	private String realname;
+	
 	@NotEmpty(message="密码不为空")
 	@Size(min=6,message="最小长度6")
 	private String password;
@@ -62,6 +66,14 @@ public class UserPojo {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getRealname() {
+		return realname;
+	}
+
+	public void setRealname(String realname) {
+		this.realname = realname;
 	}
 
 	@Override

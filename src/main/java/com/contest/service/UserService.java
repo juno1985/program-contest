@@ -1,5 +1,6 @@
 package com.contest.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -16,12 +17,14 @@ import com.contest.mapper.RoleModelMapper;
 import com.contest.mapper.UserAndRolesMapper;
 import com.contest.mapper.UserAttrModelMapper;
 import com.contest.mapper.UserModelMapper;
+import com.contest.mapper.UserRealNameModelMapper;
 import com.contest.mapper.UserRoleModelMapper;
 import com.contest.model.RoleModel;
 import com.contest.model.RoleModelExample;
 import com.contest.model.UserAttrModel;
 import com.contest.model.UserModel;
 import com.contest.model.UserModelExample;
+import com.contest.model.UserRealNameModel;
 import com.contest.model.UserRoleModel;
 import com.contest.pojo.UserAndMultiRoles;
 import com.contest.pojo.UserPojo;
@@ -39,6 +42,8 @@ public class UserService {
 	private RoleModelMapper roleModelMapper;
 	@Autowired
 	private UserRoleModelMapper userRoleModelMapper;
+	@Autowired
+	private UserRealNameModelMapper userRealNameModelMapper;
 	
 	@Value("${contest.user.role}")
 	private String USER_ROLE;
@@ -83,6 +88,13 @@ public class UserService {
 			userRoleModel.setUid(userId);
 			userRoleModel.setRid(roleId);
 			userRoleModelMapper.insert(userRoleModel);
+			
+			//增加用户真实姓名和注册时间
+			UserRealNameModel realNameModel = new UserRealNameModel();
+			realNameModel.setRealname(userPojo.getRealname());
+			realNameModel.setUid(userId);
+			realNameModel.setRegistTime(new Date());
+			userRealNameModelMapper.insertSelective(realNameModel);
 		}
 		
 	}

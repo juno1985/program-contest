@@ -9,6 +9,13 @@ $(function() {
 			// 只能是数字字母下划线
 			noSepcialChar : true
 		},
+		'realname' : {
+			type : 'input',
+			// 是否必填
+			required : true,
+			minLength : 2,
+			isChinese : true
+		},
 		'password' : {
 			type : 'input',
 			required : true,
@@ -41,11 +48,13 @@ $(function() {
 	function regist_form_submit() {
 
 		var username = $('#regist_form').find('#username').val();
+		var realname = $('#regist_form').find('#realname').val();
 		var password = $('#regist_form').find('#password').val();
 		var email = $('#regist_form').find('#email').val();
 		var phone = $('#regist_form').find('#phone').val();
 		var user = {
 				'username': username,
+				'realname' : realname,
 				'password': password,
 				'email': email,
 				'phone': phone
@@ -123,8 +132,18 @@ function contest_online_form_validation(form_obj, validate_metadata) {
 								//return false则是能直接跳出外部的each
 								return false;
 							}
+							if (attr_value.isChinese){
+								var hanzi = /^[\u4e00-\u9fa5]+$/;
+								if(!hanzi.test($(form_element).val())){
+									$(form_element).next('span.err').text(
+									'请输入真实姓名').show().fadeOut(2000);
+									flag = false;
+									return false;
+								}
+							}
+							
 							if (attr_value.noSepcialChar) {
-								var reg = /[A-Za-z0-9_]/g;
+								var reg = /^[A-Za-z0-9_]+$/;
 
 								if (!reg.test($(form_element).val())) {
 									$(form_element).next('span.err').text(

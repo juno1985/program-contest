@@ -28,8 +28,6 @@ public class UserController {
 	@ResponseBody
 	public AjaxPojoWithObj registNewUser(@RequestBody @Valid UserPojo userPojo, BindingResult bindingResult) {
 		
-		userService.addUser(userPojo);
-		
 		AjaxPojoWithObj ajaxPojo = new AjaxPojoWithObj();
 		
 		if(bindingResult.hasErrors()) {
@@ -43,7 +41,7 @@ public class UserController {
 			ajaxPojo.setMesg("注册失败");
 			return ajaxPojo;
 		}
-		
+		userService.addUser(userPojo);
 		ajaxPojo.setCode(0);
 		ajaxPojo.setMesg("注册成功");
 	
