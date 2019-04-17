@@ -16,6 +16,13 @@ public class AjaxPojo {
 	public void setMesg(String mesg) {
 		this.mesg = mesg;
 	}
+	public AjaxPojo(int code, String mesg) {
+		this.code = code;
+		this.mesg = mesg;
+	}
+	public AjaxPojo() {
+	
+	}
 	
 	
 

@@ -61,6 +61,7 @@ $(function(){
 	function userSendChat(){
 		var user_chat_content = $('#nt-ui-send-message-textarea').text();
 		if('' == $.trim(user_chat_content)) return false;
+		sendChatCont(user_chat_content);
 		$('#chat-mainsection-messagebox-iscroll')
 		.append('<div class="chat_span"><p class="user_chat"><span>' 
 				+ user_chat_content + '</span></p></div>');
@@ -92,6 +93,15 @@ $(function(){
 		while(true){
 			if(new Date().getTime() - start > millSec)break;
 		}
+	}
+	
+	function sendChatCont(str){
+		$.ajax({
+			url : "/contest/com/addChatCont",
+			type : "POST",
+			contentType : "application/x-www-form-urlencoded",
+			data: {'cont': str}
+		});
 	}
 	
 });

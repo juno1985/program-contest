@@ -109,10 +109,15 @@
 				identity="true" />
 		</table>
 		
-		
-
 		<table schema="" tableName="t_user_problem_solve_state"
 			domainObjectName="UserProblemSolveStateModel">
+			<property name="useActualColumnNames" value="false" />
+			<generatedKey column="id" sqlStatement="JDBC"
+				identity="true" />
+		</table>
+		
+		<table schema="" tableName="t_kefu_chat"
+			domainObjectName="KefuChatModel">
 			<property name="useActualColumnNames" value="false" />
 			<generatedKey column="id" sqlStatement="JDBC"
 				identity="true" />
