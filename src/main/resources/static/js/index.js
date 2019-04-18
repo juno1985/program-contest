@@ -22,7 +22,7 @@ $(function(){
 	});
 	
 	//初始化聊天窗口
-	$('#chat-mainsection-messagebox-iscroll').append('<div class="chat_span"><img src="./img/default_kefu.png" class="kefu_chat_icon" /><p>您好,请问您想咨询那些方面</p></div>');
+	$('#chat-mainsection-messagebox-iscroll').append('<div class="chat_span"><img src="http://localhost/contest/img/default_kefu.png" class="kefu_chat_icon" /><p>您好,请问您想咨询那些方面</p></div>');
 	//绑定发送按钮事件
 	$('#chat_send_button').on('click', function(){
 		userSendChat();
