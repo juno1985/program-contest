@@ -39,11 +39,16 @@ public class ContestProblem {
 
 	@Value("${contest.admin.role}")
 	private String ROLE_ADMIN;
-
-	@RequestMapping(value = "/main", method = { RequestMethod.GET })
-	public String mainPage() {
-		return "main";
+	
+	@RequestMapping(value = "/index", method = { RequestMethod.GET })
+	public String indexPage() {
+		return "index";
 	}
+
+	/*
+	 * @RequestMapping(value = "/main", method = { RequestMethod.GET }) public
+	 * String mainPage() { return "main"; }
+	 */
 
 	@RequestMapping(value = "/challenge/{id}/problem", method = { RequestMethod.GET })
 	public String problemPage(@PathVariable String id, Model model) {

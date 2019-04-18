@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" 
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
-<link rel="stylesheet" href="./css/bootstrap-3.3.5.css">
-<link rel="stylesheet" href="./css/font-awesome.min.css">
-<link rel="stylesheet" href="./css/index.css">
-<link rel="stylesheet" href="./css/jquery-ui.min.css">
-<script src="./js/jquery-3.2.1.js"></script>
+<link rel="stylesheet" th:href="@{/css/bootstrap-3.3.5.css}">
+<link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+<link rel="stylesheet" th:href="@{/css/index.css}">
+<link rel="stylesheet" th:href="@{/css/jquery-ui.min.css}">
+<script th:src="@{/js/jquery-3.2.1.js}"></script>
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script src="./js/bootstrap-3.3.5.js"></script>
-<script src="./js/jquery-ui.min.js"></script>
-<script src="./js/index.js"></script>
+<script th:src="@{/js/bootstrap-3.3.5.js}"></script>
+<script th:src="@{/js/jquery-ui.min.js}"></script>
+<script th:src="@{/js/index.js}"></script>
 <title>软件园IT沙龙</title>
 </head>
 <body>
@@ -35,7 +36,7 @@
 	</div>
 	<div class="banner">
 		<div class="banbg-img">
-			<img class="large-bg" src="./img/body-background.jpg">
+			<img class="large-bg" th:src="@{/img/body-background.jpg}">
 		</div>
 		<div class="swiperbox">
 			<div class="swiperbox-con swiper1">
@@ -62,8 +63,8 @@
 			<li class="weixin show"><span class="icon-weixin1 fa fa-wechat">
 			</span>
 				<div class="whiteWechatWra" id="whiteWechatWra">
-					<img src="./img/wan_girl_wechat.png" alt="微信二维码">
-					<img src="./img/mark_boy_wechat.png" alt="微信二维码">
+					<img th:src="@{/img/wan_girl_wechat.png}" alt="微信二维码">
+					<img th:src="@{/img/mark_boy_wechat.png}" alt="微信二维码">
 				</div></li>
 		</ul>
 	</div>
@@ -75,7 +76,7 @@
 			<div class="nt-ui-wrapper  nt-ui-chat-header-wrapper"
 				style="cursor: move; border-radius: 8px 8px 0px 0px;">
 				<img class="nt-ui-image nt-ui-chat-header-kefuLogo-image"
-					src="./img/default_kefu.png">
+					th:src="@{/img/default_kefu.png}">
 				<div class="nt-ui-wrapper  nt-ui-chat-header-middle-wrapper">
 					<div class="nt-ui-wrapper  nt-ui-chat-header-inner-wrapper">
 						<span class="nt-ui-text nt-ui-chat-header-kefuName-text">SOFTCITS客服中心</span>
@@ -117,7 +118,7 @@
 	<div id="nt-ui-minimum-wrapper"
 		class="nt-ui-wrapper  nt-ui-minimum-wrapper">
 		<img class="nt-ui-image nt-ui-minimum-kefuLogo-image"
-			src="./img/default_kefu.png"> <span
+			th:src="@{/img/default_kefu.png}"> <span
 			class="nt-ui-text nt-ui-minimum-kefuName-text">SOFTCITS客服中心</span>
 	</div>
 </body>
