@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
 import com.contest.common.FileUtils;
+import com.contest.common.GetOSInfor;
 import com.contest.common.SecurityUserUtils;
 import com.contest.common.StringHTMLConvertion;
 import com.contest.exception.ContestCommonException;
@@ -151,12 +152,21 @@ public class ContestProblemService {
 	@Transactional
 	public List<RunResultPojo> codeSubmit(String username, Integer problemId, String codeInput)
 			throws IOException, InterruptedException {
+		//根据window/unix处理代码路径
+		setRealUserCodePath();
+		String OS = GetOSInfor.getOSName();
 		// 处理stub code
 		codeInput = appendStubCode(problemId, codeInput);
-
 		// 保存用户提交代码
-		saveSubmitCodeToFile(username, codeInput);
-		String compilePath = userCodeSubmitPath + username + "\\";
+		saveSubmitCodeToFile(username, codeInput, OS);
+		String compilePath = "";
+		if("WINTEL".equals(OS)) {
+			compilePath = userCodeSubmitPath + username + "\\";
+		}
+		else {
+			compilePath = userCodeSubmitPath + username + "/";
+		}
+		
 		// 编译代码
 		try {
 			compile(USER_CODE_FILE, compilePath);
@@ -194,13 +204,24 @@ public class ContestProblemService {
 		return runResultList;
 	}
 
-	public void saveSubmitCodeToFile(String username, String codeInput) {
+	public void saveSubmitCodeToFile(String username, String codeInput, String OS) {
+		
+		String compileFile = "";
 
-		if (!userCodeSubmitPath.endsWith("\\")) {
-			userCodeSubmitPath += userCodeSubmitPath + "\\";
+		if("WINTEL".equals(OS)) {
+			if (!userCodeSubmitPath.endsWith("\\")) {
+				userCodeSubmitPath += userCodeSubmitPath + "\\";
+			}
+
+			compileFile = userCodeSubmitPath + username + "\\" + USER_CODE_FILE;
 		}
+		else {
+			if (!userCodeSubmitPath.endsWith("/")) {
+				userCodeSubmitPath += userCodeSubmitPath + "/";
+			}
 
-		String compileFile = userCodeSubmitPath + username + "\\" + USER_CODE_FILE;
+			compileFile = userCodeSubmitPath + username + "/" + USER_CODE_FILE;
+		}
 
 		try {
 			FileUtils.saveStrToFile(compileFile, codeInput);
@@ -414,6 +435,24 @@ public class ContestProblemService {
 			userProblemSolveStateModelMapper.insert(userProblemSolveStateModel);
 
 		}
+	}
+	
+	private void setRealUserCodePath() {
+		
+		String os = GetOSInfor.getOSName();
+		//由于service是单例,处理过一次就不用再处理路径了
+		if(userCodeSubmitPath.indexOf("&") == -1) return;
+		else {
+			String[] pathList = userCodeSubmitPath.split("&");
+			if("WINTEL".equals(os)) {
+				
+				userCodeSubmitPath = pathList[1];
+				
+			}else {
+				userCodeSubmitPath = pathList[0];
+			}
+		}
+	
 	}
 
 }

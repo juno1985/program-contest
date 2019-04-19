@@ -57,7 +57,7 @@ public class ContestProblem {
 
 		problemModelWithBLOBs.setInput(StringHTMLConvertion.StringToHTML(problemModelWithBLOBs.getInput()));
 		problemModelWithBLOBs.setOutput(StringHTMLConvertion.StringToHTML(problemModelWithBLOBs.getOutput()));
-		problemModelWithBLOBs.setExplanation(StringHTMLConvertion.StringToHTML(problemModelWithBLOBs.getOutput()));
+		problemModelWithBLOBs.setExplanation(StringHTMLConvertion.StringToHTML(problemModelWithBLOBs.getExplanation()));
 		model.addAttribute("problemAttr", problemModelWithBLOBs);
 		int problemId = problemModelWithBLOBs.getId();
 		ProblemCodeRestrictModelWithBLOBs codeRestrict = contestProblemService.getProblemCodeRestrictInHTML(problemId);

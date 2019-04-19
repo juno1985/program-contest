@@ -81,9 +81,14 @@
 							style="border: 0px; font-weight: bolder; font-size: 15px; line-height: 2; margin-top: 5px; vertical-align: baseline;">Output</p>
 						<p class="bg-info" th:utext="${problemAttr.output}"></p>
 						
+						<div th:if="${!#strings.isEmpty(#strings.trim(problemAttr.explanation))}">
+						
 						<p
 							style="border: 0px; font-weight: bolder; font-size: 15px; line-height: 2; margin-top: 5px; vertical-align: baseline;">Explanation</p>
-						<p class="bg-info" th:utext="${problemAttr.explanation}"></p>
+						<p class="bg-info" style="overflow:auto;" th:utext="${problemAttr.explanation}"></p>
+						
+						
+						</div>
 						
 						<span
 							style="border: 0px; font-weight: bolder; font-size: 15px; line-height: 2; margin-top: 5px; vertical-align: baseline;">Code:</span>
