@@ -134,7 +134,7 @@ public class ContestProblem {
 	}
 
 	// 登录成功后执行
-	@RequestMapping("/")
+	@RequestMapping("/main")
 	public String index(Model model) {
 
 		UserDetails userDetails = SecurityUserUtils.getCurrentUserDetails();
