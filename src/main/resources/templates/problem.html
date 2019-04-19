@@ -25,7 +25,7 @@
 			</div>
 			<div>
 				<ul class="nav navbar-nav navbar-left">
-					<li class="active"><a href="#">编程练习</a></li>
+					<li class="active"><a th:href="@{/main}">编程练习</a></li>
 					<li><a href="#">练习情况</a></li>
 					<li><a href="#">进入论坛</a></li>
 				</ul>
@@ -52,7 +52,7 @@
 	<div class="container">
 
 		<p class="strong text-left text-primary">
-			<a th:href="@{/}">>>返回问题列表</a>
+			<a th:href="@{/main}">>>返回问题列表</a>
 		</p>
 		<br>
 	</div>
@@ -80,6 +80,11 @@
 						<p
 							style="border: 0px; font-weight: bolder; font-size: 15px; line-height: 2; margin-top: 5px; vertical-align: baseline;">Output</p>
 						<p class="bg-info" th:utext="${problemAttr.output}"></p>
+						
+						<p
+							style="border: 0px; font-weight: bolder; font-size: 15px; line-height: 2; margin-top: 5px; vertical-align: baseline;">Explanation</p>
+						<p class="bg-info" th:utext="${problemAttr.explanation}"></p>
+						
 						<span
 							style="border: 0px; font-weight: bolder; font-size: 15px; line-height: 2; margin-top: 5px; vertical-align: baseline;">Code:</span>
 						<div style="border: 1px solid #000; padding: 2px 4px;">
