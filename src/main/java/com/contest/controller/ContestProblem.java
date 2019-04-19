@@ -40,9 +40,9 @@ public class ContestProblem {
 	@Value("${contest.admin.role}")
 	private String ROLE_ADMIN;
 	
-	@RequestMapping(value = "/index", method = { RequestMethod.GET })
+	@RequestMapping(value = "/portal", method = { RequestMethod.GET })
 	public String indexPage() {
-		return "index";
+		return "portal";
 	}
 
 	/*
