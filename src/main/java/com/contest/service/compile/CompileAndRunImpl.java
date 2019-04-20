@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.contest.common.StringCompareUtils;
 import com.contest.exception.ContestCommonException;
+import com.contest.service.ContestProblemService;
 import com.contest.service.compile.pojo.CaseModel;
 import com.contest.service.compile.pojo.CompileResult;
 import com.contest.service.compile.pojo.RunResultPojo;
@@ -17,7 +20,7 @@ import com.contest.service.compile.pojo.RunResultPojo;
 @Component
 public class CompileAndRunImpl implements CompileAndRun {
 
-	
+	private static Logger log = LoggerFactory.getLogger(CompileAndRunImpl.class);
 
 	public CompileAndRunImpl() {
 
@@ -43,10 +46,10 @@ public class CompileAndRunImpl implements CompileAndRun {
 	@Override
 	public List<RunResultPojo> RunCode(String codeClazz, List<CaseModel> caseModelList, long timeout,  String workSpace)
 			throws IOException, InterruptedException {
-		ProcessBuilder processBuilder = new ProcessBuilder("java", codeClazz);
+		ProcessBuilder processBuilder = new ProcessBuilder("java",  "-cp", ".", codeClazz);
 		processBuilder.redirectErrorStream(true);
 		processBuilder.directory(new File(workSpace));
-
+		log.info("WorkSpace: " + workSpace);
 		List<RunResultPojo> runResultList = new ArrayList<RunResultPojo>();
 
 		for (CaseModel caseModel : caseModelList) {
@@ -82,7 +85,12 @@ public class CompileAndRunImpl implements CompileAndRun {
 			else {
 				String strAnswer = StringCompareUtils.ReplaceEnterChars(caseModel.getOutput()).trim();
 				String codeOutput = StringCompareUtils.ReplaceEnterChars(outputThread.getResultString()).trim();
-			
+				log.info("User rocking --> pid: " + caseModel.getFid() +" cid: " + caseModel.getId());
+				log.info("Standard ------------------");
+				log.info(strAnswer);
+				log.info("User Output ---------------");
+				log.info(codeOutput);
+				
 				if(isCodeOutputAcceptable(codeOutput, strAnswer)) {
 					//pass
 					runResult.setResultCode(0);
