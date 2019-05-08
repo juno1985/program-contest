@@ -1,0 +1,55 @@
+.course-item {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 30px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #e4ecf3;
+    background-color: #fff;
+}
+
+.course-img {
+    position: relative;
+    overflow: hidden;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.tags {
+    position: absolute;
+    top: 0;
+    left: 10px;
+}
+
+.tags .tag-serialing {
+    background: url(../img/tag_serialing.png) no-repeat;
+    background-image: -webkit-image-set(url(../img/tag_serialing.png) 1x,url(../img/tag_serialing@2x.png) 2x);
+    display: inline-block;
+    width: 40px;
+    height: 50px;
+}
+img {
+	padding: 10px;
+    vertical-align: middle;
+}
+
+.course-list .course-item .title {
+    margin-top: 10px;
+    padding: 0 10px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+}
+
+.link-dark {
+    cursor: pointer;
+    color: #616161!important;
+}
+
+.course-list .course-item .metas {
+    position: relative;
+    padding: 10px;
+    color: #c1c1c1;
+}

@@ -68,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		  //解决静态资源被拦截的问题
-        web.ignoring().antMatchers("/index.html","/portal"
+        web.ignoring().antMatchers("/index.html","/portal","/course/**"
         		,"/img/**","/css/**","/js/**"
         		,"/fonts/**","/regist","/user/regist","/com/**");
 	}
