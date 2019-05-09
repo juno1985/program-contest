@@ -26,41 +26,38 @@
 			<!--/.nav-collapse -->
 		</div>
 	</nav>
-	 <div th:each="course : ${courses}">
-		<p th:text="${course.name}">
-		<p th:text="${course.status}">
-	</div>
-	
-	<div class="course-list">
+	<div class="container">
+		<div class="course-list">
 		<div class="row">
-			<div class="col-lg-3 col-md-4 col-xs-6">
-				<div class="course-item">
+			<div th:each="course : ${courses}" class="col-lg-3 col-md-4 col-xs-6">
+				<div  class="course-item">
 					<div class="course-img">
 						<a href="#" target="_blank">
 							<span class="tags">
-								<span class="tag-serialing"></span>
+								<span th:class="${course.status}=='progress' ? 'tag-serialing' : 'tag_finished'"></span>
 							</span>
-							<img th:src="@{/img/10350153d6d3372130.jpg}" alt="赴日SAP顾问课程四期" class="img-responsive">	
+							<img th:src="@{'/pic/'+${course.pic}}" th:alt="${course.name}" class="img-responsive">	
 						</a>
 					</div>
 					
 					<div class="course-info">
 						<div class="title">
-							<a class="link-dark" href="#" target="_blank"> 赴日SAP顾问课程四期</a>
+							<a class="link-dark" href="#" target="_blank" th:text="${course.name}"> </a>
 						</div>
 						
 						<div class="metas clearfix">
 							<span class="num">
-								<i class="fa fa-user" style="font-size:12px"></i>102
+								<i class="fa fa-user" style="font-size:12px"></i>&nbsp;<span th:text="${course.learnedNum}"></span>
 							</span>
 							<span class="comment">
-								<i class="fa fa-commenting" style="margin-left: 10px"></i>0
+								<i class="fa fa-commenting" style="margin-left: 10px"></i>&nbsp;<span th:text="${course.commentNum}"></span>
 							</span>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 
 </body>

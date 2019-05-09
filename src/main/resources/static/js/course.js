@@ -1,12 +1,10 @@
 $(function(){
 	$('.course-item').hover(
 			function(){
-				var course_img = $(this).find("img");
-				$(course_img).animate({padding:"4"});
+				$(this).animate({top:"-6px"});
 			},
 			function(){
-				var course_img = $(this).find("img");
-				$(course_img).animate({padding:"10px"});
+				$(this).animate({top:""});
 			}
 			);
 })
