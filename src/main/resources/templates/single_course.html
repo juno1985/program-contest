@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>softcits</title>
+<link th:href="@{/css/bootstrap-3.3.5.css}" rel="stylesheet">
+<link th:href="@{/css/single_course.css}" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
+<script th:src="@{/js/jquery-3.2.1.js}"></script>
+<script th:src="@{/js/bootstrap-3.3.5.js}"></script>
+
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">SOFTCITS</a>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a th:href="@{/portal}"> 首页 </a></li>
+
+				</ul>
+			</div>
+			<!--/.nav-collapse -->
+		</div>
+	</nav>
+	<div class="container">
+		<div class="es-section course-detail-section">
+			<div class="course-detail-bottom clearfix">
+				<div class="course-detail-img">
+					<img class="img-responsive"
+						th:src="@{/pic/course_intro/105226aaecf6813714.jpg}">
+				</div>
+				<div class="course-detail-info">
+					<div class="course-detail-info__title" th:text="${course.name}">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-9 col-md-8 course-detail-content">
+				<ul class="nav nav-tabs">
+					<li class="active"><a href="#intro" data-toggle="tab">介绍</a></li>
+					<li><a id="href_hist" href="#catalog" data-toggle="tab">目录</a></li>
+					<li><a id="href_range" href="#comment" data-toggle="tab">评价</a></li>
+				</ul>
+				<div class="tab-content">
+
+					<div class="tab-pane fade in active" id="intro">
+
+						<div class="piece-header">
+							<i class="fa fa-bullhorn" aria-hidden="true"></i>&nbsp;课程介绍
+						</div>
+						<div class="piece-body clearfix">
+							<p>这里应该都是动态获取的课程描述。。。</p>
+						</div>
+					</div>
+
+
+					<div class="tab-pane fade in" id="catalog">
+						<div class="list-group cata-cont">
+							<button type="button"
+								class="list-group-item list-group-item-action">
+								第一集</button>
+							<button type="button"
+								class="list-group-item list-group-item-action">第二集</button>
+							<button type="button"
+								class="list-group-item list-group-item-action">第三集</button>
+							<button type="button"
+								class="list-group-item list-group-item-action">第四集</button>
+							<button type="button"
+								class="list-group-item list-group-item-action" disabled>第四集</button>
+						</div>
+
+					</div>
+					<div class="tab-pane fade in" id="comment"></div>
+
+
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-4 course-sidebar"></div>
+		</div>
+	</div>
+
+</body>
+</html>

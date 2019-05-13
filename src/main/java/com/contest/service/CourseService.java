@@ -18,5 +18,9 @@ public class CourseService {
 	public List<CourseModel> getAllCourses(){
 		return courseModelMapper.selectByExample(null);
 	}
+	
+	public CourseModel getSingleCourseById(Integer id) {
+		return courseModelMapper.selectByPrimaryKey(id);
+	}
 
 }
