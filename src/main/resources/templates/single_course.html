@@ -5,9 +5,12 @@
 <title>softcits</title>
 <link th:href="@{/css/bootstrap-3.3.5.css}" rel="stylesheet">
 <link th:href="@{/css/single_course.css}" rel="stylesheet">
+<link th:href="@{/css/video.css}" rel="stylesheet">
 <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
 <script th:src="@{/js/jquery-3.2.1.js}"></script>
 <script th:src="@{/js/bootstrap-3.3.5.js}"></script>
+<script th:src="@{/js/single_course.js}"></script>
+<script th:src="@{/js/add_footer.js}"></script>
 
 </head>
 <body>
@@ -45,8 +48,8 @@
 			<div class="col-lg-9 col-md-8 course-detail-content">
 				<ul class="nav nav-tabs">
 					<li class="active"><a href="#intro" data-toggle="tab">介绍</a></li>
-					<li><a id="href_hist" href="#catalog" data-toggle="tab">目录</a></li>
-					<li><a id="href_range" href="#comment" data-toggle="tab">评价</a></li>
+					<li><a href="#catalog" data-toggle="tab">目录</a></li>
+					<li><a href="#comment" data-toggle="tab">评价</a></li>
 				</ul>
 				<div class="tab-content">
 
@@ -64,16 +67,16 @@
 					<div class="tab-pane fade in" id="catalog">
 						<div class="list-group cata-cont">
 							<button type="button"
-								class="list-group-item list-group-item-action">
+								class="list-group-item list-group-item-action videoLink">
 								第一集</button>
 							<button type="button"
-								class="list-group-item list-group-item-action">第二集</button>
+								class="list-group-item list-group-item-action videoLink">第二集</button>
 							<button type="button"
-								class="list-group-item list-group-item-action">第三集</button>
+								class="list-group-item list-group-item-action videoLink">第三集</button>
 							<button type="button"
-								class="list-group-item list-group-item-action">第四集</button>
+								class="list-group-item list-group-item-action videoLink">第四集</button>
 							<button type="button"
-								class="list-group-item list-group-item-action" disabled>第四集</button>
+								class="list-group-item list-group-item-action videoLink">第五集</button>
 						</div>
 
 					</div>
@@ -83,8 +86,51 @@
 				</div>
 			</div>
 			<div class="col-lg-3 col-md-4 course-sidebar"></div>
+
+			<!-- 播放器代码开始 -->
+			<div id="vContainer" class="vContainer" style="display: none">
+				<video id="myVideo">
+					<!-- <source src="https://www.youtube.com/watch?v=iOznP_eVSi0"> -->
+					<source th:src="@{/video/demo.mp4}" type="video/mp4">
+				</video>
+				<div class="caption">
+					<span>SAP课程</span><span class="close">X</span>
+				</div>
+
+				<div class="control">
+					<div class="top">
+						<div class="progress">
+							<span class="timeBar"></span>
+						</div>
+						<div class="time">
+							<span id="currentTime">00:00</span> <span>/</span> <span
+								id="duration">00:00</span>
+						</div>
+					</div>
+					<div class="bottom">
+						<i class="button text fa fa-play-circle" id="playBtn"></i> <i
+							class="button text fa fa-stop" id="stopBtn"></i> <i
+							class="button text selected" id="speed1Btn">x1</i> <i
+							class="button text" id="speed3Btn">x3</i>
+						<div class="volume">
+							<span class="volumeBar"></span>
+						</div>
+						<i class="button text sound fa fa-volume-off" id="soundBtn"></i>
+					</div>
+
+				</div>
+				<div class="loading"></div>
+			</div>
+			<!-- 播放器代码 结束-->
+
 		</div>
 	</div>
 
+
+
+	<!-- 遮罩层 -->
+	<div id="cover"
+		style="background: #000; position: absolute; left: 0px; top: 0px; width: 100%; filter: alpha(opacity = 30); opacity: 0.6; display: none; z-index: 2"></div>
+<div id="footer"></div>
 </body>
 </html>
