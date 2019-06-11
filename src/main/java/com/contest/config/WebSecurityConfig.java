@@ -48,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		  http.authorizeRequests()
 		  //访问controller权限控制
-		  //这里有陷阱,数据库角色表中存"ROLE_AMIND",而这里使用"ADMIN",因为springsecurity会自动在前面增加"ROLE_"
+		  //这里有陷阱,数据库角色表中存"ROLE_ADMIN",而这里使用"ADMIN",因为springsecurity会自动在前面增加"ROLE_"
 		 .antMatchers("/mgt/**").hasAnyRole("ADMIN")
           .anyRequest().authenticated() //任何请求,登录后可以访问
           .and()

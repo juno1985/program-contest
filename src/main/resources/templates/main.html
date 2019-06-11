@@ -15,6 +15,7 @@
 <script th:src="@{/summernote-dist/summernote.js}"></script>
 <script th:src="@{/js/main.js}"></script>
 <script th:src="@{/js/add_footer.js}"></script>
+<script th:src="@{/js/add_course.js}"></script>
 <link th:href="@{/css/jsswitch.css}" rel="stylesheet">
 
 </head>
@@ -34,6 +35,14 @@
 					<li><a href="#">进入论坛</a></li>
 					<li sec:authorize="hasRole('ROLE_ADMIN')"><a
 						th:href="@{/mgt/addproblem}" style="color: #FF0033">新增问题</a></li>
+					<li sec:authorize="hasRole('ROLE_ADMIN')"><a
+						id="course_mgt_btn" href="#" style="color: #FF0033" class="dropdown-toggle"
+						data-toggle="dropdown">管理课程<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a id="course_add_btn" href="#" style="color: #FF0033" >增加课程</a></li>
+							<li><a id="course_update_btn" href="#" style="color: #FF0033">更新课程</a></li>
+						</ul>
+					</li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -58,11 +67,7 @@
 		</div>
 	</nav>
 
-	<div class="container">
 
-		<p class="strong text-left text-primary">Pratice > Java</p>
-
-	</div>
 	<div class="container">
 
 		<div class="row">
@@ -71,55 +76,59 @@
 				<div id="content"></div>
 			</div>
 			<div class="col-md-2 col-sm-2 col-lg-2">
-				<label for="name">状态</label>
-				<div class="checkbox">
-					<label><input type="checkbox" value="1" class="solve_problem_state" checked>已解决</label>
-				</div>
-				<div class="checkbox">
-					<label><input type="checkbox" value="2" class="solve_problem_state" checked>未解决</label>
-				</div>
+				<div id="sidebar">
+					<label for="name">状态</label>
+					<div class="checkbox">
+						<label><input type="checkbox" value="1"
+							class="solve_problem_state" checked>已解决</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" value="2"
+							class="solve_problem_state" checked>未解决</label>
+					</div>
 
-				<hr style="border: 1 dashed #987cb9" width="100%" color="#987cb9"
-					size=1>
-				<label for="name">难度</label>
-				<div class="checkbox">
-					<input type="radio" name="optionsRadios" id="optionsRadios1"
-						value="option1" checked>简单</label>
-				</div>
-				<div class="checkbox">
-					<input type="radio" name="optionsRadios" id="optionsRadios2"
-						value="option2">中等</label>
-				</div>
-				<div class="checkbox">
-					<input type="radio" name="optionsRadios" id="optionsRadios3"
-						value="option3">困难</label>
-				</div>
-				<hr style="border: 1 dashed #987cb9" width="100%" color="#987cb9"
-					size=1>
-				<label for="name">类别</label>
-				<div class="checkbox">
-					<label><input type="checkbox" value="">Introduction</label>
-				</div>
-				<div class="checkbox">
-					<label><input type="checkbox" value="">Strings</label>
-				</div>
-				<div class="checkbox">
-					<label><input type="checkbox" value="">BigNumber</label>
-				</div>
-				<div class="checkbox">
-					<label><input type="checkbox" value="">Data
-						Structures</label>
-				</div>
-				<div class="checkbox">
-					<label><input type="checkbox" value="">Object
-						Oriented Programming</label>
-				</div>
-				<div class="checkbox">
-					<label><input type="checkbox" value="">Exception
-						Handling</label>
-				</div>
-				<div class="checkbox">
-					<label><input type="checkbox" value="">Advanced</label>
+					<hr style="border: 1 dashed #987cb9" width="100%" color="#987cb9"
+						size=1>
+					<label for="name">难度</label>
+					<div class="checkbox">
+						<input type="radio" name="optionsRadios" id="optionsRadios1"
+							value="option1" checked>简单
+					</div>
+					<div class="checkbox">
+						<input type="radio" name="optionsRadios" id="optionsRadios2"
+							value="option2">中等
+					</div>
+					<div class="checkbox">
+						<input type="radio" name="optionsRadios" id="optionsRadios3"
+							value="option3">困难
+					</div>
+					<hr style="border: 1 dashed #987cb9" width="100%" color="#987cb9"
+						size=1>
+					<label for="name">类别</label>
+					<div class="checkbox">
+						<label><input type="checkbox" value="">Introduction</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" value="">Strings</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" value="">BigNumber</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" value="">Data
+							Structures</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" value="">Object
+							Oriented Programming</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" value="">Exception
+							Handling</label>
+					</div>
+					<div class="checkbox">
+						<label><input type="checkbox" value="">Advanced</label>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -32,7 +32,7 @@
 
 .tags .tag-serialing {
     background: url(../img/tag_serialing.png) no-repeat;
-    background-image: -webkit-image-set(url(../img/tag_serialing.png) 1x,url(../img/tag_serialing@2x.png) 2x);
+    background-image: -webkit-image-set(url(../img/tag_serialing.png) 1x,url(../img/tag_serialing.png) 2x);
     display: inline-block;
     width: 40px;
     height: 50px;
@@ -41,7 +41,7 @@
 
 .tags .tag_finished {
     background: url(../img/tag_finished.png) no-repeat;
-    background-image: -webkit-image-set(url(../img/tag_finished.png) 1x,url(../img/tag_finished@2x.png) 2x);
+    background-image: -webkit-image-set(url(../img/tag_finished.png) 1x,url(../img/tag_finished.png) 2x);
     display: inline-block;
     width: 40px;
     height: 50px;

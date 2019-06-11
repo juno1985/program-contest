@@ -3,42 +3,42 @@ $(function() {
 	// 解决ajax POST被springsecurity误伤
 	var header = $("meta[name='_csrf_header']").attr('content');
 	var token = $("meta[name='_csrf']").attr('content');
-	//默认展现所有已解决未解决问题
+	// 默认展现所有已解决未解决问题
 	var sum = 3;
 	initPage(sum);
 	// 绑定监听
-	$('.solve_problem_state').change(function(){
+	$('.solve_problem_state').change(function() {
 		var isChecked = $(this).is(':checked');
-		if(isChecked){
+		if (isChecked) {
 			sum += parseInt($(this).val());
-		}else{
+		} else {
 			sum -= parseInt($(this).val());
 		}
 		initPage(sum);
 	});
-	
-	function initPage(sum){
+
+	function initPage(sum) {
 		$.ajax({
 			url : "/contest/listproblem",
 			type : "GET",
 			contentType : "application/json",
-			data: {'sum': sum},
+			data : {
+				'sum' : sum
+			},
 			dataType : "json",
 			success : function(obj) {
 
 				var array_elment = obj.object;
 				var array_attr = [ "id", "title" ];
 				var array_thead = [ "序号", "名称" ];
-				
+
 				// 删除body内所有元素
 				$('#content').children().remove();
-				
-				if(array_elment == null || array_elment == 'undefined'){
+
+				if (array_elment == null || array_elment == 'undefined') {
 					$('#content').html('<strong>暂无内容</strong>');
 					return false;
 				}
-
-			
 
 				var table = create_table("问题列表", array_thead, array_elment,
 						array_attr);
@@ -119,15 +119,19 @@ $(function() {
 			var array_add_btn = $(obj).find("button.case_add_btn");
 			$.each(array_add_btn, function(index, value) {
 
-				$(value).on("click", function() {
+				$(value).on(
+						"click",
+						function() {
 
-					// 问题id
-					var id = $(this).attr("value");
-					$('#case_add_modal').find('#myModalLabel').text("#"+id+": 增加CASE");
-					$('#case_add_modal').modal('show');
-					$('#case_add_modal').find("input#problem_id").val(id);
+							// 问题id
+							var id = $(this).attr("value");
+							$('#case_add_modal').find('#myModalLabel').text(
+									"#" + id + ": 增加CASE");
+							$('#case_add_modal').modal('show');
+							$('#case_add_modal').find("input#problem_id").val(
+									id);
 
-				});
+						});
 			});
 
 			var array_status_switch = $(obj).find('div.switch');
@@ -218,7 +222,20 @@ $(function() {
 		}
 
 	}
-
+	
+	function clearPage() {
+		// 删除body内所有元素
+		$('#content').children().remove();
+		$('#sidebar').children().remove();
+	}
+	
+	$('#course_add_btn').on('click', function(){
+		clearPage();
+		$.get("/contest/page/add_course.html", function(html_cont){
+			$('#content').html(html_cont);
+		});
+	});
+	
 });
 
 function case_add_submit() {
