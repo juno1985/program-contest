@@ -16,8 +16,6 @@ $(function(){
 		var isCharge = $("input[name='isCharge']:checked").val();
 		formData.append('isCharge', isCharge);
 		
-		console.log(formData.get('pic'));
-		console.log(pic_primary);
 		
 		$.ajax({
 			url : "/contest/mgt/addcourse",
@@ -33,7 +31,26 @@ $(function(){
 			},
  
 			success : function(obj) {
-
+					if(obj.code==1)
+					alert(obj.mesg);
+			}
+			
+			,
+			
+			xhr: function(){
+				//计算上传进度条
+				//myXhr = $.ajaxSettings.xhr();
+				var myXhr = new window.XMLHttpRequest();
+				
+					
+					myXhr.upload.addEventListener('progress', function(e){
+						if(e.lengthComputable){
+							$('#pic_upload_progress').attr('max',e.total);
+							$('#pic_upload_progress').attr('value',e.loaded);
+						}
+					},false);
+					//这个返回xhr一定不能少！！！
+					return myXhr;
 				
 			}
 

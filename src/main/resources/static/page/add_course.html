@@ -7,8 +7,9 @@
 			name="name" value="" placeholder="新建课程名称" />
 	</div>
 	<div class="form-group">
-		<label for="pic">封面图片</label> <input id="pic_primary" type="file" class="form-control"
+		<label for="pic">封面图片</label> <input id="pic_primary" type="file" accept="image/jpeg, image/png, image/jpg" class="form-control"
 			name="pic" placeholder="课程封面" />
+		<progress id="pic_upload_progress" max="100" value="0"></progress>
 	</div>
 	<label for="name">免费课程?</label>
 	<div class="checkbox">
