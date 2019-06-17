@@ -236,6 +236,41 @@ $(function() {
 		});
 	});
 	
+	
+	$('#course_list_btn').on('click', function(){
+		clearPage();
+		
+		$.ajax({
+			url : "/contest/mgt/courses",
+			type : "GET",
+			success : function(obj) {
+				
+				var tableHtml = "<table class=\"table table-striped\">";
+				
+				$.each(obj, function(index, value){
+					tableHtml += "<tr><td>" + value.id +"</td><td>" + value.name + "</td><td><a href=\"#\" id=\"delete_course\">" + '删除' + "</a></td><td><a href=\"#\" class=\"add_intro\" value=\""+ value.id +"\">" +'编辑介绍' +
+						"</a></td><td>" + '上传视频' + "</td></tr>";
+					
+				});
+				
+				tableHtml += "</table>";
+				
+				$('#content').html(tableHtml);
+				
+				$('.add_intro').on('click', function(){
+					$('#course_intro_add_model').modal('show');
+					$('#course_intro_add_model').find("input#course_id").val(
+							$(this).attr('value'));
+				});
+			
+			}
+
+		});
+		
+	});
+	
+	
+	
 });
 
 function case_add_submit() {

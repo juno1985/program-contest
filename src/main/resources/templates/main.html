@@ -40,7 +40,7 @@
 						data-toggle="dropdown">管理课程<b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a id="course_add_btn" href="#" style="color: #FF0033" >增加课程</a></li>
-							<li><a id="course_update_btn" href="#" style="color: #FF0033">更新课程</a></li>
+							<li><a id="course_list_btn" href="#" style="color: #FF0033">课程列表</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -133,7 +133,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- 模态框（Modal） -->
+	<!-- 模态框（Modal）增加case -->
 	<div class="modal fade" id="case_add_modal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -174,6 +174,38 @@
 		</div>
 		<!-- /.modal -->
 	</div>
+	
+	<!-- 模态框 增加课程信息 -->
+	<div class="modal fade" id="course_intro_add_model" tabindex="-1" role="dialog"
+		aria-labelledby="introModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="introModalLabel">课程信息</h4>
+					</div>
+					<div class="modal-body">
+							<form class="bs-example bs-example-form" role="form"
+								id="course_intro_form">
+								<!-- 用于存储course id -->
+								<input type="hidden" id="course_id" name="course_id" value="" >
+								<div class="input-group">
+									<span class="input-group-addon">课程介绍</span>
+									<textarea class="form-control" id="course_intro_input" name="input"
+										style="resize: none" rows="10"></textarea>
+								</div>
+							</form>
+					</div>
+			
+					<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+							<button type="button" class="btn btn-primary" onClick="course_intro_add_submit()">提交</button>
+					</div>
+			</div>
+		</div>
+	</div>
+	
 	<div id="footer"></div>
 </body>
 </html>
