@@ -136,5 +136,19 @@
 			<generatedKey column="id" sqlStatement="JDBC"
 				identity="true" />
 		</table>
+		
+		<table schema="" tableName="t_course_infor"
+			domainObjectName="CourseInforModel">
+			<property name="useActualColumnNames" value="false" />
+			<generatedKey column="id" sqlStatement="JDBC"
+				identity="true" />
+		</table>
+		
+		<table schema="" tableName="t_course_video"
+			domainObjectName="CourseVideoModel">
+			<property name="useActualColumnNames" value="false" />
+			<generatedKey column="id" sqlStatement="JDBC"
+				identity="true" />
+		</table>
 	</context>
 </generatorConfiguration>

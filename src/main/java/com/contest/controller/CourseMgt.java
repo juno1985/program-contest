@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.contest.model.CourseModel;
 import com.contest.pojo.AjaxPojo;
+import com.contest.pojo.CourseInfor;
 import com.contest.service.CourseService;
 
 @Controller
@@ -29,6 +31,20 @@ public class CourseMgt {
 	public List<CourseModel> getCourses() {
 		List<CourseModel> courses = courseService.getAllCourses();
 		return courses;
+	}
+	
+	@RequestMapping(value="/mgt/updateCourseIntro", method= {RequestMethod.POST})
+	@ResponseBody
+	public AjaxPojo updateCourseIntro(@RequestBody CourseInfor courseInfor) {
+		
+		courseService.updateCourseIntro(courseInfor);
+		
+		AjaxPojo ajaxPojo = new AjaxPojo();
+		ajaxPojo.setCode(0);
+		ajaxPojo.setMesg("success");
+		
+		return ajaxPojo;
+		
 	}
 
 	@RequestMapping(value = "/mgt/addcourse", method = { RequestMethod.POST })

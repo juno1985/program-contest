@@ -313,3 +313,39 @@ function case_add_submit() {
 
 	});
 }
+function course_intro_add_submit(){
+	var cid = $('#course_intro_add_model').find("input#course_id").val();
+	var infor = $('#course_intro_add_model').find("textarea#course_intro_input").val();
+	var course_modal = {
+			'cid' : cid,
+			'infor' : infor
+	}
+	// console.log(caseModel);
+	var data = JSON.stringify(course_modal);
+	// 解决ajax POST被springsecurity误伤
+	var header = $("meta[name='_csrf_header']").attr('content');
+	var token = $("meta[name='_csrf']").attr('content');
+	
+	$.ajax({
+		url : "/contest/mgt/updateCourseIntro",
+		type : "POST",
+		contentType : "application/json",
+		data : data,
+		dataType : "json",
+		// 解决ajax POST被springsecurity误伤
+		beforeSend : function(xhr) {
+			xhr.setRequestHeader(header, token);
+		},
+
+		success : function(obj) {
+
+			if (obj.code == 0) {
+				// 关闭模态框
+				$('#course_intro_add_model').modal('hide');
+				
+			}
+		}
+
+	});
+
+}

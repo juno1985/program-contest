@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.contest.model.CourseInforModel;
 import com.contest.model.CourseModel;
 import com.contest.service.CourseService;
 
@@ -33,6 +34,10 @@ public class Course {
 		
 		CourseModel course = courseService.getSingleCourseById(Integer.parseInt(cid));
 		model.addAttribute("course", course);
+		
+		CourseInforModel courseInfor = courseService.getSingleCourseInfor(Integer.parseInt(cid));
+		model.addAttribute("courseInfor", courseInfor);
+		
 		return "single_course";
 	}
 
