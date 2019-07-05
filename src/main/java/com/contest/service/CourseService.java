@@ -15,9 +15,13 @@ import com.contest.common.UUIDGenerator;
 import com.contest.exception.ContestCommonException;
 import com.contest.mapper.CourseInforModelMapper;
 import com.contest.mapper.CourseModelMapper;
+import com.contest.mapper.CourseVideoMapperExt;
+import com.contest.mapper.CourseVideoModelMapper;
 import com.contest.model.CourseInforModel;
 import com.contest.model.CourseInforModelExample;
 import com.contest.model.CourseModel;
+import com.contest.model.CourseVideoModel;
+import com.contest.model.CourseVideoModelExample;
 import com.contest.pojo.CourseInfor;
 
 
@@ -27,11 +31,17 @@ public class CourseService {
 	@Autowired
 	private CourseModelMapper courseModelMapper;
 	@Autowired
+	private CourseVideoMapperExt courseVideoMapperExt;
+	@Autowired
+	private CourseVideoModelMapper courseVideoMapper;
+	@Autowired
 	private CourseInforModelMapper courseInforModelMapper;
 	@Value("${softcits.website.resource.path}")
 	private String resource_path;
 	@Value("${softcits.website.course.pic.folder}")
 	private String course_pic_folder;
+	@Value("${softcits.website.course.video.folder}")
+	private String course_video_folder;
 	
 	public List<CourseModel> getAllCourses(){
 		return courseModelMapper.selectByExample(null);
@@ -96,6 +106,39 @@ public class CourseService {
 		course.setStatus("progress");
 		courseModelMapper.insertSelective(course);
 		
+	}
+
+	public void uploadVideo(MultipartFile video, String cid, String videoName) {
+		
+		Integer course_id = Integer.parseInt(cid);
+	
+		Integer serial = courseVideoMapperExt.getMaxSerial(course_id);
+		if(null == serial) {
+			serial = 0;
+		}
+		String fullUploadVideoName = video.getOriginalFilename();
+		String extName = fullUploadVideoName.substring(fullUploadVideoName.lastIndexOf(".")+1);
+		String newName = course_id.toString() + "_" + (serial+1) + "_" + videoName + "." + extName;
+		
+		try {
+			byte[] bytes = video.getBytes();
+			Path path = Paths.get(resource_path + course_video_folder + newName);
+			Files.write(path, bytes);
+		}catch(IOException e) {
+			throw new ContestCommonException("视频上传失败");
+		}
+		CourseVideoModel vModel = new CourseVideoModel();
+		vModel.setFid(Integer.parseInt(cid));
+		vModel.setSerial(serial + 1);
+		vModel.setName(newName);
+		courseVideoMapper.insertSelective(vModel);
+	}
+	
+	public List<CourseVideoModel> getCourseVideosByCourseId(Integer course_id){
+		CourseVideoModelExample courseVideoModelExample = new CourseVideoModelExample();
+		CourseVideoModelExample.Criteria courseVideoModelExaCri = courseVideoModelExample.createCriteria();
+		courseVideoModelExaCri.andFidEqualTo(course_id);
+		return courseVideoMapper.selectByExample(courseVideoModelExample);
 	}
 
 }

@@ -46,6 +46,31 @@ public class CourseMgt {
 		return ajaxPojo;
 		
 	}
+	
+	@RequestMapping(value="/mgt/uploadVideo", method= {RequestMethod.POST})
+	@ResponseBody
+	public AjaxPojo uploadVideo(@RequestParam("video") MultipartFile video, @RequestParam("videoName") String videoName, @RequestParam("cid") String cid) {
+		
+		AjaxPojo ajaxPojo = new AjaxPojo();
+		
+		if (StringUtils.isEmpty(videoName)) {
+			ajaxPojo.setCode(1);
+			ajaxPojo.setMesg("视频名不能为空");
+			return ajaxPojo;
+		}
+		
+		if (video.isEmpty()) {
+			ajaxPojo.setCode(1);
+			ajaxPojo.setMesg("请视频");
+			return ajaxPojo;
+		}
+		
+		courseService.uploadVideo(video, cid, videoName);
+		
+		ajaxPojo.setCode(0);
+		ajaxPojo.setMesg("创建成功");
+		return ajaxPojo;
+	}
 
 	@RequestMapping(value = "/mgt/addcourse", method = { RequestMethod.POST })
 	@ResponseBody

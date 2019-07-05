@@ -17,7 +17,7 @@
 <script th:src="@{/js/add_footer.js}"></script>
 <script th:src="@{/js/add_course.js}"></script>
 <link th:href="@{/css/jsswitch.css}" rel="stylesheet">
-
+<link th:href="@{/css/main.css}" rel="stylesheet">
 </head>
 <body>
 
@@ -36,13 +36,13 @@
 					<li sec:authorize="hasRole('ROLE_ADMIN')"><a
 						th:href="@{/mgt/addproblem}" style="color: #FF0033">新增问题</a></li>
 					<li sec:authorize="hasRole('ROLE_ADMIN')"><a
-						id="course_mgt_btn" href="#" style="color: #FF0033" class="dropdown-toggle"
-						data-toggle="dropdown">管理课程<b class="caret"></b></a>
+						id="course_mgt_btn" href="#" style="color: #FF0033"
+						class="dropdown-toggle" data-toggle="dropdown">管理课程<b
+							class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a id="course_add_btn" href="#" style="color: #FF0033" >增加课程</a></li>
+							<li><a id="course_add_btn" href="#" style="color: #FF0033">增加课程</a></li>
 							<li><a id="course_list_btn" href="#" style="color: #FF0033">课程列表</a></li>
-						</ul>
-					</li>
+						</ul></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
@@ -174,38 +174,67 @@
 		</div>
 		<!-- /.modal -->
 	</div>
-	
+
 	<!-- 模态框 增加课程信息 -->
-	<div class="modal fade" id="course_intro_add_model" tabindex="-1" role="dialog"
-		aria-labelledby="introModalLabel" aria-hidden="true">
+	<div class="modal fade" id="course_intro_add_model" tabindex="-1"
+		role="dialog" aria-labelledby="introModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"
-							aria-hidden="true">&times;</button>
-						<h4 class="modal-title" id="introModalLabel">课程信息</h4>
-					</div>
-					<div class="modal-body">
-							<form class="bs-example bs-example-form" role="form"
-								id="course_intro_form">
-								<!-- 用于存储course id -->
-								<input type="hidden" id="course_id" name="course_id" value="" >
-								<div class="input-group">
-									<span class="input-group-addon">课程介绍</span>
-									<textarea class="form-control" id="course_intro_input" name="input"
-										style="resize: none" rows="10"></textarea>
-								</div>
-							</form>
-					</div>
-			
-					<div class="modal-footer">
-							<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-							<button type="button" class="btn btn-primary" onClick="course_intro_add_submit()">提交</button>
-					</div>
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="introModalLabel">课程信息</h4>
+				</div>
+				<div class="modal-body">
+					<form class="bs-example bs-example-form" role="form"
+						id="course_intro_form">
+						<!-- 用于存储course id -->
+						<input type="hidden" id="course_id" name="course_id" value="">
+						<div class="input-group">
+							<span class="input-group-addon">课程介绍</span>
+							<textarea class="form-control" id="course_intro_input"
+								name="input" style="resize: none" rows="10"></textarea>
+						</div>
+					</form>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary"
+						onClick="course_intro_add_submit()">提交</button>
+				</div>
 			</div>
 		</div>
 	</div>
-	
+
+	<!-- 模态框 增加课程信息 -->
+	<div class="modal fade" id="course_video_upload_model" tabindex="-1"
+		role="dialog" aria-labelledby="videoModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="videoModalLabel">视频上传</h4>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" id="course_id" name="cid" value=""> 
+					<input id="video_name" type="text" name="video_name" value="" placeholder="视频名称" />
+					<input
+						id="video" type="file" accept="video/mp4" name="video"
+						placeholder="课程视频" />
+
+					<progress id="video_upload_progress" max="100" value="0"></progress>
+					<button id="video_upload_btn" type="button" class="btn btn-success btn-small">上传</button>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div id="footer"></div>
 </body>
 </html>

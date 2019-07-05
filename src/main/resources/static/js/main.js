@@ -249,7 +249,7 @@ $(function() {
 				
 				$.each(obj, function(index, value){
 					tableHtml += "<tr><td>" + value.id +"</td><td>" + value.name + "</td><td><a href=\"#\" id=\"delete_course\">" + '删除' + "</a></td><td><a href=\"#\" class=\"add_intro\" value=\""+ value.id +"\">" +'编辑介绍' +
-						"</a></td><td>" + '上传视频' + "</td></tr>";
+						"</a></td><td><a href=\"#\" class=\"upload_video\" value=\""+ value.id +"\">" + '上传视频' + "</a></td></tr>";
 					
 				});
 				
@@ -262,7 +262,62 @@ $(function() {
 					$('#course_intro_add_model').find("input#course_id").val(
 							$(this).attr('value'));
 				});
+				
+				$('.upload_video').on('click', function(){
+					
+					$('#course_video_upload_model').modal('show');
+					
+					$('#course_video_upload_model').find("input#course_id").val(
+							$(this).attr('value'));
+				});
 			
+			}
+
+		});
+		
+	});
+	
+	$('#video_upload_btn').on('click', function(){
+		
+		//要上传的视频
+		var video = document.getElementById("video").files[0];
+		var formData = new FormData();
+		formData.append("video", video);
+		var video_name = $('#course_video_upload_model').find("input#video_name").val();
+		var cid = $('#course_video_upload_model').find("input#course_id").val();
+		formData.append("cid", cid);
+		formData.append("videoName", video_name);
+		
+		$.ajax({
+			url : "/contest/mgt/uploadVideo",
+			type : "POST",
+			//tell jquery not to process data
+			processData: false,
+			//tell jquery not to send contentType
+			contentType : false,
+			data : formData,
+			// 解决ajax POST被springsecurity误伤
+			beforeSend : function(xhr) {
+				xhr.setRequestHeader(header, token);
+			},
+			success : function(obj) {
+				$('#course_video_upload_model').find('#video_upload_progress').val(0);
+				$('#course_video_upload_model').find('#video').val('');
+				$('#course_video_upload_model').modal('hide');
+			},
+			xhr: function(){
+				//计算上传进度条
+				//myXhr = $.ajaxSettings.xhr();
+				var myXhr = new window.XMLHttpRequest();
+					myXhr.upload.addEventListener('progress', function(e){
+						if(e.lengthComputable){
+							$('#video_upload_progress').attr('max',e.total);
+							$('#video_upload_progress').attr('value',e.loaded);
+						}
+					},false);
+					//这个返回xhr一定不能少！！！
+					return myXhr;
+				
 			}
 
 		});

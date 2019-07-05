@@ -1,8 +1,17 @@
 $(function() {
 	// 弹出播放器
 	$('.videoLink').on('click', function() {
+		
+		var videoLink = $('#context').val() + "pic/course_video/" + $(this).val();
+		
 		//显示播放器
-		$('#vContainer').css('display','block'); 
+		$('#vContainer').css('display','block');
+		
+//		$('#videoSrc').attr('src',videoLink);
+//		$('#videoSrc').play();
+		document.getElementById('videoSrc').src=videoLink;
+		document.getElementById('myVideo').load();
+		document.getElementById('myVideo').play();
 		
 		$('#cover').css('display','block'); //显示遮罩层
 		$('#cover').css('height',document.body.clientHeight+'px'); //设置遮罩层的高度为当前页面高度

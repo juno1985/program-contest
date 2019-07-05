@@ -14,6 +14,7 @@
 
 </head>
 <body>
+	<input id="context" type="hidden" th:value="@{/}">
 	<nav class="navbar navbar-inverse">
 		<div class="container">
 			<div class="navbar-header">
@@ -33,7 +34,7 @@
 			<div class="course-detail-bottom clearfix">
 				<div class="course-detail-img">
 					<img class="img-responsive"
-						th:src="@{/pic/course_intro/105226aaecf6813714.jpg}">
+						th:src="@{'/pic/course_primary/'+${course.pic}}">
 				</div>
 				<div class="course-detail-info">
 					<div class="course-detail-info__title" th:text="${course.name}">
@@ -66,17 +67,13 @@
 
 					<div class="tab-pane fade in" id="catalog">
 						<div class="list-group cata-cont">
-							<button type="button"
-								class="list-group-item list-group-item-action videoLink">
-								第一集</button>
-							<button type="button"
-								class="list-group-item list-group-item-action videoLink">第二集</button>
-							<button type="button"
-								class="list-group-item list-group-item-action videoLink">第三集</button>
-							<button type="button"
-								class="list-group-item list-group-item-action videoLink">第四集</button>
-							<button type="button"
-								class="list-group-item list-group-item-action videoLink">第五集</button>
+							<div th:each="courseVideo,cvStat : ${courseVideos}">
+								<button type="button" th:value="${courseVideo.name}"
+									class="list-group-item list-group-item-action videoLink">
+									<span th:text="${cvStat.count}+'.'"></span>
+									<span th:text="${courseVideo.name}" style="margin-left: 10px;"></span>
+								</button>
+							</div>
 						</div>
 
 					</div>
@@ -91,7 +88,7 @@
 			<div id="vContainer" class="vContainer" style="display: none">
 				<video id="myVideo">
 					<!-- <source src="https://www.youtube.com/watch?v=iOznP_eVSi0"> -->
-					<source th:src="@{/video/demo.mp4}" type="video/mp4">
+					<source id="videoSrc" type="video/mp4">
 				</video>
 				<div class="caption">
 					<span>SAP课程</span><span class="close">X</span>
